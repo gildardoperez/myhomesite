@@ -1,0 +1,26 @@
+<div>
+    <div id="property-slider">
+        <div>
+            <h3>You have selected {{bookmarkList.length}} {{bookmarkList.length > 1? " properties": "property"}} for {{bookmarkedFor.FullName}}.</h3>
+        </div>
+        <!--<ul id="results">-->
+            <!--<li ng-if="bookmarkList != undefined || bookmarkList.length == 0 ">-->
+                <!--<p class="" ng-class="{'none':bookmarkList.length != 0}" >There are no <span>more</span> results.</p>-->
+            <!--</li>-->
+            <!--<property-card data-property='prop' data-id="{{$index}}" bookmark-property-event-handler="addBookmarkHandler" ng-repeat="prop in bookmarkList" clear-bookmark="clearBookmark"></property-card>-->
+        <!--</ul>-->
+    </div>
+    <div>
+        <textarea id="text" style="width:100%; max-width: 100%;" placeholder="Write a message for client" ng-model="bookmarkObj.Note" ></textarea>
+
+    </div>
+    <div class="footer-btn">
+      <div class="checkbox">
+        <label class="checkbox-custom">
+          <input type="checkbox" name="emailClient" checked="checked" id="emailClient" ng-model="emailClient">
+          <i class="fa fa-fw fa-square-o" ng-class="(emailClient)?'checked':''"></i> Do not email client
+        </label>
+      </div>
+        <input class="btn btn-success" ng-click="sendBookmark()" type="button" ng-value="emailClient ? 'Bookmark' : 'SEND'" />
+    </div>
+</div>

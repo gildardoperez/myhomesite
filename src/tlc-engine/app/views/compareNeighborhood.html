@@ -1,0 +1,637 @@
+<div class="nbh-container pscrollbar" ng-show="step == 'neighborhood' || step == 'selectClient'" pscrollbar >
+  <!-- <h1 id="logo"><a href="javascript:void(0)" ng-click="goToHome()">TLCengine</a></h1>
+  <h2 id="slogan">Add a little TLC to your home search.</h2> -->
+  <div id="search" class="comp-nbh">
+    <a title="Back" ng-click="back()" class="glyph-icon flaticon-back44 visible" id="back" href="javascript:void(0);"></a>
+    <form name="frmNeighborhood" id="frmNeighborhood" novalidate>
+      <div class="sel-nbh" ng-if="step == 'neighborhood' || addressError == true">
+        <div class="compare-form">
+          <button aa-submit-form="moveToNext()" style="display: none;"></button>
+          <h2>Compare Neighborhoods <button class="common-btn" ng-click="addNeighborhood()" ng-if="CompareNeighborhood.length < 5"><i class="fa fa-plus"></i> Add More</button></h2>
+          <label>Add a Neighborhood to compare</label>
+          <input type="text" placeholder="Enter Address or Zip Code" id="Neighborhood0" name="Neighborhood0" ng-autocomplete ng-model="CompareNeighborhood[0].Address" required aa-field-name="Neighborhood">
+          <div class="NeighborhoodCtrl" ng-repeat="objCompare in CompareNeighborhood" ng-if="$index > 0">
+            <label>with</label>
+            <div class="removeCtrl" ng-click="removeNeighborhood($index)" ng-if="$index > 1"><i class="fa fa-times-circle"></i></div>
+            <input type="text" placeholder="Enter Address or Zip Code" id="Neighborhood{{$index}}" name="Neighborhood{{$index}}" ng-autocomplete ng-model="objCompare.Address" required aa-field-name="Neighborhood">
+          </div>
+        </div>
+        <div class="btn-grp" ng-if="addressError == false">
+          <button class="common-btn" aa-submit-form="moveToNext()">Next <i class="fa fa-arrow-right"></i></button>
+        </div>
+    </div>
+      <div class="sel-client" ng-if="step == 'selectClient'" >
+        <div class="sel-clientpart">
+          <div ng-if="AudienceType == 'MLSAGENT'">
+          <h2>Select Client</h2>
+          <tags-input restrict-to-max-tags id="client" name="client" ng-model="selectedClient" key-property="Id" display-property="FullName" placeholder="Search Client" min-length="1" add-from-autocomplete-only="true" replace-spaces-with-dashes="false" max-tags="1" on-tag-added="selectClient()">
+            <auto-complete source="loadClients($query)" min-length="0" max-results-to-show="100"></auto-complete>
+          </tags-input>
+          </div>
+          <div class="client-details">
+            <ul class="radio-selection-box">
+              <li>
+                <div class="radio checkbox">
+                  <label class="radio-custom">
+                    <input type="radio" name="familyStatus" value="single" ng-model="calculator.LifeStyle">
+                    <i class="fa fa-circle-o" ng-class="(calculator.LifeStyle=='single')?'checked':''"></i> Single
+                  </label>
+                </div>
+              </li>
+              <li>
+                <div class="radio checkbox">
+                  <label class="radio-custom">
+                    <input type="radio" name="familyStatus" value="couple-no-kids" ng-model="calculator.LifeStyle">
+                    <i class="fa fa-circle-o" ng-class="(calculator.LifeStyle=='couple-no-kids')?'checked':''"></i> Couple No Kids
+                  </label>
+                </div>
+              </li>
+              <li>
+                <div class="radio checkbox">
+                  <label class="radio-custom">
+                    <input type="radio" name="familyStatus" value="couple-kids-lt5" ng-model="calculator.LifeStyle">
+                    <i class="fa fa-circle-o" ng-class="(calculator.LifeStyle=='couple-kids-lt5')?'checked':''"></i> Couple With Kids age &lt; 5 Kids
+                  </label>
+                </div>
+              </li>
+              <li>
+                <div class="radio checkbox">
+                  <label class="radio-custom">
+                    <input type="radio" name="familyStatus" value="couple-kids-gt5" ng-model="calculator.LifeStyle">
+                    <i class="fa fa-circle-o" ng-class="(calculator.LifeStyle=='couple-kids-gt5')?'checked':''"></i> Couple With Kids age &gt; 5 Kids
+                  </label>
+                </div>
+              </li>
+              <li>
+                <div class="radio checkbox">
+                  <label class="radio-custom">
+                    <input type="radio" name="familyStatus" value="single-parent" ng-model="calculator.LifeStyle">
+                    <i class="fa fa-circle-o" ng-class="(calculator.LifeStyle=='single-parent')?'checked':''"></i> Single Parent
+                  </label>
+                </div>
+              </li>
+              <li>
+                <div class="radio checkbox">
+                  <label class="radio-custom">
+                    <input type="radio" name="familyStatus" value="empty-nester" ng-model="calculator.LifeStyle">
+                    <i class="fa fa-circle-o" ng-class="(calculator.LifeStyle=='empty-nester')?'checked':''"></i> Empty Nester
+                  </label>
+                </div>
+              </li>
+            </ul>
+            <div class="">
+              <label>What is the approximate square footage of the house you are looking for?</label>
+              <input type="text" formatcurrency="decimal" numbers-max-min name="SquareFeet" placeholder="Square feet" id="calc_sqft" ng-model="calculator.LivingAreaSquareFeet" min="0" aa-field-name="Square feet" />
+            </div>
+            <div class="">
+              <label>Work address</label>
+              <input id="WorkAddress" name="WorkAddress" ng-autocomplete type="text" placeholder="Work address" ng-model="calculator.WorkAddress.WorkAddress">
+            </div>
+            <div id="calc_commute_control">
+              <label>Reaching there by...</label>
+              <ul class="radio-selection-box">
+                <li>
+                  <div class="radio checkbox">
+                    <label class="radio-custom" for="car">
+                      <input type="radio" name="TransportationType" id="car" value="car" ng-model="calculator.WorkAddress.TransportationType">
+                      <i class="fa fa-circle-o" ng-class="(calculator.WorkAddress.TransportationType=='car')?'checked':''"></i> Car</label>
+                  </div>
+                </li>
+                <li>
+                  <div class="radio checkbox">
+                    <label for="transit" class="radio-custom" >
+                      <input type="radio" name="TransportationType" id="transit" value="transit" ng-model="calculator.WorkAddress.TransportationType">
+                      <i class="fa fa-circle-o" ng-class="(calculator.WorkAddress.TransportationType=='transit')?'checked':''"></i> Public transit</label>
+                  </div>
+                </li>
+                <li>
+                  <div class="radio checkbox">
+                    <label for="none" class="radio-custom">
+                      <input type="radio" name="TransportationType" id="none" value="none" ng-model="calculator.WorkAddress.TransportationType">
+                      <i class="fa fa-circle-o" ng-class="(calculator.WorkAddress.TransportationType=='none')?'checked':''"></i> None</label>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div id="calc_car" ng-if="calculator.WorkAddress.TransportationType == 'car'" ng-class="{'visible':calculator.WorkAddress.TransportationType == 'car','':calculator.WorkAddress.TransportationType == 'transit'}">
+              <h2>Car information</h2>
+              <div id="calc_caryear_control">
+                <label for="calc_caryear">Year</label>
+                <select name="CarYear" id="calc_caryear" ng-model="calculator.WorkAddress.CarYear"
+                        ng-options="y for y in carYearList" ng-change="changeCarYear(calculator.WorkAddress.CarYear)">
+                  <option value="">--Select--</option>
+                </select>
+              </div>
+              <div id="calc_carmake_control">
+                <label for="calc_carmake">Make</label>
+                <select name="CarMake" id="calc_carmake" ng-model="calculator.WorkAddress.CarMake"
+                        ng-options="m.make as m.make + ' ' for m in getMake(calculator.WorkAddress) | orderBy: 'make'">
+                  <option value="">--Select--</option>
+                </select>
+              </div>
+              <div id="calc_carmodel_control">
+                <label for="calc_carmodel">Model</label>
+                <select name="CarModel" id="calc_carmodel" ng-model="calculator.WorkAddress.CarModel"
+                        ng-options="m.model as m.model + ' ' for m in getModel(calculator.WorkAddress) | orderBy: 'model'">
+                  <option value="">--Select--</option>
+                </select>
+              </div>
+              <div id="calc_cartype_control">
+                <label for="calc_cartype">Type</label>
+                <select name="CarType" id="calc_cartype" ng-model="calculator.WorkAddress.CarType"
+                        ng-options="m.id + '' as m.trany for m in getType(calculator.WorkAddress)" ng-change="changeCarType(calculator.WorkAddress)">
+                  <option value="">--Select--</option>
+                </select>
+              </div>
+              <div id="calc_carcitympg_control">
+                <label for="calc_carcitympg">City MPG</label>
+                <input type="text" formatcurrency="decimal" numbers-max-min name="CityMPG" id="calc_carcitympg" ng-model="calculator.WorkAddress.CityMPG" min="0" aa-field-name="City MPG" />
+              </div>
+              <div id="calc_carhwympg_control">
+                <label for="calc_carhwympg">Hwy MPG</label>
+                <input type="text" formatcurrency="decimal" numbers-max-min name="HwyMPG" id="calc_carhwympg" ng-model="calculator.WorkAddress.HwyMPG" min="0" aa-field-name="Hwy MPG" />
+              </div>
+              <div id="calc_carhwympg_control">
+                <label for="calc_cargasprice" class="title-tipso" title="Gas rates are updated from department of energy">Gas price</label>
+                <input type="text" formatcurrency="decimal" numbers-max-min name="CurrentGasRate" id="calc_cargasprice" ng-model="calculator.WorkAddress.CurrentGasRate" min="0" aa-field-name="Gas price" />
+              </div>
+              <div id="calc_carparking_control">
+                <label for="calc_carparking">Monthly Parking</label>
+                <input type="text" formatcurrency="currency" numbers-max-min name="CommuteParkingCost" id="calc_carparking"  ng-model="calculator.WorkAddress.CommuteParkingCost" min="0" aa-field-name="Parking" />
+              </div>
+            </div>
+            <div class="btn-grp">
+              <button class="common-btn" aa-submit-form="compareDtails()">Compare</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<div id="compare-details" ng-if="step == 'compareDetails'">
+  <div class="compare-details-wrapper">
+    <div class="left-col">
+      <h1 id="logo"><a ng-click="goToHome()" href="javascript:void(0)" class="">TLCengine</a></h1>
+      <div class="menu-btn" ng-click="menuBtn()"></div>
+      <ul class="left-nav">
+        <li><a href="#tlc" ng-click="leftNav($event,'#tlc')" class="title-tipso active" title="True Lifestyle Cost">TLC</a></li>
+        <li><a href="#costofl" ng-click="leftNav($event,'#costofl')" class="title-tipso" title="Cost of Living">Cost of Living</a></li>
+        <li><a href="#demog" ng-click="leftNav($event,'#demog')" class="title-tipso" title="Demographics">Demographics</a></li>
+        <li><a href="#incJob" ng-click="leftNav($event,'#incJob')" class="title-tipso" title="Incomes &amp; Job">Incomes &amp; Job</a></li>
+        <li><a href="#edu" ng-click="leftNav($event,'#edu')" class="title-tipso" title="Education">Education</a></li>
+        <li><a href="#cli" ng-click="leftNav($event,'#cli')" class="title-tipso" title="Climate">Climate</a></li>
+        <li><a href="#resd" ng-click="leftNav($event,'#resd')" class="title-tipso" title="Residential">Residential</a></li>
+      </ul>
+    </div>
+    <div class="compare-section cols-{{mortgageDetail.length}}"> <!-- Change cols-5 to manage columns accordingly e.g. 2 columns cols-2 3 columns cols-3-->
+      <div class="compare-heading">
+        <div class="legend-col">
+          <a title="Back" ng-click="back()" class="glyph-icon flaticon-back44 visible" id="back" href="javascript:void(0);"></a>
+        </div>
+        <div class="info-col">
+          <div class="column" ng-repeat="compare in mortgageDetail">
+            <div class="nbh-name"><span class="nbh-num">#{{ $index + 1 }}</span> {{compare.Address}}
+              <!--<div class="nbh-name-small">Neighborhood Detail</div>-->
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="compare-heading-mobile">
+        <div class="legend-col">
+
+        </div>
+        <div class="info-col">
+          <div class="column" ng-repeat="compare in mortgageDetail">
+            <div class="nbh-num">#{{ $index + 1 }}
+              <!--<div class="nbh-name-small">Neighborhood Detail</div>-->
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="compare-info" pscrollbar>
+        <div id="tlc" class="info-sections">
+          <h2>TLC</h2>
+          <div class="legend-col legend-border">
+            <ul class="list-details">
+              <li class="list-header">TLC</li>
+              <li>Home Insurance</li>
+              <!--<li>Total monthly mortgage payment</li>-->
+              <li ng-show="calculator.WorkAddress.TransportationType == 'car' || calculator.WorkAddress.TransportationType == 'none'">Car Cost
+                <ul>
+                  <li>Car Insurance</li>
+                  <li>Car Maintenance</li>
+                </ul>
+              </li>
+              <li ng-hide="calculator.WorkAddress.TransportationType == 'none'">Commute
+                <ul>
+                  <li>Gas cost </li>
+                  <li>Parking</li>
+                  <li>Tolls</li>
+                </ul>
+              </li>
+              <!--<li>Utilities
+               <ul>
+                 <li>Heating/Cooling </li>
+                 <li>Water/Sewer </li>
+                 <li>Garbage </li>
+                 <li>Lawn/Snow care </li>
+                 <li>Other </li>
+               </ul>
+             </li>
+            <li>Entertainment
+               <ul>
+                 <li>Phone </li>
+                 <li>Internet </li>
+                 <li>TV </li>
+                 <li>Cell </li>
+                 <li>Other</li>
+               </ul>
+             </li>
+             <li>Day Care </li>
+             <li>Other Financial Costs</li>-->
+            </ul>
+          </div>
+          <div class="info-col">
+            <div class="column column-border" ng-repeat="compare in mortgageDetail">
+              <ul class="list-details">
+                <li class="list-header"> <span>{{(compare.TlcInfo.TLC - compare.TlcInfo.Utility) | currencyNoDecimal}}</span></li>
+                <li><span>{{compare.TlcInfo.HomeInsurance | currencyNoDecimal}}</span></li>
+                <!--<li> <span>$5,170</span></li>-->
+                <li ng-show="calculator.WorkAddress.TransportationType == 'car' || calculator.WorkAddress.TransportationType == 'none'"> <span>{{(compare.TlcInfo.CarInsurance + compare.TlcInfo.CarMaintenance) | currencyNoDecimal}}</span>
+                  <ul>
+                    <li><span>{{compare.TlcInfo.CarInsurance | currencyNoDecimal}}</span></li>
+                    <li><span>{{compare.TlcInfo.CarMaintenance | currencyNoDecimal}}</span></li>
+                  </ul>
+                </li>
+                <li ng-hide="calculator.WorkAddress.TransportationType == 'none'" ng-if="compare.CommuteInfo.Message == null"> <span>{{compare.CommuteInfo.CommuteCost | currencyNoDecimal}}</span>
+                  <ul>
+                    <li ><span>{{compare.CommuteInfo.CommuteGasCost | currencyNoDecimal}}</span></li>
+                    <li><span>{{compare.CommuteInfo.CommuteParkingCost | currencyNoDecimal}}</span></li>
+                    <li><span>{{compare.CommuteInfo.CommuteTollCost | currencyNoDecimal}}</span></li>
+                  </ul>
+                </li>
+
+                <!--<li><span>{{compare.TlcInfo.Utility | currencyNoDecimal}}</span>
+                  <ul>
+                    <li><span>{{compare.TlcInfo.HeatingCoolingCost | currencyNoDecimal}}</span></li>
+                    <li><span>{{compare.TlcInfo.WaterSewerCharge | currencyNoDecimal}}</span></li>
+                    <li><span>{{compare.TlcInfo.GarbageCost | currencyNoDecimal}}</span></li>
+                    <li><span>{{compare.TlcInfo.LawnSnowCareCost | currencyNoDecimal}}</span></li>
+                    <li><span>{{compare.TlcInfo.OtherCost | currencyNoDecimal}}</span></li>
+                  </ul>
+                </li>
+                <li> <span>$145</span>
+                  <ul>
+                    <li><span>$40</span></li>
+                    <li><span>$40</span></li>
+                    <li><span>$20</span></li>
+                    <li><span>$45</span></li>
+                    <li><span>$0</span></li>
+                  </ul>
+                </li>
+                <li><span>$1,500</span></li>
+                <li><span>$100</span></li>-->
+              </ul>
+              <div class="nbr-nodata" ng-if="compare.CommuteInfo.Message != null">
+                {{compare.CommuteInfo.Message}}
+              </div>
+              <div class="nbr-nodata-mobile" ng-if="compare.CommuteInfo.Message != null">
+                N.A.
+              </div>
+            </div>
+            <div class="clear"></div>
+          </div>
+          <div class="clear"></div>
+        </div>
+        <div id="costofl" class="info-sections">
+          <h2>Cost of Living</h2>
+          <div class="legend-col">
+            <ul class="list-details">
+              <li>MSA</li>
+              <li>Haircut</li>
+              <li>Beauty Salon</li>
+              <li>Toothpaste</li>
+              <li>Shampoo</li>
+              <li>Dry Cleaning</li>
+              <li>Men Shirt</li>
+              <li>Boy Jeans</li>
+              <li>Women Slacks</li>
+              <li>Newspaper</li>
+              <li>Movie</li>
+              <li>Bowling</li>
+              <li>Vet Services</li>
+              <li>TBone Steak</li>
+              <li>Ground Beef</li>
+              <li>Fried Chicken</li>
+              <li>Milk</li>
+              <li>Dozen Eggs</li>
+              <li>Potatoes</li>
+              <li>Bananas</li>
+              <li>Bread</li>
+              <li>Orange Juice</li>
+              <li>Coffee</li>
+              <li>Frozen Meal</li>
+              <li>Potato Chips</li>
+              <li>Coke</li>
+              <li>Pizza</li>
+              <li>Beer</li>
+              <li>Wine</li>
+              <li>Optometrist</li>
+              <li>Doctor</li>
+              <li>Dentist</li>
+              <li>Ibuprofen</li>
+              <li>Lipitor</li>
+              <li>Insurance</li>
+              <li>All Electricity</li>
+              <li>Other Energy</li>
+              <li>Electricity</li>
+              <li>Phone</li>
+              <li>Tyre Balancing</li>
+              <li>Gasoline</li>
+            </ul>
+          </div>
+          <div class="info-col">
+            <div class="column" ng-repeat="compare in mortgageDetail">
+              <ul class="list-details">
+                <li style="text-overflow: ellipsis;white-space: nowrap;overflow:hidden;" tooltip="{{msaDetail(compare.VibesData.VibesData.MsaName,compare.VibesData.VibesData.MsaNumber)}}"><span>{{compare.VibesData.VibesData.MsaName || '-'}} {{compare.VibesData.VibesData.MsaNumber}}</span></li>
+                <li><span>{{compare.VibesData.VibesData.Haircut | currencyNoDecimal}}</span></li>
+                <li><span>{{compare.VibesData.VibesData.BeautySalon | currencyNoDecimal}}</span></li>
+                <li><span>{{compare.VibesData.VibesData.Toothpaste | currencyNoDecimal}}</span></li>
+                <li><span>{{compare.VibesData.VibesData.Shampoo | currencyNoDecimal}}</span></li>
+                <li><span>{{compare.VibesData.VibesData.DryCleaning | currencyNoDecimal}}</span></li>
+                <li><span>{{compare.VibesData.VibesData.Men_Shirt | currencyNoDecimal}}</span></li>
+                <li><span>{{compare.VibesData.VibesData.Boy_Jeans | currencyNoDecimal}}</span></li>
+                <li><span>{{compare.VibesData.VibesData.Women_Slacks | currencyNoDecimal}}</span></li>
+                <li><span>{{compare.VibesData.VibesData.Newspaper | currencyNoDecimal}}</span></li>
+                <li><span>{{compare.VibesData.VibesData.Movie | currencyNoDecimal}}</span></li>
+                <li><span>{{compare.VibesData.VibesData.Bowling | currencyNoDecimal}}</span></li>
+                <li><span>{{compare.VibesData.VibesData.VetServices | currencyNoDecimal}}</span></li>
+                <li><span>{{compare.VibesData.VibesData.TBoneSteak | currencyNoDecimal}}</span></li>
+                <li><span>{{compare.VibesData.VibesData.GroundBeef | currencyNoDecimal}}</span></li>
+                <li><span>{{compare.VibesData.VibesData.FriedChicken | currencyNoDecimal}}</span></li>
+                <li><span>{{compare.VibesData.VibesData.Milk | currencyNoDecimal}}</span></li>
+                <li><span>{{compare.VibesData.VibesData.DozenEggs | currencyNoDecimal}}</span></li>
+                <li><span>{{compare.VibesData.VibesData.Potatoes | currencyNoDecimal}}</span></li>
+                <li><span>{{compare.VibesData.VibesData.Bananas | currencyNoDecimal}}</span></li>
+                <li><span>{{compare.VibesData.VibesData.Bread | currencyNoDecimal}}</span></li>
+                <li><span>{{compare.VibesData.VibesData.OrangeJuice | currencyNoDecimal}}</span></li>
+                <li><span>{{compare.VibesData.VibesData.Coffee | currencyNoDecimal}}</span></li>
+                <li><span>{{compare.VibesData.VibesData.FrozenMeal | currencyNoDecimal}}</span></li>
+                <li><span>{{compare.VibesData.VibesData.PotatoChips | currencyNoDecimal}}</span></li>
+                <li><span>{{compare.VibesData.VibesData.Coke | currencyNoDecimal}}</span></li>
+                <li><span>{{compare.VibesData.VibesData.Pizza | currencyNoDecimal}}</span></li>
+                <li><span>{{compare.VibesData.VibesData.Beer | currencyNoDecimal}}</span></li>
+                <li><span>{{compare.VibesData.VibesData.Wine | currencyNoDecimal}}</span></li>
+                <li><span>{{compare.VibesData.VibesData.Optometrist | currencyNoDecimal}}</span></li>
+                <li><span>{{compare.VibesData.VibesData.Doctor | currencyNoDecimal}}</span></li>
+                <li><span>{{compare.VibesData.VibesData.Dentist | currencyNoDecimal}}</span></li>
+                <li><span>{{compare.VibesData.VibesData.Ibuprofen | currencyNoDecimal}}</span></li>
+                <li><span>{{compare.VibesData.VibesData.Lipitor | currencyNoDecimal}}</span></li>
+                <li><span>{{compare.VibesData.VibesData.Insurance | currencyNoDecimal}}</span></li>
+                <li><span>{{compare.VibesData.VibesData.AllElectricity | currencyNoDecimal}}</span></li>
+                <li><span>{{compare.VibesData.VibesData.OtherEnergy | currencyNoDecimal}}</span></li>
+                <li><span>{{compare.VibesData.VibesData.Electricity | currencyNoDecimal}}</span></li>
+                <li><span>{{compare.VibesData.VibesData.Phone | currencyNoDecimal}}</span></li>
+                <li><span>{{compare.VibesData.VibesData.TireBalancing | currencyNoDecimal}}</span></li>
+                <li><span>{{compare.VibesData.VibesData.Gasoline | currencyNoDecimal}}</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div id="demog" class="info-sections">
+          <h2>Demographics</h2>
+          <div class="legend-col">
+            <ul class="list-details">
+              <li>
+                Population
+              </li>
+              <li>
+                Population change since 1990
+              </li>
+              <li>
+                Population density
+              </li>
+              <li>
+                Male
+              </li>
+              <li>
+                Female
+              </li>
+              <li>
+                Never married
+              </li>
+              <li>
+                Married
+              </li>
+              <li>
+                Separated
+              </li>
+              <li>
+                Widowed
+              </li>
+              <li>
+                Divorced
+              </li>
+              <li>
+                Number of households
+              </li>
+              <li>
+                Average household size
+              </li>
+              <li>
+                Median age
+              </li>
+
+            </ul>
+          </div>
+          <div class="info-col">
+            <div class="column" ng-repeat="compare in mortgageDetail">
+              <ul class="list-details" ng-show="compare.DemographicsData && compare.DemographicsData.alldemo.length > 0">
+                <li><span>{{compare.DemographicsData.alldemo[0].PopulationZip}}</span>
+                </li>
+                <li><span>{{compare.DemographicsData.alldemo[0].PopulationChangeSince1990Zip}}</span>
+                </li>
+                <li><span>{{compare.DemographicsData.alldemo[0].PopulationDensityZip}}</span>
+                </li>
+                <li><span>{{compare.DemographicsData.alldemo[0].MaleZip}}</span>
+                </li>
+                <li><span>{{compare.DemographicsData.alldemo[0].FemaleZip}}</span>
+                </li>
+                <li><span>{{compare.DemographicsData.alldemo[0].NeverMarriedZip}}</span>
+                </li>
+                <li><span>{{compare.DemographicsData.alldemo[0].MarriedZip}}</span>
+                </li>
+                <li><span>{{compare.DemographicsData.alldemo[0].SeparatedZip}}</span>
+                </li>
+                <li><span>{{compare.DemographicsData.alldemo[0].WidowedZip}}</span>
+                </li>
+                <li><span>{{compare.DemographicsData.alldemo[0].DivorcedZip}}</span>
+                </li>
+                <li><span>{{compare.DemographicsData.alldemo[0].NumberOfHouseHoldZip}}</span>
+                </li>
+                <li><span>{{compare.DemographicsData.alldemo[0].AverageHouseHoldSizeZip}}</span>
+                </li>
+                <li><span>{{compare.DemographicsData.alldemo[0].MedialAgeZip}}</span>
+                </li>
+              </ul>
+              <div class="nbr-nodata" ng-show="!(compare.DemographicsData && compare.DemographicsData.alldemo.length > 0)">
+                Demographics data not available in that area, we are working on a more nationwide coverage.
+              </div>
+              <div class="nbr-nodata-mobile" ng-show="!(compare.DemographicsData && compare.DemographicsData.alldemo.length > 0)">
+                N.A.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="incJob" class="info-sections">
+          <h2>Income &amp; Jobs</h2>
+          <div class="legend-col">
+            <ul class="list-details">
+              <li>Median household income</li>
+              <li>Average household income</li>
+              <li>Per capita income</li>
+              <li>Median disposable income</li>
+              <li>Average total household expenditure</li>
+              <li>Sales tax rate</li>
+              <li>White collar jobs</li>
+              <li>Blue collar jobs</li>
+            </ul>
+          </div>
+          <div class="info-col">
+            <div class="column" ng-repeat="compare in mortgageDetail">
+              <ul class="list-details" ng-show="compare.DemographicsData && compare.DemographicsData.alldemo.length > 0">
+                <li><span>{{compare.DemographicsData.alldemo[0].MedianHouseHoldIncomeZip}}</span></li>
+                <li><span>{{compare.DemographicsData.alldemo[0].AverageHouseHoldIncomeZip}}</span></li>
+                <li><span>{{compare.DemographicsData.alldemo[0].PCIZip}}</span></li>
+                <li><span>{{compare.DemographicsData.alldemo[0].MDIZip}}</span></li>
+                <li><span>{{compare.DemographicsData.alldemo[0].ATHEZip}}</span></li>
+                <li><span>{{compare.DemographicsData.alldemo[0].STRZip}}</span></li>
+                <li><span>{{compare.DemographicsData.alldemo[0].WCJZip}}</span></li>
+                <li><span>{{compare.DemographicsData.alldemo[0].BCJZip}}</span></li>
+              </ul>
+              <div class="nbr-nodata" ng-show="!(compare.DemographicsData && compare.DemographicsData.alldemo.length > 0)">
+                Income &amp; Jobs data not available in that area, we are working on a more nationwide coverage.
+              </div>
+              <div class="nbr-nodata-mobile" ng-show="!(compare.DemographicsData && compare.DemographicsData.alldemo.length > 0)">
+                N.A.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="edu" class="info-sections">
+          <h2>Education</h2>
+          <div class="legend-col">
+            <ul class="list-details">
+              <li>Less than 9th grade</li>
+              <li>Some high school</li>
+              <li>High school graduate</li>
+              <li>Some college</li>
+              <li>Associate degree</li>
+              <li>Bachelors degree</li>
+              <li>Graduate degree</li>
+            </ul>
+          </div>
+          <div class="info-col">
+            <div class="column" ng-repeat="compare in mortgageDetail">
+              <ul class="list-details" ng-show="compare.DemographicsData && compare.DemographicsData.alldemo.length > 0">
+                <li><span>{{compare.DemographicsData.alldemo[0].LT9GZip}}</span> </li>
+                <li><span>{{compare.DemographicsData.alldemo[0].SHSZip}}</span> </li>
+                <li><span>{{compare.DemographicsData.alldemo[0].HSGZip}}</span> </li>
+                <li><span>{{compare.DemographicsData.alldemo[0].SCZip}}</span> </li>
+                <li><span>{{compare.DemographicsData.alldemo[0].ADZip}}</span> </li>
+                <li><span>{{compare.DemographicsData.alldemo[0].BDZip}}</span> </li>
+                <li><span>{{compare.DemographicsData.alldemo[0].GDZip}}</span> </li>
+              </ul>
+              <div class="nbr-nodata" ng-show="!(compare.DemographicsData && compare.DemographicsData.alldemo.length > 0)">
+                Education data not available in that area, we are working on a more nationwide coverage.
+              </div>
+              <div class="nbr-nodata-mobile" ng-show="!(compare.DemographicsData && compare.DemographicsData.alldemo.length > 0)">
+                N.A.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="cli" class="info-sections">
+          <h2>Climate</h2>
+          <div class="legend-col">
+            <ul class="list-details">
+              <li>Average January high</li>
+              <li>Average January low</li>
+              <li>Average July high</li>
+              <li>Average July low</li>
+              <li>Annual precipitation</li>
+              <li>Earthquake risk</li>
+              <li>Weather risk</li>
+              <li>Air pollution index</li>
+            </ul>
+          </div>
+          <div class="info-col">
+            <div class="column" ng-repeat="compare in mortgageDetail">
+              <ul class="list-details" ng-show="compare.DemographicsData && compare.DemographicsData.alldemo.length > 0">
+                <li><span ng-bind-html="filterText(compare.DemographicsData.alldemo[0].AJHTZip)"></span> </li>
+                <li><span ng-bind-html="filterText(compare.DemographicsData.alldemo[0].AJLTZip)"></span> </li>
+                <li><span ng-bind-html="filterText(compare.DemographicsData.alldemo[0].AJUHTZip)"></span> </li>
+                <li><span ng-bind-html="filterText(compare.DemographicsData.alldemo[0].AJULTZip)"></span> </li>
+                <li><span ng-bind-html="filterText(compare.DemographicsData.alldemo[0].APZip)"></span> </li>
+                <li><span ng-bind-html="filterText(compare.DemographicsData.alldemo[0].ERZip)"></span> </li>
+                <li><span ng-bind-html="filterText(compare.DemographicsData.alldemo[0].WRZip)"></span> </li>
+                <li><span ng-bind-html="filterText(compare.DemographicsData.alldemo[0].APOIZip)"></span> </li>
+              </ul>
+              <div class="nbr-nodata" ng-show="!(compare.DemographicsData && compare.DemographicsData.alldemo.length > 0)">
+                Climate data not available in that area, we are working on a more nationwide coverage.
+              </div>
+              <div class="nbr-nodata-mobile" ng-show="!(compare.DemographicsData && compare.DemographicsData.alldemo.length > 0)">
+                N.A.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="resd" class="info-sections">
+          <h2>Residential</h2>
+          <div class="legend-col">
+            <ul class="list-details">
+              <li> Average home sale price</li>
+              <li> Homes owned</li>
+              <li> Homes rent</li>
+              <li> Vacant homes </li>
+              <li> Median dwelling age (years)</li>
+              <li> Median years in residence </li>
+              <li> Annual residential turnover </li>
+              <li> Median Travel time to work </li>
+              <li> Transportation to work: Public </li>
+              <li> Transportation to work: Drive / Carpool </li>
+              <li> Transportation to work: Walk / Bike / Other </li>
+              <li> Transportation to work: Work at home </li>
+            </ul>
+          </div>
+          <div class="info-col">
+            <div class="column" ng-repeat="compare in mortgageDetail">
+              <ul class="list-details" ng-show="compare.DemographicsData && compare.DemographicsData.alldemo.length > 0">
+                <li><span>{{compare.DemographicsData.alldemo[0].AHSPZip}}</span> </li>
+                <li><span>{{compare.DemographicsData.alldemo[0].HOZip}}</span> </li>
+                <li><span>{{compare.DemographicsData.alldemo[0].HRZip}}</span> </li>
+                <li><span>{{compare.DemographicsData.alldemo[0].VHZip}}</span> </li>
+                <li><span>{{compare.DemographicsData.alldemo[0].MDAZip}}</span> </li>
+                <li><span>{{compare.DemographicsData.alldemo[0].MYIRZip}}</span> </li>
+                <li><span>{{compare.DemographicsData.alldemo[0].ARTZip}}</span> </li>
+                <li><span>{{compare.DemographicsData.alldemo[0].MTTTWZip}}</span> </li>
+                <li><span>{{compare.DemographicsData.alldemo[0].TTWPZip}}</span> </li>
+                <li><span>{{compare.DemographicsData.alldemo[0].TTWDCZip}}</span> </li>
+                <li><span>{{compare.DemographicsData.alldemo[0].TTWWBOZip}}</span> </li>
+                <li><span>{{compare.DemographicsData.alldemo[0].TTWWAHZip}}</span> </li>
+              </ul>
+              <div class="nbr-nodata" ng-show="!(compare.DemographicsData && compare.DemographicsData.alldemo.length > 0)">
+                Residential data not available in that area, we are working on a more nationwide coverage.
+              </div>
+              <div class="nbr-nodata-mobile" ng-show="!(compare.DemographicsData && compare.DemographicsData.alldemo.length > 0)">
+                N.A.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

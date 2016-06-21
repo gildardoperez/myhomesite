@@ -1,0 +1,86 @@
+<li class="" ng-class="{'bookmark-active':property.IF}" data-id="{{id}}" listingid="{{property.Id}}">
+  <!--ng-class="{'bookmark-active':bookmarked}"-->
+  <div>
+    <!--add div for set bookmark-->
+    <div class="bookmark-box" ng-if="AudienceType == 'MLSAGENT'">
+      <a id="add-bookmark_{{property.Id}}" class="title-tipso" title="Recommend" href="javascript:void(0)" ng-click="addBookmark($event,'add',property.Id)" ng-show="property.DTI == true"><i class="fa fa-bookmark"></i></a>
+      <a id="remove-bookmark_{{property.Id}}" style="display:none;" class="title-tipso" title="Remove Recommended" href="javascript:void(0)" ng-click="addBookmark($event,'remove',property.Id)"><i class="fa fa-bookmark"></i></a>
+    </div>
+    <div class="bookmark-box" ng-if="AudienceType == 'CLIENT'">
+      <a id="remove-bookmark_{{property.Id}}" class="title-tipso removeBookMark" title="Remove Recommended" href="javascript:void(0)" ng-click="removeClientBookmark($event)" ng-show="property.IB"><i class="fa fa-bookmark"></i></a>
+    </div>
+
+    <div class="bookmark-box favorite_box" ng-if="AudienceType == 'CLIENT' || AudienceType == 'AnonymousUser'">
+      <a id="add-favorite_{{property.Id}}" onclick="return trackGoogleAnalytics('Clicked Heart icon on search results', 'Search Results', null, 'Heart icon')"  title="Add Favorite" href="javascript:void(0)" ng-click="addClientFavorite($event)" ng-show="!property.IF" title="Add Favorite"><i class="fa fa-heart"></i></a>
+      <a id="remove-favorite_{{property.Id}}" onclick="return trackGoogleAnalytics('Clicked Heart icon on search results', 'Search Results', null, 'Heart icon')" class="title-tipso" title="Favorited" href="javascript:void(0)" ng-click="addClientFavorite($event)" ng-show="property.IF"><i class="fa fa-heart"></i></a>
+        <!--<a id="remove-favorite_{{property.Id}}" class="title-tipso" title="Remove Favorite" href="javascript:void(0)" ng-click="removeClientFavorite($event)" ng-show="property.IF"><i class="fa fa-heart"></i></a>-->
+    </div>
+    <div class="hero" style="background-image:url({{previewUrl}})" ng-click="propertyDetail(property.Id)" ng-if="previewUrl" ng-mouseenter="mouseOverOnHomeImage();getPropDetailOnMap(property)" ng-mouseleave="mouseLeaveOnHomePageImage();removePropIconCss()">
+      <div class="open_house_box orange" ng-if="property.OH != undefined" ng-class="{'client_open_house_box': AudienceType == 'CLIENT' }">
+        <a href="javascript:void(0)">open house</a>
+      </div>
+        <div class="photo-function">
+            <span class="displayTotalPhotoCount">{{property.PCNT}} Photos</span>
+        </div>
+    </div>
+    <div class="propertyall_detail">
+      <div class="tooltipAgent" ng-if="!property.DTI && AudienceType == 'MLSAGENT'"><img src="/images/dtai.png" class="imgPadding"/>
+        <span class="tooltiptext">Listing will not be shown to the consumers.</span>
+      </div>
+      <div class="tooltipAgent" ng-if="property.DTI && !property.DTAI && AudienceType == 'MLSAGENT'"><img src="/images/dtai.png" class="imgPadding" />
+        <span class="tooltiptext">Listing address will not be shown to the consumers.</span>
+      </div>
+      <div ng-click="propertyDetail(property.Id)" ng-mouseenter="getPropDetailOnMap(property)" ng-mouseleave="removePropIconCss()" class="address">
+        <p class="address1" style="line-height: 1.2em">{{::property.SA}}</p>
+        <p class="address2">{{::property.CT}}, {{::property.ST}},{{::property.PC}}</p>
+      </div>
+      <div ng-click="propertyDetail(property.Id)" ng-mouseenter="getPropDetailOnMap(property)" ng-mouseleave="removePropIconCss()" class="financial">        
+        <p class="price"><span>$</span>{{formatNumber(property.LP)}}</p>
+        <p class="price_long"><span>$</span>{{formatNumber(property.LP)}}</p>        
+        <p class="tlc" ng-if="property.PT == 'Residential'">TLC: ${{formatNumber(property.TLC)}}</p>
+        <p class="tlc_long" ng-if="property.PT == 'Residential'">Total Lifestyle Cost: ${{formatNumber(property.TLC)}}</p>
+      </div>
+      <ul ng-click="propertyDetail(property.Id)" ng-mouseenter="getPropDetailOnMap(property)" ng-mouseleave="removePropIconCss()" class="stats">
+        <li ng-if="property.PT != 'MF' && property.BD !=0">
+          <span>{{::property.BD}}</span> beds
+        </li>
+        <li ng-if="property.PT != 'MF' && property.BDI !=0">
+          <span>{{::property.BDI}}</span> baths
+        </li>
+        <li ng-class="{'li_multiFamily':property.PT == 'MF'}" ng-if="property.PT == 'MF' && property.NU !=0">
+          <span>{{::property.NU}}</span> Units
+        </li>
+        <li ng-if="::property.GR !=0" ng-class="{'li_multiFamily':property.PT == 'MF'}">
+          <span>{{::property.GR}}</span> parking
+        </li>
+        <li ng-if="property.LA !=0" ng-class="{'li_multiFamily':property.PT == 'MF'}">
+          <span ng-if="property.LA > 0">{{formatNumber(property.LA)}}</span> sqft
+        </li>
+        <li ng-class="{'li_multiFamily':property.PT == 'MF'}">
+          <span>{{::property.MN}}</span> mls no
+        </li>
+        <li>
+          <span>{{::property.YR}}</span> Year Built
+        </li>
+      </ul>
+      <div class="more-function">
+        <div class="compare-box">
+          <label class="checkbox-custom">
+            <input id="{{property.Id}}" type="button"  checked="checked" class="propCompareCheckBox" ng-click="checkBoxselect(property.Id)">
+            <i id="i_{{property.Id}}" class="fa fa-fw fa-square-o"></i>
+          </label>
+          <a href="javascript:void(0)" class="white-color" ng-click="ComapreProperty()">Compare</a>
+        </div>
+       <!--  <div class="brokrage_img">
+          <img src="images/idx-large.jpg" />
+        </div> -->
+      </div>
+    </div>
+  </div>
+  <div>
+    <ul class="images">
+      <li style="background-image:url({{getThumbUrl(photo)}})" ng-repeat="photo in property.Photos" ng-click="selectPreview(photo)"></li>
+    </ul>
+  </div>
+</li>
+

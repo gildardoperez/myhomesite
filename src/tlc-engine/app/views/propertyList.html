@@ -1,0 +1,455 @@
+<div class="Loader_popup" ng-show="isDisplayProgress">
+  <!--<div id="overlayDiv"></div>-->
+
+  <div class="Loader_container">
+        <div class="Loader_img">
+            <img src="images/loader.gif" />
+        </div>
+        <div class="Loader_content">
+            <ul>
+                <li id="first_search" >
+                    <div class="black_box"></div>
+                    <div class="icon_box yellow_box">
+                    	<span class="detail_icon">
+                        	<img src="images/commute_icon.png" />
+                        </span>
+                        <p class="true_icon" ng-show="firstStep">
+                            <img src="images/true_icon.png" />
+                        </p>
+                    </div>
+                    <p class="title_text">Your Commute</p>
+                </li>
+                <li id="second_search" >
+                  <div class="black_box"></div>
+                    <div class="icon_box green_box">
+                    	<span class="detail_icon">
+                        	<img src="images/school_icon.png" />
+                        </span>
+                        <p class="true_icon" ng-show="secondStep">
+                            <img src="images/true_icon.png" />
+                        </p>
+                    </div>
+                    <p class="title_text">Your School</p>
+                </li>
+                <li id="third_search" >
+                  <div class="black_box"></div>
+                    <div class="icon_box blue_box">
+                    	<span class="detail_icon">
+                        	<img src="images/utilities_icon.png" />
+                        </span>
+                        <p class="true_icon" ng-show="thirdStep">
+                            <img src="images/true_icon.png" />
+                        </p>
+                    </div>
+                    <p class="title_text">Utilities</p>
+                </li>
+                <li id="fourth_search" >
+                  <div class="black_box"></div>
+                    <div class="icon_box red_box">
+                    	<span class="detail_icon">
+                        	<img src="images/lifestyle_icon.png" />
+                        </span>
+                        <p class="true_icon" ng-show="fourthStep">
+                            <img src="images/true_icon.png" />
+                        </p>
+                    </div>
+                    <p class="title_text">Lifestyle</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="start_tour">
+  <p style="left: 90px !important;top: 638px !important;" data-step="1" data-intro="<img src='images/Result_Help_tour/1.jpg' />"></p>
+  <p style="left: 90px !important;top: 638px !important;" data-step="2" data-intro="<img src='images/Result_Help_tour/2.jpg' />"></p>
+  <p style="left: 90px !important;top: 638px !important;" data-step="3" data-intro="<img src='images/Result_Help_tour/3.jpg' />"></p>
+  <p style="left: 90px !important;top: 638px !important;" data-step="4" data-intro="<img src='images/Result_Help_tour/4.jpg' />"></p>
+  <p style="left: 90px !important;top: 638px !important;" data-step="5" data-intro="<img src='images/Result_Help_tour/5.jpg' />"></p>
+  <p style="left: 90px !important;top: 638px !important;" data-step="6" data-intro="<img src='images/Result_Help_tour/6.jpg' />"></p>
+  <p style="left: 90px !important;top: 638px !important;" data-step="7" data-intro="<img src='images/Result_Help_tour/7.jpg' />"></p>
+  <p style="left: 90px !important;top: 638px !important;" data-step="8" data-intro="<img src='images/Result_Help_tour/8.jpg' />"></p>
+  <p style="left: 90px !important;top: 638px !important;" data-step="9" data-intro="<img src='images/Result_Help_tour/9.jpg' />"></p>
+  <p style="left: 90px !important;top: 638px !important;" data-step="10" data-intro="<img src='images/Result_Help_tour/10.jpg' />"></p>
+  <p style="left: 90px !important;top: 638px !important;" data-step="11" data-intro="<img src='images/Result_Help_tour/11.jpg' />"></p>
+  <p style="left: 90px !important;top: 638px !important;" data-step="12" data-intro="<img src='images/Result_Help_tour/12.jpg' />"></p>
+</div>
+
+<div id="content" class="property_list showContent">
+  <!-- HOX2: added aside -->
+  <aside id="content_overlay"></aside>
+  <article id="proplistpage" class="pscroll-hide">
+    <div ui-view >
+    </div>
+      <div id="prpertyFoundList" class="property-result-subtitle newPropertyResultDiv" ng-hide="resultsCount <= 0">
+          <h2 ng-class="{'hidden' : resultsCount <= 0}">Showing <span>1-{{page.results.length}}</span> of <span>{{formatNumber(resultsCount)}}</span> results.</h2>
+          <p>FROM A TOTAL OF {{formatNumber(ActiveTotalListingsCount)}} PROPERTIES</p>
+          <div class="property-filter" dropdown>
+              <a class="dropdown-toggle" dropdown-toggle ng-disabled="disabled" href="javascript:void(0)">SORT <i class="fa fa-caret-down"></i></a>
+              <div class="dropdown-menu">
+                  <ul>
+                      <li ng-class="{'active':order.orderby == 'TLC' && order.orderbydirection == 'ASC'}" ng-click="sortProperties('TLC_low_high','TLC','ASC','TLC')"><a href="javascript:void(0)">TLC(Low to High)</a></li>
+                      <li ng-class="{'active':order.orderby == 'TLC' && order.orderbydirection == 'DESC'}" ng-click="sortProperties('TLC_high_low','TLC','DESC','TLC')"><a href="javascript:void(0)">TLC(High to Low)</a></li>
+                      <li ng-class="{'active':order.orderby == 'BedroomsTotal' && order.orderbydirection == 'ASC'}" ng-click="sortProperties('Bedrooms_sort','BedroomsTotal','ASC','BD')" ng-if="searchParameters.propertytype != 'mf'"><a href="javascript:void(0)">Bedrooms</a></li>
+                      <li ng-class="{'active':order.orderby == 'BathroomsTotalInteger' && order.orderbydirection == 'ASC'}" ng-click="sortProperties('Bathroom_sort','BathroomsTotalInteger','ASC','BDI')" ng-if="searchParameters.propertytype != 'mf'"><a href="javascript:void(0)">Bathrooms</a></li>
+                      <li ng-class="{'active':order.orderby == 'numberofunits' && order.orderbydirection == 'ASC'}" ng-click="sortProperties('Units_low_high','numberofunits','ASC','NU')" ng-if="searchParameters.propertytype == 'mf'"><a href="javascript:void(0)">Units(Low to High)</a></li>
+                      <li ng-class="{'active':order.orderby == 'numberofunits' && order.orderbydirection == 'DESC'}" ng-click="sortProperties('Units_high_low','numberofunits','DESC','NU')" ng-if="searchParameters.propertytype == 'mf'"><a href="javascript:void(0)">Units(High to Low)</a></li>
+                      <li ng-class="{'active':order.orderby == 'ListPrice' && order.orderbydirection == 'ASC'}" ng-click="sortProperties('Price_low_high','ListPrice','ASC','LP')"><a href="javascript:void(0)">Price(Low to High)</a></li>
+                      <li ng-class="{'active':order.orderby == 'ListPrice' && order.orderbydirection == 'DESC'}" ng-click="sortProperties('Price_high_low','ListPrice','DESC','LP')"><a href="javascript:void(0)">Price(High to Low)</a></li>
+                      <!-- <li ng-class="{'active':order.orderby == 'Garages' && order.orderbydirection == 'ASC'}" ng-click="sortProperties('Lot_area_sort','Garages','ASC','GR')"><a href="javascript:void(0)">Lot Area</a></li> -->
+                      <li ng-class="{'active':order.orderby == 'LivingArea' && order.orderbydirection == 'ASC'}" ng-click="sortProperties('Squarefeet_sort','LivingArea','ASC','LA')"><a href="javascript:void(0)">Square Feet</a></li>
+                      <li ng-class="{'active':order.orderby == 'createdon' && order.orderbydirection == 'DESC'}" ng-click="sortProperties('NewlyAdded','createdon','DESC','LUO')"><a href="javascript:void(0)">Newly Added</a></li>
+                      <!-- <li ng-class="{'active':order.orderby == 'createdon' && order.orderbydirection == 'DESC'}" ng-click="sortProperties('NewlyAdded','createdon','DESC','LUO')"><a href="javascript:void(0)">Star Rating</a></li> -->
+                  </ul>
+              </div>
+          </div>
+      </div>
+
+      <div id="bookmarkprpertyFoundList" class="property-result-subtitle bookmark-title" ng-if="bookmarkList.length > 0 && isAddBookmark!=true && selectedClient==undefined && checkview()">
+          <h2 ng-if="bookmarkList.length > 0">You've selected <span>{{bookmarkList.length}}</span> {{bookmarkList.length > 1 ? "properties" : "property"}}.</h2>
+          <p>Bookmark and email this property to </p>
+          <div id="dropdown_client_bookmark" class="property-filter" dropdown>
+              <a class="dropdown-toggle" dropdown-toggle href="javascript:void(0)">Select Client <i class="fa fa-caret-down"></i></a>
+              <div class="dropdown-menu">
+                  <input type="text" placeholder="Search clients" ng-model="SearchClient" />
+                  <div pscrollbar="{minScrollbarLength:20,suppressScrollX:true}" rebuildtotop="SearchClient" class="pscrollbar">
+                  <ul>
+                      <!--<li ng-repeat="client in clients | filter:SearchClient"><a href="javascript:void(0)" ng-click="bookmarkClient(client.Id,client)">{{client.FullName}}</a></li>-->
+                      <li ng-repeat="client in clients | filter:SearchClient"><a href="javascript:void(0)" ng-click="sendNoteAndBookmarkClient(client.Id,client)">{{client.FullName}}</a></li>
+                  </ul>
+                  </div>
+                  <div class="new">
+                      <a href="javascript:void(0)" ng-click="newClient()">+ Add new</a>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <div id="bookmarkprpertyFoundList" class="property-result-subtitle bookmark-title" ng-if="bookmarkList.length > 0 && isAddBookmark!=true && selectedClient!=undefined && checkview()">
+          <h2 ng-show="bookmarkList.length > 0"><span>{{bookmarkList.length}}</span> {{bookmarkList.length > 1 ? "properties" : "property"}} selected for {{selectedClient.FullName}}.</h2>
+          <p>Hit Send to add a note and email the bookmarks.</p>
+          <div class="property-filter" >
+              <a href="javascript:void(0)" ng-click="sendNoteAndBookmarkClient(selectedClient.Id,selectedClient)" >SEND</a>
+          </div>
+      </div>
+
+      <div id="property_book_client" class="property-result-subtitle bookmark-title" ng-show="isAddBookmark">
+          <p ng-if="isSuccess==true"><i class="fa fa-check"></i><span ng-show="bookmarkList.length == 1">A property bookmarked for </span><span ng-show="bookmarkList.length > 1">{{bookmarkList.length}} Properties bookmarked for </span><span class="bookmark_clientname">{{messageForclientBook}}</span> </p>
+          <p ng-if="isSuccess==false"><i class="fa fa-close"></i><span>Error in properties bookmarked for </span><span class="bookmark_clientname">{{messageForclientBook}}</span> </p>
+      </div>
+    <div class="pscrollbar prop-list-scroll property-list-scroll" pscrollbar="{minScrollbarLength:20}">
+    <ul id="results_page" class="propListClass" infinite-scroll="showMore()" infinite-scroll-distance="1" infinite-scroll-parent="true" infinite-scroll-disabled='propertyLoading'>
+
+      <li class="loader initial ng-hide" ng-class="{'hidden': resultsCount > 0}" ng-show="resultsCount == 0 && isLoaded && !resetPage ">
+          <i class="fa fa-frown-o"></i>
+          <p class="" ng-class="{'none':resultsCount != 0}">There are no <span>more</span> results.</p>
+      </li>
+
+      <li class="loader initial ng-hide" ng-class="{'hidden': resultsCount > 0}" ng-show="resetPage">
+        <p class="" > Please perform search to view properties. <span></span></p>
+      </li>
+
+      <!--<property-card property="property" ng-repeate="property in propertiesListing"></property-card>-->
+
+      <ul id="results" class="propListClass" ng-if="isLoaded && !resetPage " style="padding:0">
+        <property-card data-property='prop' data-id="{{$index}}" ng-repeat="prop in page.results | limitTo: propDisplayedInList" bookmark-property-event-handler="addBookmarkHandler" clear-bookmark="clearBookmark" ng-show="page.results.length > 0"
+                       remove-client-bookmark-property-event-handler="removeClientBookmark" add-client-favorite-property-event-handler="addClientFavorite"
+                       remove-client-favorite-property-event-handler="removeClientFavorite"></property-card>
+      </ul>
+      <!--<property-card data-property='prop' data-id="{{$index}}" ng-repeat="prop in page.results" bookmark-property-event-handler="addBookmarkHandler" clear-bookmark="clearBookmark" ng-show="page.results.length > 0"-->
+                     <!--remove-client-bookmark-property-event-handler="removeClientBookmark" add-client-favorite-property-event-handler="addClientFavorite"-->
+                     <!--remove-client-favorite-property-event-handler="removeClientFavorite"></property-card>-->
+      <!--<li class="loader initial" ng-class="{'hidden': propertyLoading != true}" ng-show="propertyLoading && resultsCount > 0">-->
+        <!--<i class="fa fa-refresh fa-spin"></i>-->
+        <!--<i class="fa fa-frown-o"></i>-->
+        <!--<p class="loading">Loading <span>more</span> results...</p>-->
+      <!--</li>-->
+
+        <li class="loader initial ng-hide" ng-class="{'removeTopPadding': resultsCount > 0}" ng-show="propertyLoading" >
+            <i class="fa fa-refresh fa-spin" ></i>
+            <p class="loading" >Loading <span>more</span> results...</p>
+        </li>
+    </ul>
+    </div>
+      <div class="start_tour">
+          <ul>
+              <!--<li class="title_tipso" title="Start Tour"><a class="help_tour_button" href="javascript:void(0);" onclick="javascript:introJs().start();"><img src="images/help_icon.png" /></a></li>-->
+            <li class="title_tipso" title="Start Tour"><a class="help_tour_button" href="javascript:void(0);" ng-click="startTour()"><img src="images/help_icon.png" /></a></li>
+          </ul>
+      </div>
+  </article>
+
+  <div class="splitterMap" id="arrowButton">
+    <div style="display: block;" id="button1Div"><a id="button1" href="javascript:void(0);"><img src="/images/arrows4.png"></a></div>
+    <div style="display: none;" id="rightbuttonDiv"><a id="rightbutton" href="javascript:void(0);"><img src="/images/arrows4.png"></a></div>
+    <div style="display: none; margin-top: 10px;" id="leftbuttonDiv"><a id="leftbutton" href="javascript:void(0);"><img src="/images/arrows5.png"></a></div>
+    <div style="display: none;" id="button3Div"><a id="button3" href="javascript:void(0);"><img src="/images/arrows5.png"></a></div>
+  </div>
+
+  <div id="handle"><div></div></div>
+
+</div>
+
+<p id="drawhelp">Now you can draw more than one shape on the map and search for properties based on the filters selected.</p>
+<map-view class="listMap" properties="page.results" data-drawing="isDrawing" drawing-complete-callback="drawingCompleteCallback" clear-polygon="clearPolygon" bookmark-handler="addBookmarkHandler" boundaries="boundaries"
+          add-client-favorite-property-event-handler="addClientFavorite"
+          remove-client-favorite-property-event-handler="removeClientFavorite">
+
+</map-view>
+
+
+<!--<aside id="map">-->
+<!--&lt;!&ndash; HOX2: added aside &ndash;&gt;-->
+<!--<aside id="map_overlay"></aside>-->
+
+<!--&lt;!&ndash; HOX: remove below for production &ndash;&gt;-->
+<!--&lt;!&ndash;<br/><br/><br/><br/><br/><br/><br/>&ndash;&gt;-->
+<!--&lt;!&ndash;<p style="font-size: 200%;">100% &#215; 100% map goes here.</p>&ndash;&gt;-->
+<!--&lt;!&ndash; stop removing here &ndash;&gt;-->
+
+<!--</aside>-->
+
+<!-- <div class="mapList-toggle">
+  <div class="map-btn" ng-click="toggleView('map')" ng-class="{'active':!listViewEnabled}"><i class="fa fa-map-marker"></i> Map </div> 
+  <div class="list-btn" ng-click="toggleView('list')" ng-class="{'active':listViewEnabled}"> <i class="fa fa-list"></i> List</div>
+</div> -->
+
+<a href="javascript:void(0);" id="back" class="glyph-icon flaticon-back44" ng-click="back()" title="Back to search results"></a>
+
+<div id="l"></div>
+<div id="r"></div>
+
+<div class="flexslider_showTour" ng-if="AudienceType == 'MLSAGENT'">
+  <ul class="slides">
+    <li>
+      <img src='images/Result_Help_tour/1.jpg' />
+    </li>
+    <li>
+      <img src='images/Result_Help_tour/2.jpg' />
+    </li>
+    <li>
+      <img src='images/Result_Help_tour/3.jpg' />
+    </li>
+    <li>
+      <img src='images/Result_Help_tour/4.jpg' />
+    </li>
+    <li>
+      <img src='images/Result_Help_tour/5.jpg' />
+    </li>
+    <li>
+      <img src='images/Result_Help_tour/6.jpg' />
+    </li>
+    <li>
+      <img src='images/Result_Help_tour/7.jpg' />
+    </li>
+    <li>
+      <img src='images/Result_Help_tour/8.jpg' />
+    </li>
+    <li>
+      <img src='images/Result_Help_tour/9.jpg' />
+    </li>
+    <li>
+      <img src='images/Result_Help_tour/10.jpg' />
+    </li>
+      <li>
+          <img src='images/Result_Help_tour/11.jpg' />
+      </li>
+      <li>
+          <img src='images/Result_Help_tour/12.jpg' />
+      </li>
+  </ul>
+</div>
+<div class="flexslider_showTour" ng-if="AudienceType == 'CLIENT'">
+    <ul class="slides">
+        <li>
+            <img src='images/client-result-tour/1.jpg' />
+        </li>
+        <li>
+            <img src='images/client-result-tour/2.jpg' />
+        </li>
+        <li>
+            <img src='images/client-result-tour/3.jpg' />
+        </li>
+        <li>
+            <img src='images/client-result-tour/4.jpg' />
+        </li>
+        <li>
+            <img src='images/client-result-tour/5.jpg' />
+        </li>
+        <li>
+            <img src='images/client-result-tour/6.jpg' />
+        </li>
+        <li>
+            <img src='images/client-result-tour/7.jpg' />
+        </li>
+        <li>
+            <img src='images/client-result-tour/8.jpg' />
+        </li>
+        <li>
+            <img src='images/client-result-tour/9.jpg' />
+        </li>
+        <li>
+            <img src='images/client-result-tour/10.jpg' />
+        </li>
+    </ul>
+</div>
+<div class="custom-navigation showTour_Navigation">
+  <a href="javascript:void(0)" class="tour_skip" ng-click="hide_tour()">Skip</a>
+  <div class="custom-controls-container"></div>
+  <a href="javascript:void(0)" class="tour_skip tour_end" ng-click="hide_tour()">Done</a>
+</div>
+
+<div class="start_tour detail_tour">
+    <ul>
+        <li class="title_tipso" title="Start Tour"><a class="help_tour_button" href="javascript:void(0);" ng-click="startTour_PropDetail()"><img src="images/help_icon.png" /></a></li>
+    </ul>
+</div>
+<div class="flexslider_showTour_detail">
+    <ul class="slides">
+        <li>
+            <img src='images/prop_detail_tour/1.jpg' />
+        </li>
+        <li ng-if="AudienceType == 'MLSAGENT'">
+            <img src='images/prop_detail_tour/2.jpg' />
+        </li>
+        <li ng-if="AudienceType == 'CLIENT'">
+            <img src='images/prop_detail_tour/2-client.jpg' />
+        </li>
+        <!--<li>
+            <img src='images/prop_detail_tour/5.jpg' />
+        </li>-->
+        <li>
+            <img src='images/prop_detail_tour/6.jpg' />
+        </li>
+        <li>
+            <img src='images/prop_detail_tour/7.jpg' />
+        </li>
+        <li>
+            <img src='images/prop_detail_tour/8.jpg' />
+        </li>
+        <li>
+            <img src='images/prop_detail_tour/9.jpg' />
+        </li>
+        <li>
+            <img src='images/prop_detail_tour/PropertyDetail_10.jpg' />
+        </li>
+        <li>
+            <img src='images/prop_detail_tour/persnolized1.jpg' />
+        </li>
+        <li>
+            <img src='images/prop_detail_tour/persnolized2.jpg' />
+        </li>
+        <li>
+            <img src='images/prop_detail_tour/persnolized3.jpg' />
+        </li>
+        <li>
+            <img src='images/prop_detail_tour/persnolized4.jpg' />
+        </li>
+        <li>
+            <img src='images/prop_detail_tour/graph_1.jpg' />
+        </li>
+        <li>
+            <img src='images/prop_detail_tour/graph_2.jpg' />
+        </li>
+        <li>
+            <img src='images/prop_detail_tour/graph_3.jpg' />
+        </li>
+        <li>
+            <img src='images/prop_detail_tour/commute_1.jpg' />
+        </li>
+    </ul>
+</div>
+<div class="custom-navigation_detail showTour_Navigation_detail">
+    <a href="javascript:void(0)" class="tour_skip" ng-click="hide_tour_detail()">Skip</a>
+    <div class="custom-controls-container_detail"></div>
+    <a href="javascript:void(0)" class="tour_skip tour_end" ng-click="hide_tour_detail()">Done</a>
+</div>
+
+<!--&lt;!&ndash; Modal &ndash;&gt;-->
+<!--<div class = "modal fade" id = "mozaic-bookmark-modal_list" tabindex = "-1" role = "dialog"-->
+     <!--aria-labelledby = "myModalLabel" aria-hidden = "true">-->
+
+    <!--<div class = "modal-dialog">-->
+        <!--<div class = "modal-content">-->
+
+            <!--<div class = "modal-header">-->
+                <!--<button type = "button" class = "close" data-dismiss = "modal" aria-hidden = "true">-->
+                    <!--X-->
+                <!--</button>-->
+
+                <!--<h4 class = "modal-title" id = "myModalLabel">-->
+                    <!--Add Property-->
+                <!--</h4>-->
+            <!--</div>-->
+            <!--<form role="form">-->
+                <!--<div class = "modal-body">-->
+                    <!--&lt;!&ndash; <h4 class="header-strip">Add to participant(s) list</h4>-->
+                    <!--<div class="checkbox">-->
+                        <!--<label><input type="checkbox" value="">Select all participants</label>-->
+                    <!--</div>-->
+                    <!--<div class="thumb clearfix">-->
+                        <!--<img src="images/test.jpg" alt="Cinque Terre">-->
+                        <!--<h3>My List</h3>-->
+                        <!--<label><input type="checkbox" value=""> Add to list</label>-->
+                    <!--</div> &ndash;&gt;-->
+
+                    <!--<h4 class="header-strip">Email notifications</h4>-->
+                    <!--<div class="popup-content clearfix">-->
+                        <!--&lt;!&ndash; <div class="pull-left">-->
+                            <!--<p>Email me property updates about:</p>-->
+                            <!--<div class="checkbox">-->
+                                <!--<label><input id="mozaic_add_favorite_price_change" type="checkbox" value="">Price Change</label>-->
+                            <!--</div>-->
+                            <!--<div class="checkbox">-->
+                                <!--<label><input id="mozaic_add_favorite_status_change" type="checkbox" value="">Status Change</label>-->
+                            <!--</div>-->
+                            <!--<div class="checkbox">-->
+                                <!--<label><input id="mozaic_add_favorite_open_house" type="checkbox" value="">Open House</label>-->
+                            <!--</div>-->
+                        <!--</div> &ndash;&gt;-->
+                        <!--<div class="pull-left">-->
+                            <!--<p>Email me property updates about:</p>-->
+                            <!--<div class="checkbox">-->
+                                <!--<label><input id="mozaic_add_favorite_price_change" type="checkbox" value="">Price Change</label>-->
+                            <!--</div>-->
+                            <!--<div class="checkbox">-->
+                                <!--<label><input id="mozaic_add_favorite_status_change" type="checkbox" value="">Status Change &nbsp; &nbsp; &nbsp; &nbsp;</label>-->
+                            <!--</div>-->
+                            <!--<div class="checkbox">-->
+                                <!--<label><input id="mozaic_add_favorite_open_house" type="checkbox" value="">Open House</label>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="pull-right">-->
+                            <!--<p>When do you want to be notified?</p>-->
+                            <!--<select class="form-control" id="mozaic_add_favorite_enable_notification">-->
+                                <!--<option>No Notification</option>-->
+                                <!--<option>ASAP</option>-->
+                            <!--</select>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--&lt;!&ndash;<div class="popup-border"></div>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<div class="popup-content1">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<p class="star-float">My Rating</p>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<div id="stars-existing" class="starrr" data-rating='0'></div>&ndash;&gt;-->
+                    <!--&lt;!&ndash;&lt;!&ndash; You gave a rating of <span id="count-existing">4</span> star(s) &ndash;&gt;&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--<h4 class="header-strip">Comments</h4>-->
+                    <!--<div class="popup-content">-->
+                        <!--<p>Email me property updates about:</p>-->
+                        <!--<textarea id="mozaic_add_favorite_comments" class="pop-textarea"></textarea>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+                <!--<div class = "modal-footer">-->
+                    <!--<button type = "button" ng-click="submitBookmark()" class = "btn btn-primary btn-background">-->
+                        <!--Submit-->
+                    <!--</button>-->
+                    <!--<button type = "button" class = "btn btn-primary btn-background" data-dismiss = "modal">-->
+                        <!--Cancel-->
+                    <!--</button>-->
+                <!--</div>-->
+            <!--</form>-->
+        <!--</div>&lt;!&ndash; /.modal-content &ndash;&gt;-->
+    <!--</div>&lt;!&ndash; /.modal-dialog &ndash;&gt;-->
+
+<!--</div>&lt;!&ndash; /.modal &ndash;&gt;-->
+

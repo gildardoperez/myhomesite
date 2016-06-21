@@ -1,0 +1,546 @@
+<div class="explore container-fluid">
+  <div class="explore-banner col-md-12" ng-class='className'>
+    <div class="explore-search col-md-6">
+      <div class="col-md-12">
+        <h2 class="explore_header">{{city}} Real Estate</h2>
+        <div class="form-group col-md-6">
+          <label for="sel1">Property Type</label>
+          <select class="form-control" id="exploreProptype" ng-model="exploreProptype">
+              <option value="Residential" selected="true">Residential Sales</option>
+              <option value="Commercial">Commercial</option>
+              <option value="Lot-Land">Land</option>
+              <option value="Multi-Family">Multi Family</option>
+              <option value="Residential">Residential Rentals</option>
+          </select>
+        </div>
+
+        <div class="form-group col-md-6 location_property">
+          <label for="sel1">Location</label>
+          <input type="text" class="form-control" id="location" ng-readonly="currentLocation" ng-model="locationInfo" placeholder="{{placeHolder}}" ng-keyup="complete()">
+           <input type="checkbox" id="checkbox-id-control" checked="checked" ng-model="currentLocation" ng-click="getLocationInfo()" ng-class="{'checked': currentLocation == true}"/> <label for="checkbox-id" data-toggle="tooltip" title="Use Current Location" data-placement="bottom" class="orange-tooltip">Use Current Location</label>
+            <a >
+            </a>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="form-group col-md-6">
+          <label for="sel1">Minimum Price</label>
+          <input type="text" class="form-control" id="price-min1" name="pricemin" ng-model="priceMin">
+        </div>
+        <span class="explore-to"> -</span>
+        <div class="form-group col-md-6">
+          <label for="sel1">Maximum Price</label>
+          <input type="text" class="form-control" id="price-max2" name="pricemax" ng-model="priceMax">
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="pull-right view_properties">
+          <button type="button" class="view_properties_button btn btn-success" ng-click="viewProperties()"><i class="glyphicon glyphicon-search view_properties_text"></i>View Properties</button>
+        </div>
+      </div>
+    </div>
+  </div>
+ <div class="explore_content_top col-md-12">
+  <div class="explore-content col-md-6">
+        <h2>{{city}}, {{stateName}} REAL ESTATE</h2>
+        <p><b>{{heading}}</b></p>
+          <p ng-bind-html="exploreContent" class='explore-description'></p>
+      </div>
+    <div class="col-md-6 explore-content-map">
+        <h2>{{city}}, {{stateName}} REAL ESTATE</h2>
+        <div class="map-iframe" id="mapBound"></div>
+      </div>
+      </div>
+       <div class="explore-right-content col-md-12 row">
+        <div class="col-md-12 border-bottom">
+          <h2>{{city}} Real Estate Market Conditions</h2>
+          <div class="col-md-4 col-xs-6 median-sales-price">
+            <h4>Median sales price</h4>
+            <div class="col-md-1 col-xs-2"><img class="img-size" src="images/greenarrow.png"></div>
+            <div class="col-md-10 col-xs-8 median-price">
+                <h2>{{MedianSalePrice | currencyNoDecimal}}</h2>
+                <!--<small>
+                    7.8%<br/>change since last quarter
+                </small>-->
+            </div>
+          </div>
+
+          <div class="col-md-2 col-xs-6 active-listings">
+            <h4># Active listings</h4>
+            <div class="active_text_container">
+                <h2 class="text-center">{{ActiveListings}}</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+  <div class="explore-container explore-real-estate-offices col-md-12">
+     <div class="explore-content-map">
+        <h2>{{city}} real estate offices</h2>
+        <div class="sort-align">
+          <input type="hidden" ng-model="Latitude" id="Latitude" />
+          <input type="hidden" ng-model="Longitude" id="Longitude" />
+          <span>Sort by</span>
+          <select class="form-control" id="sel1" ng-model="nearCityOffice" ng-change="getNearByOffice()">
+          <option value="nearest">Nearest</option>
+          <option value="city">City</option>
+          </select>
+        </div>
+          <div class="clearfix"> </div>
+          <div id="view-agent-window"></div>
+          <div id="agentListViewWindow">
+              <div id="agentListView"></div>
+              <div id="agentListViewPager" style="display: none;" class="k-pager-wrap"></div>
+          </div>
+          <div class="col-md-12 real-estate-offices-group">
+            <div class="col-md-4 real_estate_offices" ng-repeat="office in nearoffices track by $index" ng-class="$index >= 2 ? 'other-address' : ''">
+                <div class="col-md-12">
+                  <p><b>{{office.OfficeName}}</b><br/>
+                  {{office.OfficeFullStreetAddress}} {{office.OfficeCity}} {{office.OfficeState}} {{office.OfficePhone}}<br/> <a href="javascript:void(0);" ng-click="showOfficeDetails(office.OfficeFullStreetAddress)">Realtors & Staff</a>
+                  </p>
+                </div>
+            </div>
+          </div>
+          <div class="col-md-12 add-more-button-real-estate-offices">
+            <div class="address-more-button">
+              <span ng-if="nearoffices.length > 2" class="address-show-more" id="addressMore" onclick="showMoreLess('addressLess','addressMore','other-address',true,false,false)"> <i class="glyphicon glyphicon-plus-sign expand-button"> </i> More</span>
+              <span ng-if="nearoffices.length > 2" class="address-show-less" id="addressLess" onclick="showMoreLess('addressMore','addressLess','other-address',false,false,false)"> <i class="glyphicon glyphicon-minus-sign hiden-button"> </i> Less</span>
+            </div>
+          </div>
+        </div>
+        </div>
+
+    <div class="col-md-6 explore-left">
+    <div class="col-md-6 explore-right">
+
+
+
+
+<script>
+$(document).ready(function(){
+    $(".nav-tabs a").click(function(){
+        $(this).tab('show');
+        return false;
+    });
+});
+</script>
+      </div>
+    </div>
+
+ <div class="explore-right-conditions col-md-12">
+      <h2 class="margin-top-position">{{city}} Real Estate Market Conditions</h2>
+        <ul class="nav nav-tabs margin-top-position">
+          <li class="active"><a href="#schools">Schools</a></li>
+          <li><a href="#demo"> Demographics</a></li>
+        </ul>
+        <div class="tab-content">
+          <div id="schools" class="tab-pane fade in active">
+            <!-- Elementary Schools near Washington, DC -->
+            <h4>Elementary Schools near {{city}}, {{stateName}}</h4>
+            <div class="school-table" id="scroll-style"> 
+              <div class="schooltable-content">
+             <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Grades</th>
+                  <th>Students</th>
+                  <th>P/T Ratio</th>
+                  <th>ZIP</th>
+                </tr>
+              </thead>
+               </table>
+             <div class="table-body-container" id="table1">
+              <table class="table table-striped">
+              <tbody>
+                <tr ng-repeat="school in schools" ng-if="school.SchoolCategory =='Elementary School' && schools.length > 0" ng-init="number = countInitElementary()" ng-class="number >= 5 ? 'other-elementary' : ''">
+                  <td>{{school.SchoolName}} </td>
+                  <td>{{school.SchoolGradelevel}}</td>
+                  <td><span>{{school.SchoolStudentnum}}</span></td>
+                  <td>{{school.SchoolRating}}</td>
+                  <td>{{school.Zip}}</td>
+                </tr>
+              <tr>
+                  <td colspan="5" ng-if="totalCountElementary == 0">No Records Found</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          </div>
+          </div>
+            <span ng-if="totalCountElementary > 5" class="address-show-more" id="elementaryMore" onclick="showMoreLess('elementaryLess','elementaryMore','other-elementary',true,true,table1)"> <i class="glyphicon glyphicon-plus-sign expand-button"> </i>  More</span>
+            <span ng-if="totalCountElementary > 5" class="address-show-less" id="elementaryLess" onclick="showMoreLess('elementaryMore','elementaryLess','other-elementary',false,true,table1)">  <i class="glyphicon glyphicon-minus-sign hiden-button"> </i>  Less</span>
+            <br/><br/>
+          <!-- Middle Schools near Washington, DC -->
+          <h4>Middle Schools near {{city}}, {{stateName}}</h4>
+          <div id="table-wrapper">
+            <div class="school-table" id="scroll-style">
+              <div class="schooltable-content">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Grades</th>
+                  <th>Students</th>
+                  <th>P/T Ratio</th>
+                  <th>ZIP</th>
+                </tr>
+              </thead>
+               </table>
+             <div class="table-body-container" id="table2">
+              <table class="table table-striped">
+              <tbody>
+                <tr ng-repeat="school in schools" ng-if="school.SchoolCategory =='Middle School' && schools.length > 0" ng-init="number = countInitMiddle()" ng-class="number >= 5 ? 'other-middleschool' : ''">
+                  <td>{{school.SchoolName}}</td>
+                  <td>{{school.SchoolGradelevel}}</td>
+                  <td><span>{{school.SchoolStudentnum}}</span></td>
+                  <td>{{school.SchoolRating}}</td>
+                  <td>{{school.Zip}}</td>
+                </tr>
+                <tr>
+                    <td colspan="5" ng-if="totalCountMiddle == 0">No Records Found</td>
+                </tr>
+              </tbody>
+            </table>
+              </div>
+            </div>
+            </div>
+          </div>
+            <span ng-if="totalCountMiddle > 5" class="address-show-more" id="middleschoolMore" onclick="showMoreLess('middleschoolLess','middleschoolMore','other-middleschool',true,true,table2)"> <i class="glyphicon glyphicon-plus-sign expand-button"> </i>  More</span>
+            <span ng-if="totalCountMiddle > 5" class="address-show-less" id="middleschoolLess" onclick="showMoreLess('middleschoolMore','middleschoolLess','other-middleschool',false,true,table2)">  <i class="glyphicon glyphicon-minus-sign hiden-button"> </i>  Less</span>
+             <br/><br/>
+             <!-- High Schools near Washington, DC -->
+             <h4>High Schools near {{city}}, {{stateName}}</h4>
+              <div class="school-table" id="scroll-style">
+              <div class="schooltable-content">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>Grades</th>
+                    <th>Students</th>
+                    <th>P/T Ratio</th>
+                    <th>ZIP</th>
+                  </tr>
+                </thead>
+                 </table>
+             <div class="table-body-container" id="table3">
+              <table class="table table-striped">
+                <tbody>
+                  <tr ng-repeat="school in schools" ng-if="school.SchoolCategory =='High School' && schools.length > 0" ng-init="number = countInitHigh()" ng-class="number >= 5 ? 'other-highschool' : ''">
+                    <td>{{school.SchoolName}}</td>
+                    <td>{{school.SchoolGradelevel}}</td>
+                    <td><span>{{school.SchoolStudentnum}}</span></td>
+                    <td>{{school.SchoolRating}}</td>
+                    <td>{{school.Zip}}</td>
+                  </tr>
+                  <tr>
+                      <td colspan="5" ng-if="totalCountHigh == 0">No Records Found</td>
+                  </tr>
+                </tbody>
+              </table>
+              </div>
+            </div>
+            </div>
+              <span ng-if="totalCountHigh > 5" class="address-show-more" id="highschoolMore" onclick="showMoreLess('highschoolLess','highschoolMore','other-highschool',true,true,table3)"><i class="glyphicon glyphicon-plus-sign expand-button"> </i>  More</span>
+              <span ng-if="totalCountHigh > 5" class="address-show-less" id="highschoolLess" onclick="showMoreLess('highschoolMore','highschoolLess','other-highschool',false,true,table3)">  <i class="glyphicon glyphicon-minus-sign hiden-button"> </i>  Less</span>
+              <br/><br/>
+            <!-- Ungraded Schools near Washington, DC -->
+            <h4>Ungraded Schools near {{city}}, {{stateName}}</h4>
+             <div class="school-table" id="scroll-style">
+              <div class="schooltable-content">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Grades</th>
+                  <th>Students</th>
+                  <th>P/T Ratio</th>
+                  <th>ZIP</th>
+                </tr>
+              </thead>
+               </table>
+             <div class="table-body-container" id="table4">
+              <table class="table table-striped">
+              <tbody>
+                <tr ng-repeat="school in schools" ng-if="school.SchoolCategory =='Ungraded School' && schools.length > 0" ng-init="number = countInitUngraded()" ng-class="number >= 5 ? 'other-Ungradedschool' : ''">
+                  <td>{{school.SchoolName}}</td>
+                  <td>{{school.SchoolGradelevel}}</td>
+                  <td><span>{{school.SchoolStudentnum}}</span></td>
+                  <td>{{school.SchoolRating}}</td>
+                  <td>{{school.Zip}}</td>
+                </tr>
+                <tr>
+                    <td colspan="5" ng-if="totalCountUngraded== 0">No Records Found</td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+            </div>
+          </div>
+            <span ng-if="totalCountUngraded > 5" class="address-show-more" id="UngradedschoolMore" onclick="showMoreLess('UngradedschoolLess','UngradedschoolMore','other-Ungradedschool',true,true,table4)"> <i class="glyphicon glyphicon-plus-sign expand-button"> </i>  More</span>
+             <span ng-if="totalCountUngraded > 5" class="address-show-less" id="UngradedschoolLess" onclick="showMoreLess('UngradedschoolMore','UngradedschoolLess','other-Ungradedschool',false,true,table4)"> <i class="glyphicon glyphicon-minus-sign hiden-button"> </i>  Less</span>
+             <br/><br/>
+           <!-- Private Schools near Washington, DC -->
+            <h4>Private Schools near {{city}}, {{stateName}}</h4>
+             <div class="school-table" id="scroll-style">
+              <div class="schooltable-content">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Grades</th>
+                  <th>Students</th>
+                  <th>P/T Ratio</th>
+                  <th>ZIP</th>
+                </tr>
+              </thead>
+               </table>
+             <div class="table-body-container" id="table5">
+              <table class="table table-striped">
+              <tbody>
+                <tr ng-repeat="school in schools" ng-if="school.SchoolCategory =='Private School' && schools.length > 0" ng-init="number = countInitPrivate()" ng-class="number >= 5 ? 'other-privateschool' : ''">
+                  <td>{{school.SchoolName}}</td>
+                  <td>{{school.SchoolGradelevel}}</td>
+                  <td><span>{{school.SchoolStudentnum}}</span></td>
+                  <td>{{school.SchoolRating}}</td>
+                  <td>{{school.Zip}}</td>
+                </tr>
+                <tr>
+                    <td colspan="5" ng-if="totalCountPrivate== 0">No Records Found</td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+            </div>
+          </div>
+            <span ng-if="totalCountPrivate > 5" class="address-show-more" id="privateschoolMore" onclick="showMoreLess('privateschoolLess','privateschoolMore','other-privateschool',true, true,table5)"> <i class="glyphicon glyphicon-plus-sign expand-button"> </i>  More</span>
+            <span ng-if="totalCountPrivate > 5" class="address-show-less" id="privateschoolLess" onclick="showMoreLess('privateschoolMore','privateschoolLess','other-privateschool',false,true,table5)">  <i class="glyphicon glyphicon-minus-sign hiden-button"> </i>  Less</span>
+           <br/><br/>
+           <!-- Colleges near Washington, DC-->
+            <h4>Colleges near {{city}}, {{stateName}}</h4>
+             <div class="school-table">
+              <div class="schooltable-content">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Grades</th>
+                  <th>Students</th>
+                  <th>P/T Ratio</th>
+                  <th>ZIP</th>
+                </tr>
+              </thead>
+               </table>
+             <div class="table-body-container" id="table6">
+              <table class="table table-striped">
+              <tbody>
+                <tr ng-repeat="school in schools" ng-if="school.SchoolCategory =='Colleges' && schools.length > 0" ng-init="number = countInitColleges()" ng-class="number >= 5 ? 'other-colleges' : ''">
+                  <td>{{school.SchoolName}}</td>
+                  <td>{{school.SchoolGradelevel}}</td>
+                  <td><span>{{school.SchoolStudentnum}}</span></td>
+                  <td>{{school.SchoolRating}}</td>
+                  <td>{{school.Zip}}</td>
+                </tr>
+                <tr>
+                    <td colspan="5" ng-if="totalCountColleges == 0">No Records Found</td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+            </div>
+          </div>
+              <span ng-if="totalCountColleges > 5" class="address-show-more" id="collegesMore" onclick="showMoreLess('collegesLess','collegesMore','other-colleges',true,true,table6)"> <i class="glyphicon glyphicon-plus-sign expand-button"> </i>  More</span>
+              <span ng-if="totalCountColleges > 5" class="address-show-less" id="collegesLess" onclick="showMoreLess('collegesMore','collegesLess','other-colleges',false,true,table6)">  <i class="glyphicon glyphicon-minus-sign hiden-button"> </i>  Less</span>
+          </div>
+          <div id="demo" class="tab-pane fade">
+            <h4>Demographics near {{city}}, {{stateName}}</h4>
+             <div class="school-table" id="scroll-style">
+              <div class="schooltable-content">
+            <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th class="neighborhood-type">Neighborhood Type</th>
+                    <th>Zip</th>
+                    <th>County</th>
+                    <th>National</th>
+                  </tr>
+                </thead>
+              </table>
+              <div class="table-body-container" id="table7">
+              <table class="table table-striped final">
+                <tbody>
+                      <tr>
+                        <td class="c0">Population</td>
+                        <td class="c1">{{alldemo.PopulationZip ? alldemo.PopulationZip: "NA" }}</td>
+                        <td class="c2">{{alldemo.PopulationCounty ? alldemo.PopulationCounty : "NA"}}</td>
+                        <td class="c2">{{alldemo.PopulationNational ? alldemo.PopulationNational : "NA"}}</td>
+                      </tr>
+                      <tr class="alt-row">
+                        <td class="c0">Population Density</td>
+                        <td class="c1">{{alldemo.PopulationDensityZip ? alldemo.PopulationDensityZip  : "NA"}}</td>
+                        <td class="c2">{{alldemo.PopulationDensityCounty ? alldemo.PopulationDensityCounty : "NA"}}</td>
+                        <td class="c2">{{alldemo.PopulationDensityNational ? alldemo.PopulationDensityNational : "NA"}}</td>
+                      </tr>
+                      <tr>
+                        <td class="c0">Median Age</td>
+                        <td class="c1">{{alldemo.MedialAgeZip ? alldemo.MedialAgeZip : "NA"}}</td>
+                        <td class="c2">{{alldemo.MedialAgeCounty ? alldemo.MedialAgeCounty : "NA"}}</td>
+                        <td class="c2">{{alldemo.MedialAgeNational ? alldemo.MedialAgeNational : "NA"}}</td>
+                      </tr>
+                      <tr class="alt-row">
+                        <td class="c0">People per Household</td>
+                        <td class="c1">
+                          <span>{{alldemo.NumberOfHouseHoldZip ? alldemo.NumberOfHouseHoldZip : "NA"}}</span>
+                        </td>
+                        <td class="c2">
+                          <span>{{alldemo.NumberOfHouseHoldCounty ? alldemo.NumberOfHouseHoldCounty : "NA"}}</span>
+                        </td>
+                        <td class="c2"><span>{{alldemo.NumberOfHouseHoldNational ? alldemo.NumberOfHouseHoldNational : "NA"}}</span></td>
+                      </tr>
+                      <tr>
+                        <td class="c0">Median Household Income</td>
+                        <td class="c1">{{alldemo.MedianHouseHoldIncomeZip ? alldemo.MedianHouseHoldIncomeZip : "NA"}}</td>
+                        <td class="c2">{{alldemo.MedianHouseHoldIncomeCounty ? alldemo.MedianHouseHoldIncomeCounty : "NA"}}</td>
+                        <td class="c2">{{alldemo.MedianHouseHoldIncomeNational ? alldemo.MedianHouseHoldIncomeNational : "NA"}}</td>
+                      </tr>
+                      <tr>
+                        <td class="c0">Average Income per Capita</td>
+                        <td class="c1">{{alldemo.AverageHouseHoldIncomeZip ? alldemo.AverageHouseHoldIncomeZip : "NA"}}</td>
+                        <td class="c2">{{alldemo.AverageHouseHoldIncomeCounty ? alldemo.AverageHouseHoldIncomeCounty : "NA"}}</td>
+                        <td class="c2">{{alldemo.AverageHouseHoldIncomeNational ? alldemo.AverageHouseHoldIncomeNational : "NA"}}</td>
+                      </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12 real-estate-near-offices">
+        <div class="near-cities">
+            <h2>Real estate near {{city}}</h2>
+            <div>
+              <div class="col-md-12 real-estate-offices-group">
+                    <div class="col-md-4 real-estate-offices" ng-if="nearcities.length > 0">
+                      <h4>Nearby Cities</h4>
+                      <ul class="list-for-explore real-estate-offices-list">
+                        <li ng-repeat="cities in nearcities track by $index">
+                           <i class="glyphicon glyphicon-triangle-right flatIcon" ng-class="$index >= 5 ? 'other-city' : ''"></i>
+                           <a ui-sref="exploreCommunities({state:cities.state,city: cities.city})" ng-class="$index >= 5 ? 'other-city' : ''">{{cities.city | titleCase}} Real Estate</a>
+                        </li>
+                      </ul>
+                      <div class="address-more-button">
+                        <span ng-if="nearcities.length > 5" class="address-show-more" id="cityMore" onclick="showMoreLess('cityLess','cityMore','other-city',true,false,false)"> <i class="glyphicon glyphicon-plus-sign expand-button"> </i> More</span>
+                        <span ng-if="nearcities.length > 5" class="address-show-less" id="cityLess" onclick="showMoreLess('cityMore','cityLess','other-city',false,false,false)"> <i class="glyphicon glyphicon-minus-sign hiden-button"> </i> Less</span>
+                      </div>
+                    </div>
+
+                    <div class="col-md-4 real-estate-offices" ng-if="nearcities.length > 0">
+                      <h4>Homes for Sale</h4>
+                      <ul class="list-for-explore real-estate-offices-list">
+                          <li><i class="glyphicon glyphicon-triangle-right flatIcon" ng-class="$index >= 4 ? 'other-sale' : ''"></i> <a href="javascript:void(0)" ng-class="$index >= 4 ? 'other-sale' : ''" ng-click="getSearchResults(city);">
+                            <span style="text-transform: uppercase;">{{city}}</span> Homes for Sale</a>
+                          </li>
+                          <li ng-repeat="cities in nearcities track by $index">
+                            <i class="glyphicon glyphicon-triangle-right flatIcon" ng-class="$index >= 4 ? 'other-sale' : ''"></i> <a href="javascript:void(0)" ng-class="$index >= 4 ? 'other-sale' : ''" ng-click="getSearchResults(cities.city);">{{cities.city}} Homes for Sale</a>
+                          </li>
+                      </ul>
+                      <div class="address-more-button">
+                        <span ng-if="nearcities.length > 5" class="address-show-more" id="saleMore" onclick="showMoreLess('saleLess','saleMore','other-sale',true,false,false)"> <i class="glyphicon glyphicon-plus-sign expand-button"> </i> More</span>
+                        <span ng-if="nearcities.length > 5" class="address-show-less" id="saleLess" onclick="showMoreLess('saleMore','saleLess','other-sale',false,false,false)"> <i class="glyphicon glyphicon-minus-sign hiden-button"> </i> Less</span>
+                      </div>
+
+                    </div>
+                    <div class="col-md-4 real-estate-offices" ng-if="ZipCodes.length > 0">
+                      <h4>{{city}} Zip Codes</h4>
+                      <ul class="list-for-explore real-estate-offices-list">
+                          <li ng-repeat="zipcode in ZipCodes track by $index"><i class="glyphicon glyphicon-triangle-right flatIcon" ng-class="$index >= 5 ? 'other-zipcode' : ''"></i> <a ui-sref="zipcode({city: city, state:stateName,zipcode: zipcode})" ng-class="$index >= 5 ? 'other-zipcode' : ''">{{zipcode}} Real Estate</a></li>
+                          <!-- <li><a href="" ng-class="$index >= 5 ? 'other-zipcode' : ''">{{zipcode}} Real Estate</a></li> -->
+                      </ul>
+                       <div class="address-more-button">
+                        <span ng-if="ZipCodes.length > 5" class="address-show-more" id="zipcodeMore" onclick="showMoreLess('zipcodeLess','zipcodeMore','other-zipcode',true,false,false)"> <i class="glyphicon glyphicon-plus-sign expand-button"> </i> More</span>
+                        <span ng-if="ZipCodes.length > 5" class="address-show-less" id="zipcodeLess" onclick="showMoreLess('zipcodeMore','zipcodeLess','other-zipcode',false,false,false)"> <i class="glyphicon glyphicon-minus-sign hiden-button"> </i> Less</span>
+                      </div>
+                    </div>
+              </div>
+              <br/><br/>
+
+            </div>
+        </div>
+    </div>
+<script>
+
+function showMoreLess(showId, hideId, contentDiv,ShowHide, setHeight, tableId) {
+console.log(ShowHide);
+  if (ShowHide === true ) {
+    $('.'+contentDiv).show();
+    if(setHeight){
+      var id = tableId.id;
+      $("#"+id).addClass( "table-body-container-scroll" );
+    }
+  }
+  else if (ShowHide === false ) {
+    $('.'+contentDiv).hide();
+      if(setHeight)
+        var id = tableId.id;
+        $("#"+id).removeClass( "table-body-container-scroll" );
+  }
+
+  $('#'+showId).show();
+  $('#'+hideId).hide();
+}
+
+</script>
+
+  <script type="text/x-kendo-template" id="view-office-template">
+      <div id="details-container-office">
+          <div class='search-pic-pop'>
+              <img class='customer-photo' src='#: Imageurl #'>
+          </div>
+          <div class='search-pic-content-pop'>
+              <div><span class='search-span-pop'>#: OfficeName #</span></div>
+              <span>#: OfficeFullStreetAddress #,</span><br>
+              <span>#: OfficeCity #,</span>
+              <span>#: OfficeState #,</span>
+              <span>#: OfficePostalCode #.</span><br>
+              # var formattedOfficePhone = formatPhone(OfficePhone) #
+              # var formattedOfficeFax = formatPhone(OfficeFax) #
+              # var formattedOfficeUrl = OfficeUrl #
+              # if(formattedOfficePhone == formattedOfficeFax) {formattedOfficeFax = 'NA'}#
+              # if(OfficePhone == '') {formattedOfficePhone = 'NA'}#
+              # if(OfficeFax == '') {formattedOfficeFax = 'NA'}#
+              # if(formattedOfficeUrl != '') {formattedOfficeUrl = 'http://'+formattedOfficeUrl}#
+              <span><b>Phone: </b>#: formattedOfficePhone #</span><br>
+              <span><b>Fax: </b>#: formattedOfficeFax #</span><br>
+            <span><b><a href='#=formattedOfficeUrl#' target='_blank'>#: OfficeUrl #</a><br>
+                <span><a href='mailto:#=OfficeEmail#'>#: OfficeEmail #</a></span><br>
+          </div>
+          <div id="office-marker-map" class="office-marker-map" style="width: 100%; height: 310px"></div>
+          <button id="view-my-agents-button" onClick="loadAgentsInOfficeDetail('#=OfficeId#')" class="agent-view-button k-primary">View my Agents</button>
+      </div>
+  </script>
+
+  <script type="text/x-kendo-template" id="agent-list-view">
+      <div class="product" style="border-bottom: 1px solid rgb(213, 213, 213)">
+          <div class='search-pic-pop'>
+              <img class='customer-photo' src='#: Profile #'>
+          </div>
+          <div class='search-pic-content-pop'>
+              <div><h2 class='search-h2-pop'>#: MemberFullName #</h2></div>
+              <div><span class='search-span-pop'>#: OfficeName #</span></div>
+              <span>#: MemberAddress1 #</span>
+              <span>, #: MemberCity #</span>
+              <span>, #: MemberStateOrProvince #</span>
+              <span>, #: MemberPostalCode #.</span>
+              <!--<span><a href='mailto:#=MemberEmail#'>#: MemberEmail #</a></span><br>-->
+              # var formattedHomeNumber = formatPhone(MemberHomePhone) #
+              # var formattedMobileNumber = formatPhone(MemberMobilePhone) #
+              # if(formattedMobileNumber == formattedHomeNumber) {formattedHomeNumber = 'NA'}#
+              # if(MemberHomePhone == '') {formattedHomeNumber = 'NA'}#
+              # if(MemberMobilePhone == '') {formattedMobileNumber = 'NA'}#
+              <span><b>Home: </b>#: formattedHomeNumber #</span><br>
+              <span><b>Mobile: </b>#: formattedMobileNumber #</span><br>
+          </div>
+      </div>
+  </script>

@@ -1,0 +1,1343 @@
+<div id="content">
+    <!-- HOX2: added aside -->
+    <aside id="content_overlay"></aside>
+    <article pscrollbar>
+        <div class="content-map-page">
+            <!-- [ S ] Content -->
+            <div id="client-profile" class="client-page">
+                <div class="content">
+                    <div class="client_form_md">
+                        <div class="page_title text-center">
+                            <h1 ng-if="client.FirstName != client.LastName">{{client.FirstName}} {{client.LastName}}</h1>
+                            <h1 ng-if="client.FirstName == client.LastName">{{client.FirstName}}</h1>
+                        </div>
+                    </div>
+                    <div class="property-sort-infobo">
+                        <div class="client_form">
+                            <div class="row-10mg client_form_md">
+                                <div class="row-5mg client-tab-panel">
+                                    <div id="client-info" class="col-md-12">
+                                        <div class="dd-menu">
+                                          <span class="active-tab">Basic</span> <span class="fa fa-caret-down"></span>
+                                        </div>
+                                        <ul id="mainClientInfo" class="client-tab">
+                                            <li class="active" id="tab-client-basic-md"><a href="#client-basic-md"> Basic</a></li>
+                                            <li id="tab-income-md"><a href="#income-md"> Income</a></li>
+                                            <li id="tab-commute-md"><a href="#commute-md"> Commute</a></li>
+                                            <li id="tab-residence-md"><a href="#residence-md"> Residence</a></li>
+                                            <li id="tab-debt-md"><a href="#debt-md"> Debt</a></li>
+                                            <li id="tab-assets-md"><a href="#assets-md"> Assets</a></li>
+                                            <li id="tab-financial-md"><a href="#financial-md"> Financial</a></li>
+                                            <li id="tab-entertainment-md"><a href="#entertainment-md"> Entertainment</a></li>
+                                            <!--<li id="tab-lifestyle-md"><a href="#lifestyle-md"> Lifestyle</a></li>-->
+                                        </ul>
+                                        <form name="frmClientProfile" novalidate>
+                                            <div id="client-basic-md" class="tab-pane active">
+                                                <div class="form-group col-md-12" ng-if="AudienceType == 'CLIENT'">
+                                                    <div class="checkbox border_bt">
+                                                        <label class="checkbox-custom">
+                                                            <input type="checkbox" name="checkbox" checked="checked" ng-model="client.Protected">
+                                                            <i class="fa fa-fw fa-square-o" ng-class="(client.Protected == false)?'checked':''"></i> SHARE THE DETAILS OF THIS TAB WITH THE AGENT
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-5">
+                                                    <label for="FirstName">First Name</label>
+                                                    <input type="text" ng-readonly="AudienceType == 'MLSAGENT'" class="form-control" id="FirstName" ng-model="client.FirstName" required name="FirstName" aa-field-name="First Name" maxlength="50">
+                                                </div>
+                                                <div class="form-group col-md-7">
+                                                    <label for="LastName">Last name</label>
+                                                    <input type="text" ng-readonly="AudienceType == 'MLSAGENT'" class="form-control" id="LastName" ng-model="client.LastName" required name="LastName" aa-field-name="Last Name" maxlength="50">
+                                                </div>
+                                                <div class="form-group col-md-12">
+                                                    <label for="Email">Email address</label>
+                                                    <input type="email" ng-readonly="true" class="form-control" id="Email" ng-model="client.Email" required name="Email" aa-field-name="Email" maxlength="50">
+                                                    <!-- ng-blur="emailVerify()" -->
+                                                </div>
+                                              <accordion close-others="false">
+                                                <accordion-group is-open="status.open">
+                                                  <accordion-heading>
+                                                    Optional <!-- <i class="pull-right fa" ng-class="{'fa-minus': status.open, 'fa-plus': !status.open}"></i> -->
+                                                  </accordion-heading>
+                                                <div class="form-group col-md-5 listing-info-hidden-class">
+                                                    <label for="HomePhone">Home Phone Number</label>
+                                                    <input type="text" class="form-control" id="HomePhone" ng-model="client.Profile.BasicData.HomePhone" maxlength="15" ui-mask="(999) 999-9999">
+                                                </div>
+                                                <div class="form-group col-md-7 listing-info-hidden-class">
+                                                    <label for="CellPhone">Cell Phone Number</label>
+                                                    <input type="text" class="form-control" id="CellPhone" ng-model="client.Profile.BasicData.CellPhone" maxlength="15" ui-mask="(999) 999-9999">
+                                                </div>
+                                                <div class="form-group col-md-5 listing-info-hidden-class">
+                                                    <label for="BasicDataCreditScore">Do you know your credit score ?</label>
+                                                    <div class="select-option-box cridet_numdber">
+                                                        <select name="CreditScore" id="CreditScore" class="selectpicker" ng-model="client.Profile.BasicData.CreditScore">
+                                                            <option value="">-- Credit Score --</option>
+                                                            <option value="760-850">760-850</option>
+                                                            <option value="700-759">700-759</option>
+                                                            <option value="680-699">680-699</option>
+                                                            <option value="660-679">660-679</option>
+                                                            <option value="640-659">640-659</option>
+                                                            <option value="620-639">620-639</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-7 listing-info-hidden-class">
+                                                    <!--<label for="TLCMin">Total Lifestyle Cost</label>-->
+                                                    <div class="row-5mg">
+                                                        <div class="col-md-5">
+                                                          <label for="TLCMin">TLC (Min)</label>
+                                                            <div class="input-append ">
+                                                                <input type="text" formatcurrency="currency" numbers-max-min class="form-control" id="TLCMin" placeholder="Minimum" ng-model="client.Profile.BasicData.TLCMin" min="0" max="{{client.Profile.BasicData.TLCMax || 999999999}}" name="TLCMin" aa-field-name="Total Lifestyle Cost Minimum" ng-blur="changeTLCMinMax('TLCMin')">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2 center"><span class="fa fa-minus center-minus tlc_minus"></span></div>
+                                                        <div class="col-md-5">
+                                                          <label for="TLCMin">TLC (Max)</label>
+                                                            <div class="input-append">
+                                                                <input type="text" formatcurrency="currency" numbers-max-min class="form-control" id="TLCMax" placeholder="Maximum" ng-model="client.Profile.BasicData.TLCMax" min="{{client.Profile.BasicData.TLCMin || 0}}" max="999999999" name="TLCMax" aa-field-name="Total Lifestyle Cost Maximum" ng-blur="changeTLCMinMax('TLCMax')">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="form-group col-md-12 listing-info-hidden-class">
+                                                  <div class="checkbox border_bt">
+                                                    <label class="checkbox-custom" style="white-space:normal;">
+                                                      <input type="checkbox" name="checkbox" checked="checked" ng-model="client.Profile.BasicData.AutoCalculateTlcRange">
+                                                      <i class="fa fa-fw fa-square-o" ng-class="(client.Profile.BasicData.AutoCalculateTlcRange == true)?'checked':''"></i> Pre-calculate TLC Range
+                                                      <span class="tlc-calc question-tooltip title-tipso" title="Would you want us to calculate your TLC Range based on your income information? If you have entered a TLC Range - we will use that information during the searches." style="margin-top:0;margin-bottom:-5px;float:none;display:inline-block;">
+                                                        <div class="tooltip">Would you want us to calculate your TLC Range based on your income information? If you have entered a TLC Range - we will use that information during the searches.</div></span>
+                                                    </label>
+                                                  </div>
+                                                </div>
+                                                <div class="form-group col-md-12 listing-info-hidden-class">
+                                                    <label class="radio-title">I am...</label>
+                                                    <ul class="radio-selection-box">
+                                                        <li>
+                                                            <div class="radio checkbox">
+                                                                <label class="radio-custom">
+                                                                    <input type="radio" name="radioForbasicIntro" value="single" ng-model="client.Profile.BasicData.MStatus">
+                                                                    <i class="fa fa-circle-o" ng-class="(client.Profile.BasicData.MStatus=='single')?'checked':''"></i> Single
+                                                                </label>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="radio checkbox">
+                                                                <label class="radio-custom">
+                                                                    <input type="radio" name="radioForbasicIntro" value="couple-no-kids" ng-model="client.Profile.BasicData.MStatus">
+                                                                    <i class="fa fa-circle-o" ng-class="(client.Profile.BasicData.MStatus=='couple-no-kids')?'checked':''"></i> Couple With No Kids
+                                                                </label>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="radio checkbox">
+                                                                <label class="radio-custom">
+                                                                    <input type="radio" name="radioForbasicIntro" value="couple-kids-lt5" ng-model="client.Profile.BasicData.MStatus">
+                                                                    <i class="fa fa-circle-o" ng-class="(client.Profile.BasicData.MStatus=='couple-kids-lt5')?'checked':''"></i> Couple With Kids age &lt; 5 years
+                                                                </label>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="radio checkbox">
+                                                                <label class="radio-custom">
+                                                                    <input type="radio" name="radioForbasicIntro" value="couple-kids-gt5" ng-model="client.Profile.BasicData.MStatus">
+                                                                    <i class="fa fa-circle-o" ng-class="(client.Profile.BasicData.MStatus=='couple-kids-gt5')?'checked':''"></i> Couple With Kids age &gt; 5 years
+                                                                </label>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="radio checkbox">
+                                                                <label class="radio-custom">
+                                                                    <input type="radio" name="radioForbasicIntro" value="single-parent" ng-model="client.Profile.BasicData.MStatus">
+                                                                    <i class="fa fa-circle-o" ng-class="(client.Profile.BasicData.MStatus=='single-parent')?'checked':''"></i> Single Parent
+                                                                </label>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="radio checkbox">
+                                                                <label class="radio-custom">
+                                                                    <input type="radio" name="radioForbasicIntro" value="empty-nester" ng-model="client.Profile.BasicData.MStatus">
+                                                                    <i class="fa fa-circle-o" ng-class="(client.Profile.BasicData.MStatus=='empty-nester')?'checked':''"></i> Empty Nester
+                                                                </label>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="form-group col-md-12 listing-info-hidden-class">
+                                                  <div class="checkbox border_bt">
+                                                    <label class="checkbox-custom">
+                                                      <input type="checkbox" name="IsVeteran" checked="checked" ng-model="client.Profile.BasicData.IsVeteran">
+                                                      <i class="fa fa-fw fa-square-o" ng-class="(client.Profile.BasicData.IsVeteran == true)?'checked':''"></i> I am a Veteran
+                                                    </label>
+                                                  </div>
+                                                </div>
+                                                <div class="form-group col-md-12 listing-info-hidden-class">
+                                                    <div class="row-5mg">
+                                                        <div class="col-md-4">
+                                                            <label for="NumberOfAdults">No Of Adults</label>
+                                                            <!--<div class="input-append spinner" data-trigger="spinner">-->
+                                                            <div class="input-append">
+                                                                <input type="text" formatcurrency="number" numbers-max-min class="form-control" id="NumberOfAdults" placeholder="0" ng-model="client.Profile.BasicData.NumberOfAdults" min="0" max="99" name="NumberOfAdults" aa-field-name="No Of Adults">
+                                                                <!--<div class="add-on">
+                                                                    <a href="javascript:void(0);" class="spin-up" data-spin="up"><i class="fa fa-caret-up"></i></a>
+                                                                    <a href="javascript:void(0);" class="spin-down" data-spin="down"><i class="fa fa-caret-down"></i></a>
+                                                                </div>-->
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label for="YoungChildren">Number of Kids (0-5 Years)</label>
+                                                            <div class="input-append">
+                                                                <input type="text" formatcurrency="number" numbers-max-min class="form-control" id="YoungChildren" placeholder="1" ng-model="client.Profile.BasicData.YoungChildren" min="0" max="99" name="YoungChildren" aa-field-name="Kids(0-5yrs)">
+                                                                <!--<div class="add-on">
+                                                                    <a href="javascript:void(0);" class="spin-up" data-spin="up"><i class="fa fa-caret-up"></i></a>
+                                                                    <a href="javascript:void(0);" class="spin-down" data-spin="down"><i class="fa fa-caret-down"></i></a>
+                                                                </div>-->
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label for="OlderChildren">Number of Kids (5-15 Years)</label>
+                                                            <div class="input-append">
+                                                                <input type="text" formatcurrency="number" numbers-max-min class="form-control" id="OlderChildren" placeholder="0" ng-model="client.Profile.BasicData.OlderChildren" min="0" max="99" name="OlderChildren" aa-field-name="Kids(5-15yrs)">
+                                                                <!--<div class="add-on">
+                                                                    <a href="javascript:void(0);" class="spin-up" data-spin="up"><i class="fa fa-caret-up"></i></a>
+                                                                    <a href="javascript:void(0);" class="spin-down" data-spin="down"><i class="fa fa-caret-down"></i></a>
+                                                                </div>-->
+                                                            </div>
+                                                        </div>
+                                                      <div class="col-md-3">
+                                                        <label for="DaycareCost">Day care Cost<span class="day-care question-tooltip title-tipso" title="To include daycare cost in your TLC - your marital status should indicate that you have kids. Then you need to provide the number of kids you have along with their age (their age could be zero or greater)." style="margin-top:0;margin-bottom:-5px;float:none;display:inline-block;">
+                                                            <div class="tooltip">To include daycare cost in your TLC - your marital status should indicate that you have kids. Then you need to provide the number of kids you have along with their age (their age could be zero or greater).</div>
+                                                        </span></label>
+                                                        <div class="input-append " data-trigger="">
+                                                          <input type="text" formatcurrency="currency" numbers-max-min class="form-control" id="DaycareCost" placeholder="$ Day care Cost" ng-model="client.Profile.BasicData.ChildDetail[0].DaycareCost" min="0" max="999999999" name="DaycareCost" aa-field-name="Day care Cost">
+                                                        </div>
+                                                      </div>
+                                                      <div class="col-md-3">
+                                                        <label for="DaycareCost">Age of Child</label>
+                                                        <div class="input-append " data-trigger="">
+                                                          <input type="text" formatcurrency="number" numbers-max-min class="form-control" id="AgeOfChild" placeholder="5" ng-model="client.Profile.BasicData.ChildDetail[0].AgeOfChild" min="0" max="99" name="AgeOfChild" aa-field-name="Age of Child">
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                </div>
+                                              <!--<div class="form-group col-md-12">
+                                                  <div class="row-5mg">
+
+                                                      <div class="col-md-4">
+                                                        <label>&nbsp;</label>
+                                                        <div class="input-append " data-trigger="">
+                                                          <label class="checkbox-custom">
+                                                            <input type="checkbox" checked="checked" name="checkbox" ng-model="client.Profile.BasicData.ChildDetail[0].NeedChildCare">
+                                                            <i class="fa fa-fw fa-square-o" ng-class="(client.Profile.BasicData.ChildDetail[0].NeedChildCare == true)?'checked':''"></i>
+                                                            Need Child Care
+                                                          </label>
+                                                          </div>
+                                                      </div>
+                                                    </div>
+                                                </div>-->
+                                                <div class="form-group col-md-6 listing-info-hidden-class">
+                                                    <label for="Profileimages">Profile images</label>
+                                                    <!--[if (gt IE 9)|!(IE)]><!-->
+                                                  <label for="ProfileImageUrl" class="browse">
+                                                    <input type="file" id="ProfileImageUrl" name="ProfileImageUrl" class="choose-file"
+                                                           ngf-select ngf-change="uploadImage($files, 'ProfileImageUrl')" ng-model="ProifleImageUrl"
+                                                           ngf-multiple="false" ngf-accept="'image/*'" ng-model-rejected="rejFiles"/>
+                                                    <span>Browse</span>
+                                                  </label>
+                                                    <span>(Recommend size: 80x80)</span>
+                                                    <span class="progress" ng-show="Process.Progress > 0 && Process.Progress != 100">
+                                                        <div style="width:{{Process.Progress }}%" ng-bind="Process.Progress  + '%'"></div>
+                                                    </span>
+                                                    <div class="col-md-12" ng-show="Process.Progress > 0">
+                                                      <div class="profile-area">
+                                                        <img ngf-src="ProifleImageUrl[0]" height="80" width="80">
+                                                      </div>
+                                                    </div>
+                                                    <!--<![endif]-->
+                                                    <div class="col-md-12" ng-show="client.Profile.BasicData.ProfileImageUrl && Process.Progress == 0">
+                                                        <div class="profile-area">
+                                                            <img ng-src="{{client.Profile.BasicData.ProfileImageUrl}}" height="80" width="80">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                </accordion-group>
+                                              </accordion>
+                                            </div>
+                                            <div id="income-md" class="tab-pane">
+                                                <div ng-repeat="IncomeDetail in client.Profile.IncomeData.IncomeDetail">
+                                                    <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                                                        <div class="tab-inner-title">
+                                                            <h3>Income Detail</h3>
+                                                            <!--<input type="text" placeholder="-Wife's Income">-->
+                                                            <input ng-disabled="true" formatcurrency="currency" type="text"  numbers-max-min class="dollar form-control title_net_income"  ng-model="IncomeDetail.NetPay" min="0" max="999999999" name="NetPay" aa-field-name="Net Monthly Income" ng-change="CalculateProfileGrossIncomeTotal(IncomeDetail)">
+                                                            <a href="javascript:void(0)" ng-click="removeIncomeDetail($index)" ng-show="IsRemoveIncomeDetail"><i class="fa fa-remove"></i></a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-md-4 left_lable_display">
+                                                        <label>Title</label>
+                                                      <div class="input-append">
+                                                      <input id="IncomeDetailTitle" name="IncomeDetailTitle" type="text" class="form-control" placeholder="Income Detail Title" ng-model="IncomeDetail.IncomeDetailTitle" aa-field-name="Income Detail Title">
+                                                    </div>
+                                                    </div>
+                                                    <div class="form-group col-md-4 left_lable_display top_lable_dispplay">
+                                                        <label>Net Monthly Income</label>
+                                                        <div class="input-append " data-trigger="">
+                                                            <input type="text" formatcurrency="decimal" numbers-max-min class="dollar form-control IncomeDetailNetIncome" placeholder="NetPay" ng-model="IncomeDetail.NetPay" min="0" max="999999999" name="NetPay" aa-field-name="Net Monthly Income" ng-change="CalculateProfileGrossIncomeTotal(IncomeDetail)">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-md-4 displayFixLabel qa_tooltip">
+                                                      <label for="fico" class="tooltiplabel">Tax Bracket<span class="question-tooltip title-tipso" style="margin-top: 0px;">
+                                                        <div class="tooltip">Tax Bracket is a range of incomes taxed at a given rate. This percentage changes based on your Gross Annual Income as per the following: <img src='images/federal-tax-brackets.jpg' />.</div>
+                                                      </label> 
+                                                      <div class="select-option-box select-common-box" data-trigger="">
+                                                        <!--<input  type="number" class="form-control" placeholder="Net Tax Bracket" ng-model="IncomeDetail.NetTaxBracket" min="0" max="100" name="NetTaxBracket" aa-field-name="Net Tax Bracket">-->
+                                                        <select class="car-insurance-terms" name="NetTaxBracket" ng-model="IncomeDetail.NetTaxBracket" ng-change="CalculateProfileGrossIncomeTotal(IncomeDetail)">
+                                                          <option value="0">0%</option>
+                                                          <option value="10">10%</option>
+                                                          <option value="15">15%</option>
+                                                          <option value="25">25%</option>
+                                                          <option value="28">28%</option>
+                                                          <option value="33">33%</option>
+                                                          <option value="35">35%</option>
+                                                          <option value="39.6">39.6%</option>
+                                                        </select>
+                                                      </div>
+                                                    </div>
+                                                    <div class="form-group col-md-4 left_lable_display top_lable_dispplay">
+                                                        <label>Gross Monthly Income</label>
+                                                        <div class="input-append " data-trigger="">
+                                                            <input type="text" formatcurrency="decimal" numbers-max-min class="dollar form-control" placeholder="Gross Pay" name="GrossPay" ng-model="IncomeDetail.GrossPay" min="0" max="999999999" aa-field-name="Gross Monthly Income" ng-change="CalculateProfileNetIncomeTotal(IncomeDetail)">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-md-4 left_lable_display top_lable_dispplay">
+                                                        <label>Gross Annual Income</label>
+                                                        <div class="input-append ">
+                                                            <input ng-disabled="true" type="text" formatcurrency="decimal" numbers-max-min class="dollar form-control" placeholder="Gross Annual Pay" name="GrossAnnualPay" ng-model="IncomeDetail.ProfileEstGrossPay" min="0" max="999999999" aa-field-name="Gross Annual Income" ng-change="CalculateProfileNetIncomeTotal(IncomeDetail)">
+                                                            <!--{{(IncomeDetail.GrossPay || 0) * 12 | currencyNoDecimal}}-->
+                                                        </div>
+                                                    </div>
+
+                                                  <div class="details">
+                                                    <div class="left-side" style="width:49%">
+                                                          <div class="left_filing_title">
+                                                        <label class="income_inner_title"><b>Filing Status and Withholdings</b></label>
+                                                      </div>
+                                                          <div class="select_box_label displayFixLabel filling-status">
+                                                            <label>Filing Status</label>
+                                                            <div class="select-option-box select-common-box">
+                                                              <select class="car-insurance-terms" name="FilingStatus" ng-model="IncomeDetail.FilingStatus" ng-change="CalculateProfileNetIncomeTotal(IncomeDetail)">
+                                                                <option value="Single">Single</option>
+                                                                <option value="Married">Married</option>
+                                                              </select>
+                                                            </div>
+                                                          </div>
+                                                          <div class="numbers_label_display left_lable_display">
+                                                            <label>Number Of Allowances</label>
+                                                            <div class="input-append " data-trigger="">
+                                                              <input type="text" formatcurrency="decimal" numbers-max-min class="form-control" ng-model="IncomeDetail.NumberOfAllowances" min="0" max="100" name="NumberOfAllowances" aa-field-name="Number Of Allowances" ng-change="CalculateProfileNetIncomeTotal(IncomeDetail)">
+                                                            </div>
+                                                          </div>
+                                                          <div>
+                                                            <label class="income_inner_title short_title_bg"><b>Pre-Tax Adjustments</b></label>
+                                                          </div>
+                                                          <div class="TaxDeferralPlan_label_display left_lable_display">
+                                                        <label>Tax Deferral Plan, 401(k)</label>
+                                                        <div class="input-append " data-trigger="">
+                                                          <input type="text" formatcurrency="decimal" numbers-max-min class="percentage form-control" placeholder="Tax Deferral Plan" ng-model="IncomeDetail.TaxDeferralPlan" min="0" max="100" name="TaxDeferralPlan" aa-field-name="Tax Deferral Plan" ng-change="CalculateProfileNetIncomeTotal(IncomeDetail)">
+                                                        </div>
+                                                      </div>
+                                                          <div class="OtherPreTaxDeduction_label_display left_lable_display">
+                                                            <label>Other Pre-Tax Deduction</label>
+                                                            <div class="input-append " data-trigger="">
+                                                              <input type="text" formatcurrency="decimal" numbers-max-min class="dollar form-control" placeholder="Other Pre-Tax Deduction" ng-model="IncomeDetail.OtherPreTaxDeduction" min="0" max="999999999" name="OtherPreTaxDeduction" aa-field-name="Other Pre-Tax Deduction" ng-change="CalculateProfileNetIncomeTotal(IncomeDetail)">
+                                                            </div>
+                                                          </div>
+                                                          <div class="ProfileFederalTax_label_display left_lable_display">
+                                                            <label>Federal Taxable Gross</label>
+                                                            <div class="input-append">
+                                                              <input type="text" formatcurrency="decimal" numbers-max-min class="dollar form-control" placeholder="Federal Taxable Gross" name="FederalTaxableGross" ng-model="IncomeDetail.ProfileFederalTaxableGross" min="0" max="999999999" aa-field-name="Federal Taxable Gross" ng-change="CalculateProfileNetIncomeTotal(IncomeDetail)">
+                                                              <!--{{IncomeDetail.ProfileFederalTaxableGross | currencyNoDecimal}}-->
+                                                            </div>
+                                                          </div>
+                                                          <div>
+                                                            <label class="income_inner_title short_title_bg"><b>Post-Tax Adjustments</b></label>
+                                                          </div>
+                                                          <div class="StateLocalTaxes_label_display left_lable_display">
+                                                            <label>State & Local Taxes</label>
+                                                            <div class="input-append " data-trigger="">
+                                                              <input type="text" formatcurrency="decimal" numbers-max-min class="percentage form-control" placeholder="State & Local Taxes" ng-model="IncomeDetail.StateLocalTaxes" min="0" max="100" name="StateLocalTaxes" aa-field-name="State & Local Taxes" ng-change="CalculateProfileNetIncomeTotal(IncomeDetail)">
+                                                            </div>
+                                                          </div>
+                                                          <div class="OtherPostTax_label_display left_lable_display">
+                                                            <label>Other Post Tax Deductions</label>
+                                                            <div class="input-append " data-trigger="">
+                                                              <input type="text" formatcurrency="decimal" numbers-max-min class="dollar form-control" placeholder="Other Post Tax Deductions" ng-model="IncomeDetail.OtherPostTaxDeduction" min="0" max="999999999" name="OtherPostTaxDeductions" aa-field-name="Other Post Tax Deductions" ng-change="CalculateProfileNetIncomeTotal(IncomeDetail)">
+                                                            </div>
+                                                          </div>
+                                                          <div class="PostTaxReimbursement_label_display left_lable_display">
+                                                            <label>Post-Tax Reimbursements</label>
+                                                            <div class="input-append">
+                                                              <input type="text" formatcurrency="decimal" numbers-max-min class="dollar form-control" placeholder="Post-Tax Reimbursements" name="Post-TaxReimbursements" ng-model="IncomeDetail.PostTaxReimbursement" min="0" max="999999999" aa-field-name="Post-Tax Reimbursements" ng-change="CalculateProfileNetIncomeTotal(IncomeDetail)">
+                                                              <!--{{IncomeDetail.ProfilePostTaxReimbursementsValue | currencyNoDecimal}}-->
+                                                            </div>
+                                                          </div>
+                                                    </div>
+                                                    <div class="right-side" style="width:49%">
+                                                          <div class="right_estimated_title">
+                                                          <label class="income_inner_title"><b>Estimated Deductions (Monthly)</b>
+                                                            <span class="question-tooltip title-tipso" style="margin-top: 0px;" title="These are calculated fields and are non-editable">
+                                                                <div class="tooltip">These are calculated fields and are non-editable</div>
+                                                            </span></label>
+                                                        </div>
+                                                          <div class="right_lable_display">
+                                                          <label>FICA Social Security (6.2%)</label>
+                                                          <div class="input-append">
+                                                            <input ng-disabled="true" type="text" formatcurrency="decimal" numbers-max-min class="dollar form-control" placeholder="FICA Social Security (6.2%)" name="FICASocialSecurity" ng-model="IncomeDetail.ProfileFICASocialSecurity" min="0" max="999999999" aa-field-name="FICA Social Security (6.2%)" ng-change="CalculateProfileNetIncomeTotal(IncomeDetail)">
+                                                            <!--{{IncomeDetail.ProfileFICASocialSecurity | currencyNoDecimal}}-->
+                                                          </div>
+                                                        </div>
+                                                          <div class="right_lable_display">
+                                                          <label>FICA Medicare (1.45%)</label>
+                                                          <div class="input-append">
+                                                            <input ng-disabled="true" type="text" formatcurrency="decimal" numbers-max-min class="dollar form-control" placeholder="FICA Medicare (1.45%)" name="FICAMedicare" ng-model="IncomeDetail.ProfileFICAMedicare" min="0" max="999999999" aa-field-name="FICA Medicare (1.45%)" ng-change="CalculateProfileNetIncomeTotal(IncomeDetail)">
+                                                            <!--{{IncomeDetail.ProfileFICAMedicare | currencyNoDecimal}}-->
+                                                          </div>
+                                                        </div>
+                                                          <!--<div>
+                                                          <label><b>&nbsp;</b></label>
+                                                        </div>-->
+                                                          <div class="right_lable_display">
+                                                          <label>Federal Tax</label>
+                                                          <div class="input-append">
+                                                            <input ng-disabled="true" type="text" formatcurrency="decimal" numbers-max-min class="dollar form-control" placeholder="Federal Tax" name="FederalTax" ng-model="IncomeDetail.ProfileFederalTaxValue" min="0" max="999999999" aa-field-name="Federal Tax" ng-change="CalculateProfileNetIncomeTotal(IncomeDetail)">
+                                                            <!--{{IncomeDetail.ProfileFederalTaxValue | currencyNoDecimal}}-->
+                                                          </div>
+                                                        </div>
+                                                          <div class="right_lable_display">
+                                                          <label>Tax Deferral Plan</label>
+                                                          <div class="input-append">
+                                                            <input ng-disabled="true" type="text" formatcurrency="decimal" numbers-max-min class="dollar form-control" placeholder="Tax Deferral Plan" name="ProfileTaxDeferralPlanValue" ng-model="IncomeDetail.ProfileTaxDeferralPlanValue" min="0" max="999999999" aa-field-name="Tax Deferral Plan" ng-change="CalculateProfileNetIncomeTotal(IncomeDetail)">
+                                                            <!--{{IncomeDetail.ProfileTaxDeferralPlanValue | currencyNoDecimal}}-->
+                                                          </div>
+                                                        </div>
+                                                          <div class="right_lable_display">
+                                                          <label>Pre-Tax Deductions</label>
+                                                          <div class="input-prepend">
+                                                              <input ng-disabled="true" type="text" formatcurrency="decimal" numbers-max-min class="dollar form-control" placeholder="Pre-Tax Deductions" name="Pre-TaxDeductions" ng-model="IncomeDetail.ProfilePreTaxDeductionsValue" min="0" max="999999999" aa-field-name="Pre-Tax Deductions" ng-change="CalculateProfileNetIncomeTotal(IncomeDetail)">
+                                                              <!--{{IncomeDetail.ProfilePreTaxDeductionsValue | currencyNoDecimal}}-->
+                                                          </div>
+                                                      </div>
+                                                          <!--<div>
+                                                          <label><b>&nbsp;</b></label>
+                                                        </div>-->
+                                                          <div class="right_lable_display">
+                                                          <label>State & Local Taxes</label>
+                                                          <div class="input-append">
+                                                            <input ng-disabled="true" type="text" formatcurrency="decimal" numbers-max-min class="dollar form-control" placeholder="State & Local Taxes" name="State&LocalTaxes" ng-model="IncomeDetail.ProfileStateLocalTaxesValue" min="0" max="999999999" aa-field-name="State & Local Taxes" ng-change="CalculateProfileNetIncomeTotal(IncomeDetail)">
+                                                            <!--{{IncomeDetail.ProfileStateLocalTaxesValue | currencyNoDecimal}}-->
+                                                          </div>
+                                                        </div>
+                                                          <div class="right_lable_display">
+                                                          <label>Post-Tax Deductions</label>
+                                                          <div class="input-prepend">
+                                                            <input ng-disabled="true" type="text" formatcurrency="decimal" numbers-max-min class="dollar form-control" placeholder="Post-Tax Deductions" name="Post-TaxDeductions" ng-model="IncomeDetail.ProfilePostTaxDeductionsValue" min="0" max="999999999" aa-field-name="Post-Tax Deductions" ng-change="CalculateProfileNetIncomeTotal(IncomeDetail)">
+                                                            <!--{{IncomeDetail.ProfilePostTaxDeductionsValue | currencyNoDecimal}}-->
+                                                          </div>
+                                                        </div>
+                                                          <div class="right_lable_display">
+                                                          <label>Post-Tax Reimbursements</label>
+                                                          <div class="input-prepend">
+                                                            <input ng-disabled="true" type="text" formatcurrency="decimal" numbers-max-min class="dollar form-control" placeholder="Post-Tax Deductions" name="Post-TaxDeductions" ng-model="IncomeDetail.ProfilePostTaxReimbursementsValue" min="0" max="999999999" aa-field-name="Post-Tax Deductions" ng-change="CalculateProfileNetIncomeTotal(IncomeDetail)">
+                                                          </div>
+                                                        </div>
+                                                      <div class="right_lable_display OtherPostTax_label_display_right">
+                                                        <label>Other Post Tax Deductions</label>
+                                                        <div class="input-append " data-trigger="">
+                                                          <input ng-disabled="true" type="text" formatcurrency="decimal" numbers-max-min class="dollar form-control" placeholder="Other Post Tax Deductions" ng-model="IncomeDetail.OtherPostTaxDeduction" min="0" max="999999999" name="OtherPostTaxDeductions" aa-field-name="Other Post Tax Deductions" ng-change="CalculateProfileNetIncomeTotal(IncomeDetail)">
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                    <!--<div class="form-group col-md-4">
+                                                      <label>Pay Period</label>
+                                                      <div class="input-append " data-trigger="">
+                                                        <select class="car-insurance-terms" name="PayPeriod" ng-model="IncomeDetail.PayPeriod" ng-change="CalculateProfileNetIncomeTotal(IncomeDetail)">
+                                                          <option value="">--Select--</option>
+                                                          <option value="Annually">Annually</option>
+                                                          <option value="Monthly">Monthly</option>
+                                                          <option value="Quarterly">Quarterly</option>
+                                                          <option value="Weekly">Weekly</option>
+                                                        </select>
+                                                      </div>
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                      <label>Net Pay Period</label>
+                                                      <div class="input-append " data-trigger="">
+                                                        <select class="car-insurance-terms" name="NetPayPeriod" ng-model="IncomeDetail.NetPayPeriod" ng-change="CalculateProfileGrossIncomeTotal(IncomeDetail)">
+                                                          <option value="">--Select--</option>
+                                                            <option value="Annually">Annually</option>
+                                                          <option value="Monthly">Monthly</option>
+                                                            <option value="Quarterly">Quarterly</option>
+                                                          <option value="Weekly">Weekly</option>
+                                                        </select>
+                                                      </div>
+                                                    </div>-->
+                                                </div>
+                                                <div class="form-group col-md-12">
+                                                    <button class="btn common-btn pull-right" ng-click="addIncomeDetail()">Add Another</button>
+                                                </div>
+                                            </div>
+                                            <div id="commute-md" class="tab-pane">
+                                                <div ng-repeat="CommuteDetail in client.Profile.CommuteData.CommuteDetail">
+                                                    <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                                                        <div class="tab-inner-title">
+                                                            <h3>Commute Detail</h3>
+                                                            <a href="javascript:void(0)" ng-click="removeCommuteDetail($index)" ng-show="IsRemoveCommuteDetail" class=""><i class="fa fa-remove"></i></a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-md-8">
+                                                        <label>Work address</label>
+                                                        <input id="worlkAdd_client_commute" name="worlkAdd_client_commute" ng-autocomplete type="text" class="form-control worlkAdd_client_commute" placeholder="Work address" ng-model="CommuteDetail.WorkAddress" aa-field-name="Work address" ng-required="CommuteDetail.DaysOfCommute > 0">
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <label>Days of commute</label>
+                                                        <div class="input-append " data-trigger="">
+                                                            <input type="text" formatcurrency="number" numbers-max-min class="form-control" placeholder="days of commute" ng-model="CommuteDetail.DaysOfCommute" min="0" max="7" name="DaysOfCommute" aa-field-name="Days of commute" max-msg="The Days of Commute not greater than 7." ng-required="CommuteDetail.WorkAddress.length > 0">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-md-12">
+                                                        <ul class="radio-selection-box bd-dashed">
+                                                            <li>
+                                                                <div class="radio checkbox">
+                                                                    <label class="radio-custom">
+                                                                        <input type="radio" name="radioforCommute" value="car" ng-model="CommuteDetail.TransportationType">
+                                                                        <i class="fa fa-circle-o" ng-class="(CommuteDetail.TransportationType=='car')?'checked':''"></i> Car
+                                                                    </label>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="radio checkbox">
+                                                                    <label class="radio-custom">
+                                                                        <input type="radio" name="radioforCommute" value="transit,walk" ng-model="CommuteDetail.TransportationType">
+                                                                      <i class="fa fa-circle-o" ng-class="(CommuteDetail.TransportationType=='transit,walk')?'checked':''"></i> Public Transit
+                                                                    </label>
+                                                                </div>
+                                                            </li>
+                                                            <!--<li>
+                                                                <div class="radio checkbox">
+                                                                    <label class="radio-custom">
+                                                                        <input type="radio" name="radioforCommute" value="both" ng-model="CommuteDetail.TransportationType">
+                                                                        <i class="fa fa-circle-o" ng-class="(CommuteDetail.TransportationType=='both')?'checked':''"></i> Both
+                                                                    </label>
+                                                                </div>
+                                                            </li>-->
+                                                            <li>
+                                                                <div class="radio checkbox">
+                                                                    <label class="radio-custom">
+                                                                        <input type="radio" name="radioforCommute" value="none" ng-model="CommuteDetail.TransportationType">
+                                                                        <i class="fa fa-circle-o" ng-class="(CommuteDetail.TransportationType=='none')?'checked':''"></i> None
+                                                                    </label>
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="form-group col-md-12" ng-if="CommuteDetail.TransportationType=='car'" ng-class="{'visible':CommuteDetail.TransportationType=='car','':CommuteDetail.TransportationType=='transit'}">
+                                                        <div class="tab-inner-title sub-tab-inner-title">
+                                                            <h3>Car Detail</h3>
+                                                        </div>
+                                                    <div class="row-5mg car-detail-box" ng-hide="CommuteDetail.TransportationType=='none'">
+                                                        <div class="form-group col-md-4">
+                                                            <label>Year</label>
+                                                            <div class="select-option-box select-common-box">
+                                                                <!--<select id="CommuteDetail_caryear" class="selectpicker" name="CommuteDetail_caryear" ng-model="CommuteDetailCarYear"
+                                                                        ng-options="Value*1 as Value*1 for (Value,Key) in carYear" ng-change="changeCarYear(CommuteDetail.CarYear)">
+                                                                    <option value="">--Select--</option>
+                                                                </select>-->
+                                                                <select id="CommuteDetail_caryear" class="selectpicker" name="CommuteDetail_caryear" ng-model="CommuteDetail.CarYear"
+                                                                        ng-options="y for y in carYearList" ng-change="changeCarYear(CommuteDetail.CarYear)">
+                                                                    <option value="">--Select--</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-4">
+                                                            <label>Make</label>
+                                                            <div class="select-option-box select-common-box">
+                                                                <select class="company-make" name="CarMake" ng-model="CommuteDetail.CarMake"
+                                                                        ng-options="m.make as m.make + ' ' for m in getMake(CommuteDetail) | orderBy: 'make'">
+                                                                    <option value="">--Select--</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-4">
+                                                            <label>Model</label>
+                                                            <div class="select-option-box select-common-box">
+                                                                <select class="car-model" name="CarModel" ng-model="CommuteDetail.CarModel"
+                                                                        ng-options="m.model as m.model + ' ' for m in getModel(CommuteDetail) | orderBy: 'model'">
+                                                                    <option value="">--Select--</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-4">
+                                                            <label>Type</label>
+                                                            <div class="select-option-box select-common-box">
+                                                                <select class="commute-car-type" name="CarType" ng-model="CommuteDetail.CarType"
+                                                                        ng-options="m.id + '' as m.trany for m in getType(CommuteDetail)" ng-change="changeCarType(CommuteDetail)">
+                                                                    <option value="">--Select--</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-4">
+                                                            <label>City MPG</label>
+                                                            <div class="input-append " data-trigger="">
+                                                                <input type="text" formatcurrency="decimal" numbers-max-min class="form-control" placeholder="City MPG" ng-model="CommuteDetail.CityMPG" min="0" name="CityMPG" aa-field-name="Commute Detail City MPG">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-4">
+                                                            <label>HWY MPG</label>
+                                                            <div class="input-append " data-trigger="">
+                                                                <input type="text" formatcurrency="decimal" numbers-max-min class="form-control" placeholder="HWY MPG" ng-model="CommuteDetail.HwyMPG" min="0" name="HwyMPG" aa-field-name="Commute Detail HWY MPG">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-4">
+                                                            <label>Car Insurance</label>
+                                                            <div class="input-append " data-trigger="">
+                                                                <input type="text" formatcurrency="currency" numbers-max-min class="form-control" placeholder="Car Insurance" ng-model="CommuteDetail.CarInsurancePayment" min="0" max="999999999" name="CarInsurancePayment" aa-field-name="Commute Detail Car Insurance">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-4">
+                                                            <label>Terms</label>
+                                                            <div class="select-option-box select-common-box">
+                                                                <select class="car-insurance-terms" name="carinsuranceterms" ng-model="CommuteDetail.CarInsuranceTerm">
+                                                                    <option value="year">Year</option>
+                                                                    <option value="6months">6 Months</option>
+                                                                    <option value="monthly">Monthly</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-4">
+                                                            <label>Car Maintenance</label>
+                                                            <div class="input-append " data-trigger="">
+                                                                <input type="text" formatcurrency="currency" numbers-max-min class="form-control" placeholder="Car Maintenance" ng-model="CommuteDetail.CarMaintenancePayment" min="0" max="999999999" name="CarMaintenancePayment" aa-field-name="Commute Detail Car Maintenance">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-4">
+                                                            <label>Monthly Gas Cost</label>
+                                                            <div class="input-append " data-trigger="">
+                                                                <input type="text" formatcurrency="currency" numbers-max-min class="form-control" placeholder="Gas Cost" ng-model="CommuteDetail.GasCost" min="0" max="999999999" name="GasCost" aa-field-name="Commute Detail Gas Cost">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-4">
+                                                            <label>Parking</label>
+                                                            <div class="input-append " data-trigger="">
+                                                                <input type="text" formatcurrency="currency" numbers-max-min class="form-control" placeholder="Parking Cost" ng-model="CommuteDetail.ParkingCost" min="0" max="999999999" name="ParkingCost" aa-field-name="Commute Detail Parking">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-4">
+                                                            <label>Toll</label>
+                                                            <div class="input-append " data-trigger="">
+                                                                <input type="text" formatcurrency="currency" numbers-max-min class="form-control" placeholder="Toll Cost" ng-model="CommuteDetail.TollCost" min="0" max="999999999" name="TollCost" aa-field-name="Commute Detail Toll">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-12">
+                                                    <button class="btn common-btn pull-right" ng-click="addCommuteDetail()">Add Another</button>
+                                                </div>
+                                            </div>
+                                            <div id="residence-md" class="tab-pane">
+                                                <div class="row-5mg">
+                                                    <div class="form-group col-md-12">
+                                                        <label>Current address</label>
+                                                        <input type="text" class="form-control worlkAdd_client_commute" ng-autocomplete placeholder="Current address" ng-model="client.Profile.CurrentResidenceData.ResidenceAddress" details="ResidenceAddressDetails">
+                                                    </div>
+                                                </div>
+                                                <div class="row-5mg">
+                                                    <div class="form-group col-md-4">
+                                                        <label>Beds</label>
+                                                        <div class="input-append " data-trigger="">
+                                                            <input type="text" formatcurrency="number" numbers-max-min class="form-control" placeholder="Beds" ng-model="client.Profile.CurrentResidenceData.Beds" min="0" max="99" name="Beds" aa-field-name="Current Residence Beds">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <label>Baths</label>
+                                                        <div class="input-append " data-trigger="">
+                                                            <input type="text" formatcurrency="number" numbers-max-min class="form-control" placeholder="Baths" ng-model="client.Profile.CurrentResidenceData.Baths" min="0" max="99" name="Baths" aa-field-name="Current Residence Baths">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <label>Square Foot</label>
+                                                        <div class="input-append " data-trigger="">
+                                                            <input type="text" formatcurrency="number" numbers-max-min class="form-control" placeholder="Square Foot" ng-model="client.Profile.CurrentResidenceData.Sqft" min="0" max="999999999" name="Sqft" aa-field-name="Current Residence Square Foot">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row-5mg">
+                                                    <div class="form-group col-md-12">
+                                                        <button class="btn common-btn pull-right" ng-click="calculateResidencecost()">Estimate my monthly expenses</button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12 bd-dashed"></div>
+                                                <div class="form-group col-md-6">
+                                                    <label>Rent/Mortgage</label>
+                                                    <div class="input-append " data-trigger="">
+                                                        <input type="text" formatcurrency="currency" numbers-max-min class="form-control" placeholder="Rent/Mortgage" ng-model="client.Profile.CurrentResidenceData.RentMortgage" min="0" max="999999999" name="RentMortgage" aa-field-name="Current Residence Rent/Mortgage">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label>Home/Rent Insurance</label>
+                                                    <div class="input-append " data-trigger="">
+                                                        <input type="text" formatcurrency="currency" numbers-max-min class="form-control" placeholder="Home/Rent Insurance" ng-model="client.Profile.CurrentResidenceData.HomeRentInsurance" min="0" name="HomeRentInsurance" aa-field-name="Current Residence Home/Rent Insurance">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label>Lawn Care</label>
+                                                    <div class="input-append " data-trigger="">
+                                                        <input type="text" formatcurrency="currency" numbers-max-min class="form-control" placeholder="Lawn Care" ng-model="client.Profile.CurrentResidenceData.LawnCare" min="0" max="999999999" name="LawnCare" aa-field-name="Current Residence Lawn Care">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label>Taxes</label>
+                                                    <div class="input-append " data-trigger="">
+                                                        <input type="text" formatcurrency="currency" numbers-max-min class="form-control" placeholder="Taxes" ng-model="client.Profile.CurrentResidenceData.Taxes" min="0" max="999999999" name="Taxes" aa-field-name="Current Residence Taxes">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label>Electricity</label>
+                                                    <div class="input-append " data-trigger="">
+                                                        <input type="text" formatcurrency="currency" numbers-max-min class="form-control" placeholder="Electricity" ng-model="client.Profile.CurrentResidenceData.Electricity" min="0" max="999999999" name="Electricity" aa-field-name="Current Residence Electricity">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label>Gas</label>
+                                                    <div class="input-append " data-trigger="">
+                                                        <input type="text" formatcurrency="currency" numbers-max-min class="form-control" placeholder="Gas" ng-model="client.Profile.CurrentResidenceData.Gas" min="0" max="999999999" name="Gas" aa-field-name="Current Residence Gas">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label>Water and Sewer</label>
+                                                    <div class="input-append " data-trigger="">
+                                                        <input type="text" formatcurrency="currency" numbers-max-min class="form-control" placeholder="Water and Sewer" ng-model="client.Profile.CurrentResidenceData.WaterAndSewer" min="0" max="999999999" name="WaterAndSewer" aa-field-name="Current Residence Water and Sewer">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label>Waste Removal</label>
+                                                    <div class="input-append " data-trigger="">
+                                                        <input type="text" formatcurrency="currency" numbers-max-min class="form-control" placeholder="Waste Removal" ng-model="client.Profile.CurrentResidenceData.WasteRemoval" min="0" max="999999999" name="WasteRemoval" aa-field-name="Current Residence Waste Removal">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label>Maintenance or Repairs</label>
+                                                    <div class="input-append " data-trigger="">
+                                                        <input type="text" formatcurrency="currency" numbers-max-min class="form-control" placeholder="Maintenance or Repairs" ng-model="client.Profile.CurrentResidenceData.MaintenanceOrRepair" min="0" max="999999999" name="MaintenanceOrRepair" aa-field-name="Current Residence Maintenance or Repairs">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label>Other</label>
+                                                    <div class="input-append " data-trigger="">
+                                                        <input type="text" formatcurrency="currency" numbers-max-min class="form-control" placeholder="Other" ng-model="client.Profile.CurrentResidenceData.Other" min="0" max="999999999" name="Other" aa-field-name="Current Residence Other">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="debt-md" class="tab-pane">
+                                                <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                                                    <div class="tab-inner-title">
+                                                        <h3>Debt</h3>
+                                                        <!--<a href="javascript:void(0)" ng-click="removeDebtDetail($index)" ng-show="IsRemoveDebtDetail" class=""><i class="fa fa-remove"></i></a>-->
+                                                    </div>
+                                                </div>
+                                                <div ng-repeat="DebtDetail in client.Profile.DebtData.DebtDetail">
+                                                    <div class="form-group col-md-5">
+                                                        <label>Name</label>
+                                                        <input name="DebtName" type="text" class="form-control" placeholder="Debt Name" ng-model="DebtDetail.Name" aa-field-name="Debt Name">
+                                                    </div>
+                                                    <div class="form-group col-md-6" style="display: none;">
+                                                        <label>Amount</label>
+                                                        <div class="input-append " data-trigger="">
+                                                            <input type="text" formatcurrency="currency" numbers-max-min class="form-control" placeholder="Amount" name="DebtAmount" ng-model="DebtDetail.Amount" min="0" max="999999999" aa-field-name="Debt Amount">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-md-6" style="display: none;">
+                                                        <label>APR</label>
+                                                        <input name="DebtAPR" type="text" formatcurrency="decimal" numbers-max-min class="form-control" placeholder="APR %" ng-model="DebtDetail.APR" aa-field-name="Debt APR">
+                                                    </div>
+                                                    <div class="form-group col-md-5">
+                                                        <label>Monthly Payment <span class="month-pay question-tooltip title-tipso" style="margin-bottom:-5px;margin-top:0px;float:none;display:inline-block;" title="This is the monthly amount the client pays towards reducing their debt and is used when calculating True Lifestyle Cost.">
+                                                              <div class="tooltip">This is the monthly amount the client pays towards reducing their debt and is used when calculating True Lifestyle Cost.</div>
+                                                        </span></label>
+                                                        <div class="input-append " data-trigger="">
+                                                            <input type="text" formatcurrency="currency" numbers-max-min class="form-control" placeholder="Payment" name="DebtMonthlyPayment" ng-model="DebtDetail.MonthlyPayment" min="0" max="999999999" aa-field-name="Debt Monthly Payment">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-md-2 remove_btn">
+                                                        <button ng-click="removeDebtDetail($index)" ng-show="IsRemoveDebtDetail" class="btn debt_remove"><i class="fa fa-remove"></i></button>
+                                                    </div>
+                                                    <!--<div class="form-group col-md-6">
+                                                        <label>Interest Cost</label>
+                                                        <input name="Interest Cost" type="text" class="form-control" placeholder="Interest Cost" ng-model="" aa-field-name="Debt Interest Cost">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label># Of PMTS Left</label>
+                                                        <div class="input-append " data-trigger="">
+                                                            <input type="text" class="form-control" placeholder="Payment Left" name="Payment Left" ng-model="" aa-field-name="Debt # Of PMTS Left">
+                                                        </div>
+                                                    </div>-->
+                                                </div>
+                                                <div class="form-group col-md-12">
+                                                    <button class="btn common-btn pull-right" ng-click="addDebtDetail()">Add Another</button>
+                                                </div>
+                                            </div>
+                                            <div id="assets-md" class="tab-pane">
+                                                <div class="col-md-12">
+                                                    <div class="row-5mg">
+                                                        <div class="form-group col-md-12">
+                                                            <label>Cash on hand</label>
+                                                            <div class="input-append " data-trigger="">
+                                                                <input type="text" formatcurrency="currency" numbers-max-min class="form-control" placeholder="Cash on hand" ng-model="client.Profile.AssetData.CashOnHand" min="0" name="CashOnHand" aa-field-name="Asset Cash on hand">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row-5mg">
+                                                        <div class="form-group col-md-10" ng-repeat="amount in client.Profile.AssetData.CheckingAccounts track by $index">
+                                                            <label>Checking Account <span class="small-text">(Putting away Monthly)</span></label>
+                                                            <div class="input-append col-md-10 padding_left_0" data-trigger="">
+                                                                <input type="text" formatcurrency="currency" numbers-max-min class="form-control" placeholder="Checking Account" ng-model="client.Profile.AssetData.CheckingAccounts[$index]" min="0" name="CheckingAccounts" aa-field-name="Asset Checking Account">
+                                                            </div>
+                                                            <div class="add-plus-box col-md-2">
+                                                                <button class="btn common-btn" ng-click="removeCheckingAccounts($index)" ng-hide="$index == 0"><i class="fa fa-minus"></i></button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-2">
+                                                            <label>&nbsp;</label>
+                                                            <div class="add-plus-box">
+                                                                <button class="btn common-btn" ng-click="addCheckingAccounts()"><i class="fa fa-plus"></i></button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row-5mg">
+                                                        <div class="form-group col-md-10 " ng-repeat="amount in client.Profile.AssetData.SavingAccounts track by $index">
+                                                            <label>Savings Account <span class="small-text">(Putting away Monthly)</span></label>
+                                                            <div class="input-append col-md-10 padding_left_0" data-trigger="">
+                                                                <input type="text" formatcurrency="currency" numbers-max-min class="form-control" placeholder="Saving Account" ng-model="client.Profile.AssetData.SavingAccounts[$index]" min="0" name="SavingAccounts" aa-field-name="Asset Saving Account">
+                                                            </div>
+                                                            <div class="add-plus-box col-md-2">
+                                                                <button class="btn common-btn" ng-click="removeSavingAccounts($index)" ng-hide="$index == 0"><i class="fa fa-minus"></i></button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-2">
+                                                            <label>&nbsp;</label>
+                                                            <div class="add-plus-box">
+                                                                <button class="btn common-btn" ng-click="addSavingAccounts()"><i class="fa fa-plus"></i></button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row-5mg">
+                                                        <div class="form-group col-md-10" ng-repeat="amount in client.Profile.AssetData.CD track by $index">
+                                                            <label>CD <span class="small-text">(Putting away Monthly)</span></label>
+                                                            <div class="input-append col-md-10 padding_left_0" data-trigger="">
+                                                                <input type="text" formatcurrency="currency" numbers-max-min class="form-control" placeholder="CD" ng-model="client.Profile.AssetData.CD[$index]" min="0" name="CD" aa-field-name="Asset CD">
+                                                            </div>
+                                                            <div class="add-plus-box col-md-2">
+                                                                <button class="btn common-btn" ng-click="removeCD($index)" ng-hide="$index == 0"><i class="fa fa-minus"></i></button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-2">
+                                                            <label>&nbsp;</label>
+                                                            <div class="add-plus-box">
+                                                                <button class="btn common-btn" ng-click="addCD()"><i class="fa fa-plus"></i></button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div ng-repeat="account in client.Profile.AssetData.RetirementAccounts track by $index">
+                                                        <div class="row-5mg">
+                                                            <div class="form-group col-md-10">
+                                                                <label>Retirement Account <span class="small-text">(IRA, 401k)</span></label>
+                                                                <div class="input-append col-md-10 padding_left_0" data-trigger="">
+                                                                    <input type="text" formatcurrency="currency" numbers-max-min class="form-control" placeholder="Retirement Account" ng-model="account.AccountBalance" min="0" name="AccountBalance" aa-field-name="Retirement Account">
+                                                                </div>
+                                                                <div class="add-plus-box col-md-2">
+                                                                    <button class="btn common-btn" ng-click="removeRetirementAccounts($index)" ng-hide="$index == 0"><i class="fa fa-minus"></i></button>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group col-md-2">
+                                                                <label>&nbsp;</label>
+                                                                <div class="add-plus-box">
+                                                                    <button class="btn common-btn" ng-click="addRetirementAccounts()"><i class="fa fa-plus"></i></button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row-5mg">
+                                                            <div class="form-group col-md-12">
+                                                                <label class="checkbox-custom">
+                                                                    <input type="checkbox" checked="checked" name="checkbox" ng-model="account.UseForDownPayment">
+                                                                    <i class="fa fa-fw fa-square-o" ng-class="(account.UseForDownPayment== true)?'checked':''"></i>
+                                                                    Use for down payment
+                                                                    <span class="small-text">(Only 50% loan can be taken for down payment)</span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="financial-md" class="tab-pane">
+                                                <div id="inner-financial-info" class="inner-tab-panel">
+                                                  <div class="dd-menu">
+                                                    <span class="active-tab">Food</span> <span class="fa fa-caret-down"></span>
+                                                  </div>
+                                                  <ul id="financialInfo" class="client-tab">
+                                                        <li class="active" id="tab-financial-food-md"><a href="#financial-food-md">Food</a></li>
+                                                        <li id="tab-financial-personal-care-md"><a href="#financial-personal-care-md">Personal Care</a></li>
+                                                        <li id="tab-financial-insurance-md"><a href="#financial-insurance-md">Insurance</a></li>
+                                                        <!--<li id="tab-financial-transportation-md"><a href="#financial-transportation-md">Transportation</a></li>-->
+                                                        <li id="tab-financial-donation-md"><a href="#financial-donation-md">Donation</a></li>
+                                                        <li id="tab-financial-legal-md"><a href="#financial-legal-md">Legal</a></li>
+                                                    </ul>
+                                                    <div id="financial-food-md" class="tab-pane active">
+                                                        <div class="form-group col-md-12">
+                                                            <label>Groceries</label>
+                                                            <div class="input-append " data-trigger="">
+                                                                <input type="text" formatcurrency="currency" numbers-max-min class="form-control" placeholder="$ Groceries" ng-model="client.Profile.FinancialData.FoodGroceries" min="0" max="999999999" name="FoodGroceries" aa-field-name="Food Groceries">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-12">
+                                                            <label>Dining Out</label>
+                                                            <div class="input-append " data-trigger="">
+                                                                <input type="text" formatcurrency="currency" numbers-max-min class="form-control" placeholder="$ Dining Out" ng-model="client.Profile.FinancialData.FoodDiningOut" min="0" max="999999999" name="FoodDiningOut" aa-field-name="Food Dining Out">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-12">
+                                                            <label>Other</label>
+                                                            <div class="input-append " data-trigger="">
+                                                                <input type="text" formatcurrency="currency" numbers-max-min class="form-control" placeholder="$ Other" ng-model="client.Profile.FinancialData.FoodOther" min="0" max="999999999" name="FoodOther" aa-field-name="Food Other">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div id="financial-personal-care-md" class="tab-pane">
+                                                        <div class="form-group col-md-12">
+                                                            <label>Medical</label>
+                                                            <div class="input-append " data-trigger="">
+                                                                <input type="text" formatcurrency="currency" numbers-max-min class="form-control" placeholder="$ Medical" ng-model="client.Profile.FinancialData.PersonalCareMedical" min="0" max="999999999" name="PersonalCareMedical" aa-field-name="Personal Care Medical">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-12">
+                                                            <label>Hair/Nail</label>
+                                                            <div class="input-append " data-trigger="">
+                                                                <input type="text" formatcurrency="currency" numbers-max-min class="form-control" placeholder="$ Hair/Nail" ng-model="client.Profile.FinancialData.PersonalCareHairNail" min="0" max="999999999" name="PersonalCareHairNail" aa-field-name="Personal Care Hair/Nail">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-12">
+                                                            <label>Clothing</label>
+                                                            <div class="input-append " data-trigger="">
+                                                                <input type="text" formatcurrency="currency" numbers-max-min class="form-control" placeholder="$ Clothing" ng-model="client.Profile.FinancialData.PersonalCareClothing" min="0" max="999999999" name="PersonalCareClothing" aa-field-name="Personal Care Clothing">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-12">
+                                                            <label>Dry Cleaning</label>
+                                                            <div class="input-append " data-trigger="">
+                                                                <input type="text" formatcurrency="currency" numbers-max-min class="form-control" placeholder="$ Dry Cleaning" ng-model="client.Profile.FinancialData.PersonalCareDryCleaning" min="0" max="999999999" name="PersonalCareDryCleaning" aa-field-name="Personal Care Dry Cleaning">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-12">
+                                                            <label>Health Club</label>
+                                                            <div class="input-append " data-trigger="">
+                                                                <input type="text" formatcurrency="currency" numbers-max-min class="form-control" placeholder="$ Health Club" ng-model="client.Profile.FinancialData.PersonalCareHealthClub" min="0" max="999999999" name="PersonalCareHealthClub" aa-field-name="Personal Care Health Club">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-12">
+                                                            <label>Organization dues Or fees</label>
+                                                            <div class="input-append " data-trigger="">
+                                                                <input type="text" formatcurrency="currency" numbers-max-min class="form-control" placeholder="$ Organization dues Or fees" ng-model="client.Profile.FinancialData.PersonalCareOrganizationDuesOrFees" min="0" max="999999999" name="PersonalCareOrganizationDuesOrFees" aa-field-name="Personal Care Organization dues Or fees">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-12">
+                                                            <label>Other</label>
+                                                            <div class="input-append " data-trigger="">
+                                                                <input type="text" formatcurrency="currency" numbers-max-min class="form-control" placeholder="$ Other" ng-model="client.Profile.FinancialData.PersonalCareOther" min="0" max="999999999" name="PersonalCareOther" aa-field-name="Personal Care Other">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div id="financial-insurance-md" class="tab-pane">
+                                                        <div class="form-group col-md-12">
+                                                            <label>Health</label>
+                                                            <div class="input-append " data-trigger="">
+                                                                <input type="text" formatcurrency="currency" numbers-max-min class="form-control" placeholder="$ Health" ng-model="client.Profile.FinancialData.InsuranceHealth" min="0" max="999999999" name="InsuranceHealth" aa-field-name="Insurance Health">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-12">
+                                                            <label>Life</label>
+                                                            <div class="input-append " data-trigger="">
+                                                                <input type="text" formatcurrency="currency" numbers-max-min class="form-control" placeholder="$ Life" ng-model="client.Profile.FinancialData.InsuranceLife" min="0" max="999999999" name="InsuranceLife" aa-field-name="Insurance Life">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-12">
+                                                            <label>Other</label>
+                                                            <div class="input-append " data-trigger="">
+                                                                <input type="text" formatcurrency="currency" numbers-max-min class="form-control" placeholder="$ Other" ng-model="client.Profile.FinancialData.InsuranceOther" min="0" max="999999999" name="InsuranceOther" aa-field-name="Insurance Other">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!--<div id="financial-transportation-md" class="tab-pane">
+                                                        <div class="form-group col-md-12">
+                                                            <label>Bus/Taxi Fare</label>
+                                                            <div class="input-append " data-trigger="">
+                                                                <input type="text" formatcurrency="currency" numbers-max-min class="form-control" placeholder="$ Bus/Taxi Fare" ng-model="client.Profile.FinancialData.TransportationBusTaxiFare" min="0" name="TransportationBusTaxiFare" aa-field-name="Transportation Bus/Taxi Fare">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-12">
+                                                            <label>Licensing</label>
+                                                            <div class="input-append " data-trigger="">
+                                                                <input type="text" formatcurrency="currency" numbers-max-min class="form-control" placeholder="$ Licensing" ng-model="client.Profile.FinancialData.TransportationLicensing" min="0" name="TransportationLicensing" aa-field-name="Transportation Licensing">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-12">
+                                                            <label>Fuel</label>
+                                                            <div class="input-append " data-trigger="">
+                                                                <input type="text" formatcurrency="currency" numbers-max-min class="form-control" placeholder="$ Fuel" ng-model="client.Profile.FinancialData.TransportationFuel" min="0" name="TransportationFuel" aa-field-name="Transportation Fuel">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-12">
+                                                            <label>Maintenance</label>
+                                                            <div class="input-append " data-trigger="">
+                                                                <input type="text" formatcurrency="currency" numbers-max-min class="form-control" placeholder="$ Maintenance" ng-model="client.Profile.FinancialData.TransportationMaintenance" min="0" name="TransportationMaintenance" aa-field-name="Transportation Maintenance">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-12">
+                                                            <label>Tolls per month</label>
+                                                            <div class="input-append " data-trigger="">
+                                                                <input type="text" formatcurrency="currency" numbers-max-min class="form-control" placeholder="$ Tolls per month" ng-model="client.Profile.FinancialData.TransportationTollsPerMonth" min="0" name="TransportationTollsPerMonth" aa-field-name="Transportation Tolls per month">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-12">
+                                                            <label>Other</label>
+                                                            <div class="input-append " data-trigger="">
+                                                                <input type="text" formatcurrency="currency" numbers-max-min class="form-control" placeholder="$ Other" ng-model="client.Profile.FinancialData.TransportationOther" min="0" name="TransportationOther" aa-field-name="Transportation Other">
+                                                            </div>
+                                                        </div>
+
+                                                    </div>-->
+                                                    <div id="financial-donation-md" class="tab-pane">
+                                                        <div class="form-group col-md-12">
+                                                            <label>Charity</label>
+                                                            <div class="input-append ">
+                                                                <input type="text" formatcurrency="currency" numbers-max-min class="form-control" placeholder="$ Charity" ng-model="client.Profile.FinancialData.DonationCharity" min="0" max="999999999" name="DonationCharity" aa-field-name="Donation Charity">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div id="financial-legal-md" class="tab-pane">
+                                                        <div class="form-group col-md-12">
+                                                            <label>Attorney</label>
+                                                            <div class="input-append ">
+                                                                <input type="text" formatcurrency="currency" numbers-max-min class="form-control" placeholder="$ Attorney" ng-model="client.Profile.FinancialData.LegalAttorney" min="0" max="999999999" name="LegalAttorney" aa-field-name="Legal Attorney">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-12">
+                                                            <label>Alimony</label>
+                                                            <div class="input-append ">
+                                                                <input type="text" formatcurrency="currency" numbers-max-min class="form-control" placeholder="$ Alimony" ng-model="client.Profile.FinancialData.LegalAlimony" min="0" max="999999999" name="LegalAlimony" aa-field-name="Legal Alimony">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-12">
+                                                            <label>Payments on lien or judgement</label>
+                                                            <div class="input-append ">
+                                                                <input type="text" formatcurrency="currency" numbers-max-min class="form-control" placeholder="$ Payments on lien or judgement" ng-model="client.Profile.FinancialData.LegalPaymentOnLienOrJudgement" min="0" max="999999999" name="LegalPaymentOnLienOrJudgement" aa-field-name="Legal Payments on lien or judgement">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-12">
+                                                            <label>Other</label>
+                                                            <div class="input-append ">
+                                                                <input type="text" formatcurrency="currency" numbers-max-min class="form-control" placeholder="$ Other" ng-model="client.Profile.FinancialData.LegalOther" min="0" max="999999999" name="LegalOther" aa-field-name="Legal Other">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="entertainment-md" class="tab-pane">
+                                                <div class="form-group col-md-12">
+                                                    <label>Internet</label>
+                                                    <div class="input-append ">
+                                                        <input type="text" formatcurrency="currency" numbers-max-min class="form-control" placeholder="$ 45.00" ng-model="client.Profile.EntertainmentData.Internet" min="0" max="999999999" name="Internet" aa-field-name="Entertainment Internet">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row-10mg tv-box">
+                                                    <div class="col-md-12">
+                                                        <label>TV</label>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="input-append ">
+                                                            <input type="text" formatcurrency="currency" numbers-max-min class="form-control" placeholder="$ 30.00" ng-model="client.Profile.EntertainmentData.TVCharges" min="0" max="999999999" name="TVCharges" aa-field-name="Entertainment TV Charges">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="radio checkbox">
+                                                            <label class="radio-custom">
+                                                                <input type="radio" name="Entertainment-radio" value="Basic" ng-model="client.Profile.EntertainmentData.TV" ng-change="TVChargesChanges()">
+                                                                <i class="fa fa-circle-o" ng-class="(client.Profile.EntertainmentData.TV=='Basic')?'checked':''"></i> Basic
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="radio checkbox">
+                                                            <label class="radio-custom">
+                                                                <input type="radio" name="Entertainment-radio" value="Standard" ng-model="client.Profile.EntertainmentData.TV" ng-change="TVChargesChanges()">
+                                                                <i class="fa fa-circle-o" ng-class="(client.Profile.EntertainmentData.TV=='Standard')?'checked':''"></i> Standard
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="radio checkbox">
+                                                            <label class="radio-custom">
+                                                                <input type="radio" name="Entertainment-radio" value="Premium" ng-model="client.Profile.EntertainmentData.TV" ng-change="TVChargesChanges()">
+                                                                <i class="fa fa-circle-o" ng-class="(client.Profile.EntertainmentData.TV=='Premium')?'checked':''"></i> Premium
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-12">
+                                                    <label>Cell</label>
+                                                    <div class="input-append ">
+                                                        <input type="text" formatcurrency="currency" numbers-max-min class="form-control" placeholder="$ 45.00" ng-model="client.Profile.EntertainmentData.Cell" min="0" max="999999999" name="EntertainmentDataCell" aa-field-name="Entertainment Cell">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-12">
+                                                    <label>Phone</label>
+                                                    <div class="input-append ">
+                                                        <input type="text" formatcurrency="currency" numbers-max-min class="form-control" placeholder="$ 45.00" ng-model="client.Profile.EntertainmentData.Phone" min="0" max="999999999" name="EntertainmentDataPhone" aa-field-name="Entertainment Phone">
+                                                    </div>
+                                                </div>
+                                                <!--<div class="form-group col-md-12">
+                                                    <label>Other</label>
+                                                    <div class="input-append ">
+                                                        <input type="text" formatcurrency="currency" numbers-max-min class="form-control" placeholder="$ Other" ng-model="client.Profile.EntertainmentData.Other" min="0" name="EntertainmentDataOther" aa-field-name="Entertainment Other">
+                                                    </div>-->
+                                                <div class="form-group col-md-12">
+                                                    <label></label>
+                                                    <div class="input-append col-md-10 padding_left_0">
+                                                        <label>OTHER (EG. NETFLIX, BLOCKBUSTER VIDEO SUBSCRIPTION , ETC)</label>
+                                                    </div>
+
+                                                </div>
+                                                <div class="row-5mg">
+                                                    <div class="form-group col-md-12" ng-repeat="other in client.Profile.EntertainmentData.Other.OtherDetail track by $index">
+                                                        <label></label>
+                                                        <div class="input-append col-md-5 padding_left_0" data-trigger="">
+                                                            <input type="text" class="form-control" placeholder="Other Title" ng-model="other.Title" name="OtherTitle" aa-field-name="Entertainment Other Title">
+                                                        </div>
+                                                        <div class="input-append col-md-5 padding_left_0" data-trigger="">
+                                                            <input type="text" formatcurrency="currency" numbers-max-min class="form-control" placeholder="Other Amount" ng-model="other.Amount" min="0" max="999999999" name="OtherAmount" aa-field-name="Entertainment Other Amount">
+                                                        </div>
+                                                        <div class="add-plus-box col-md-2">
+                                                            <button class="btn common-btn" ng-click="removeEntertainmentOther($index)"><i class="fa fa-minus"></i></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                              <div class="row-5mg">
+
+                                                <div class="col-md-12">
+                                                <div class="col-md-5">
+
+                                                </div>
+                                                <div class="col-md-5">
+
+                                                </div>
+                                                <div class="add-plus-box col-md-2">
+                                                  <button class="btn common-btn" ng-click="addEntertainmentOther()"><i class="fa fa-plus"></i></button>
+                                                </div>
+                                                </div>
+                                                </div>
+                                            </div>
+                                            <!--<div id="lifestyle-md" class="tab-pane">
+                                                <div class="form-group col-md-12">
+                                                    <div class="tab-inner-title">
+                                                        <h3>Interest Distance From</h3>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-12">
+                                                    <div class="row-5mg">
+                                                        <div class="col-md-6">
+                                                            <label class="checkbox-custom">
+                                                                <input type="checkbox" name="checkbox" checked="checked" ng-model="client.Profile.LifeStyleData.AddGrociers">
+                                                                <i class="fa fa-fw fa-square-o" ng-class="(client.Profile.LifeStyleData.AddGrociers==true)?'checked':''"></i> Groceries
+                                                                <span class="small-text">(Giant, Shop and Stop)</span>
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="slider-wrapper net-monthly-wrapper">
+                                                                <div slider callback='set' ng-model="client.Profile.LifeStyleData.DistanceFromGrociers" start=0 end=100></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="input-box">
+                                                                <div class="input-append ">
+                                                                    <input id="js-display-groceries" type="number" class="form-control" placeholder="0" ng-model="client.Profile.LifeStyleData.DistanceFromGrociers" min="0" max="100" name="DistanceFromGrociers" aa-field-name="Distance From Groceries" ng-change="client.Profile.LifeStyleData.AddGrociers = client.Profile.LifeStyleData.DistanceFromGrociers > 0">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-12">
+                                                    <div class="row-5mg">
+                                                        <div class="col-md-6">
+                                                            <label class="checkbox-custom">
+                                                                <input type="checkbox" name="checkbox" checked="checked" ng-model="client.Profile.LifeStyleData.AddSuperStores">
+                                                                <i class="fa fa-fw fa-square-o" ng-class="(client.Profile.LifeStyleData.AddSuperStores==true)?'checked':''"></i> Super Stores
+                                                                <span class="small-text">(Costco)</span>
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="slider-wrapper net-monthly-wrapper">
+                                                                <div slider callback='set' ng-model="client.Profile.LifeStyleData.DistanceFromSuperStores" start=0 end=100></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="input-box">
+                                                                <div class="input-append ">
+                                                                    <input id="js-display-superstore" type="number" class="form-control" placeholder="0" ng-model="client.Profile.LifeStyleData.DistanceFromSuperStores" min="0" max="100" name="DistanceFromSuperStores" aa-field-name="Distance From Super Stores" ng-change="client.Profile.LifeStyleData.AddSuperStores = client.Profile.LifeStyleData.DistanceFromSuperStores > 0">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-12">
+                                                    <div class="row-5mg">
+                                                        <div class="col-md-6">
+                                                            <label class="checkbox-custom">
+                                                                <input type="checkbox" name="checkbox" checked="checked" ng-model="client.Profile.LifeStyleData.AddPharmacies">
+                                                                <i class="fa fa-fw fa-square-o" ng-class="(client.Profile.LifeStyleData.AddPharmacies==true)?'checked':''"></i> Pharmacies
+                                                                <span class="small-text">&nbsp;</span>
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="slider-wrapper net-monthly-wrapper">
+                                                                <div slider callback='set' ng-model="client.Profile.LifeStyleData.DistanceFromPharmacies" start=0 end=100></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="input-box">
+                                                                <div class="input-append ">
+                                                                    <input id="js-display-pharmacies" type="number" class="form-control" placeholder="0" ng-model="client.Profile.LifeStyleData.DistanceFromPharmacies" min="0" max="100" name="DistanceFromPharmacies" aa-field-name="Distance From Pharmacies" ng-change="client.Profile.LifeStyleData.AddPharmacies = client.Profile.LifeStyleData.DistanceFromPharmacies > 0">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-12">
+                                                    <div class="row-5mg">
+                                                        <div class="col-md-6">
+                                                            <label class="checkbox-custom">
+                                                                <input type="checkbox" name="checkbox" checked="checked" ng-model="client.Profile.LifeStyleData.AddHousehold">
+                                                                <i class="fa fa-fw fa-square-o" ng-class="(client.Profile.LifeStyleData.AddHousehold==true)?'checked':''"></i> Household
+                                                                <span class="small-text">Home Depot Lowes</span>
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="slider-wrapper net-monthly-wrapper">
+                                                                <div slider callback='set' ng-model="client.Profile.LifeStyleData.DistanceFromHousehold" start=0 end=100></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="input-box">
+                                                                <div class="input-append ">
+                                                                    <input id="js-display-household" type="number" class="form-control" placeholder="0" ng-model="client.Profile.LifeStyleData.DistanceFromHousehold" min="0" max="100" name="DistanceFromHousehold" aa-field-name="Distance From Household" ng-change="client.Profile.LifeStyleData.AddHousehold = client.Profile.LifeStyleData.DistanceFromHousehold > 0">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-12">
+                                                    <div class="row-5mg">
+                                                        <div class="col-md-6">
+                                                            <label class="checkbox-custom">
+                                                                <input type="checkbox" name="checkbox" checked="checked" ng-model="client.Profile.LifeStyleData.AddMovieTheaters">
+                                                                <i class="fa fa-fw fa-square-o" ng-class="(client.Profile.LifeStyleData.AddMovieTheaters==true)?'checked':''"></i> Movie Theaters
+                                                                <span class="small-text">&nbsp;</span>
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="slider-wrapper net-monthly-wrapper">
+                                                                <div slider callback='set' ng-model="client.Profile.LifeStyleData.DistanceFromMovieTheaters" start=0 end=100></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="input-box">
+                                                                <div class="input-append ">
+                                                                    <input id="js-display-movietheaters" type="number" class="form-control" placeholder="0" ng-model="client.Profile.LifeStyleData.DistanceFromMovieTheaters" min="0" max="100" name="DistanceFromMovieTheaters" aa-field-name="Distance From Movie Theaters" ng-change="client.Profile.LifeStyleData.AddMovieTheaters = client.Profile.LifeStyleData.DistanceFromMovieTheaters > 0">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-12">
+                                                    <div class="row-5mg">
+                                                        <div class="col-md-6">
+                                                            <label class="checkbox-custom">
+                                                                <input type="checkbox" name="checkbox" checked="checked" ng-model="client.Profile.LifeStyleData.AddPublicTransport">
+                                                                <i class="fa fa-fw fa-square-o" ng-class="(client.Profile.LifeStyleData.AddPublicTransport==true)?'checked':''"></i> Public Transport
+                                                                <span class="small-text">Bus, Train</span>
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="slider-wrapper net-monthly-wrapper">
+                                                                <div slider callback='set' ng-model="client.Profile.LifeStyleData.DistanceFromPublicTransport" start=0 end=100></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="input-box">
+                                                                <div class="input-append ">
+                                                                    <input id="js-display-publictransport" type="number" class="form-control" placeholder="0" ng-model="client.Profile.LifeStyleData.DistanceFromPublicTransport" min="0" max="100" name="DistanceFromPublicTransport" aa-field-name="Distance From Public Transport" ng-change="client.Profile.LifeStyleData.AddPublicTransport = client.Profile.LifeStyleData.DistanceFromPublicTransport > 0">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>-->
+                                            <div class="button">
+                                                <input class="btn btn-success" type="submit" value="Save" aa-submit-form="saveClient(false)" ng-disabled="disabledSubmit" />
+                                                <input class="btn btn-success" type="submit" value="Save and Close" aa-submit-form="saveClient(true)" ng-disabled="disabledSubmit" />
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- [ E ] Content -->
+            </div>
+        </div>
+    </article>
+    <div id="handle">
+        <div></div>
+    </div>
+</div>
+<!--<map-view properties="Listings" data-drawing="isDrawing" drawing-complete-callback="drawingCompleteCallback" clear-polygon="clearPolygon"></map-view>
+-->
+<!-- [ S ] Map -->
+<aside id="profile-completion">
+    <div class="profile-content">
+        <div class="profile-pogress-bar">
+            <!--<h1>Profile completion</h1>-->
+            <div id="circle"></div>
+            <p>
+                Complete your profile to maximize the
+                accuracy of your <span>TLC score</span>.
+            </p>
+        </div>
+        <div class="lifestyle-data">
+            <highchart id="chartFinancial" config="chartFinancialGraphs" style="width: 280px; height: 250px;  margin: 0 auto"></highchart>
+            <!--<h1>{{TLC | currency}}</h1>-->
+            <h3>Current Expenses</h3>
+            <ul>
+                <li><span><i class="fa fa-check"></i></span> <p>Find out exactly how much you'd pay for living</p></li>
+                <li><span><i class="fa fa-check"></i></span> <p>Taxes, insurance, mortgage, interest</p></li>
+                <li><span><i class="fa fa-check"></i></span> <p>Commute, heating, cooling, water, electricity</p></li>
+                <li><span><i class="fa fa-check"></i></span> <p>Phone, internet, cable, cellular</p></li>
+            </ul>
+        </div>
+        <div class="profile-bg"> <img src="images/colors.jpg" alt="" /> </div>
+    </div>
+</aside>
+<!-- [ E ] Map -->
+<a href="javascript:void(0);" id="back" class="glyph-icon flaticon-back44 visible"  ng-click="back()"></a>
+<div id="l"></div>
+<div id="r"></div>
+

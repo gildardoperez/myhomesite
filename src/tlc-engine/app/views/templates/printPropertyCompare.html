@@ -1,0 +1,212 @@
+﻿
+  <meta charset="utf-8">
+  <title>Print</title>
+  <style type="text/css" media="">
+    html {
+      font-family: "Open Sans", sans-serif;
+      font-size: 62.5%;
+      font-weight: 300;
+    }
+    body {
+      padding: 0;
+      margin: 0;
+    }
+    .pagewidth {
+      width: 100%;
+      margin: auto;
+    }
+    .logo {
+      color: #2B2E34;
+      text-transform: uppercase;
+      font-weight: 300;
+      font-size: 2.5rem;
+      text-align: center;
+      padding: 5px;
+      border-bottom: solid 1px #F7931E;
+    }
+    .logo span {
+      color: #6F7175;
+    }
+    h2 {
+      border-bottom: 1px solid #F7931E;
+      color: #F7931E;
+      float: left;
+      font-family: "Open Sans";
+      font-size: 24px;
+      line-height: normal;
+      padding-bottom: 10px;
+      text-align: center;
+      width: 100%;
+      margin: 5px 0;
+    }
+    .compare_property table tr td:first-child {
+      color: #656565;
+      font-family: "Open Sans";
+      font-size: 12px;
+      text-align: left;
+      font-weight: bold;
+    }
+    figure {
+      width: 100%;
+      margin: 0px;
+      padding: 0;
+    }
+    figure.divider {
+      margin: 10px 0;
+    }
+    figure img {
+      width: 100%;
+      vertical-align: middle;
+    }
+    figure.divider img {
+      height: 3px;
+    }
+    .clear {
+      clear: both;
+    }
+
+
+    small {
+      font-size: 1.8rem;
+      color: #6F7175;
+    }
+    ul {
+      list-style: none;
+      margin: 0 0 10px;
+      padding: 0;
+      float: left;
+      width: 100%;
+    }
+    .propCompareImage {
+      width: 100px;
+    }
+
+    .list-table {width:100%;border-collapse:separate;
+      border-spacing:3px;
+      clear: both;}
+    .list-table th {font-size:1.4rem;text-align:left;font-weight:bold;color:#595B60;border-bottom: solid 3px #F7931E;}
+    .list-table td {    border-bottom: 1px solid #ccc;
+      font-size: 1.2rem;    color: #666;
+      padding: 5px;}
+    .list-table td p {margin: 0;}
+    .list-table .header td {background-color:#F7931E;padding:10px;-webkit-print-color-adjust: exact !important;print-color-adjust: exact !important;color:#ffffff;}
+
+    .page-break {page-break-before: always;}
+  </style>
+<div class="compare_property pagewidth">
+    <div class="logo">
+     <img src="images/logo-small.png">
+    </div>
+    <div>
+        <h2>Property Comparison</h2>
+    </div>
+    <div class="propCompareMainDiv">
+        <table class="list-table ">
+            <tr>
+                <td></td>
+                <td ng-repeat="ComapreProp in ComaprePropIDList">
+                    <img ng-repeat="prop in propertiesListingForComapare| filter:{ Id: ComapreProp }" src="{{prop.Photos.length>0 ? prop.Photos[0] :'images/No-property.png'}}" class="propCompareImage" />
+                </td>
+            </tr>
+
+            <tr class="list_price">
+                <td>MLS No.</td>
+                <td ng-repeat="ComapreProp in ComaprePropIDList">
+                    <span ng-repeat="prop in propertiesListingForComapare| filter:{ Id: ComapreProp }">{{prop.MN}}</span>
+                </td>
+            </tr>
+          <tr class="tlc_price">
+            <td>TLC</td>
+            <td ng-repeat="ComapreProp in ComaprePropIDList track by $index">
+              <span ng-repeat="prop in propertiesListingForComapare| filter:{ Id: ComapreProp }">${{formatNumber(prop.TLC)}}</span>
+            </td>
+          </tr>
+            <tr class="list_price">
+                <td>List Price</td>
+                <td ng-repeat="ComapreProp in ComaprePropIDList track by $index">
+                    <span ng-repeat="prop in propertiesListingForComapare| filter:{ Id: ComapreProp }">${{formatNumber(prop.LP)}}</span>
+                </td>
+            </tr>
+          <tr ng-hide="isLoadingComp">
+            <td>Down Payment (20%)</td>
+            <td ng-repeat="ComapreProp in ComaprePropIDList track by $index">
+              <span ng-repeat="prop in propertiesListingForComapare| filter:{ Id: ComapreProp }">${{formatNumber(prop.Down_Payment)}}</span>
+            </td>
+          </tr>
+          <tr ng-hide="isLoadingComp"><!-- ng-hide="isLoadingComp"-->
+            <td>Loan Amount</td>
+            <td ng-repeat="ComapreProp in ComaprePropIDList track by $index">
+              <span ng-repeat="prop in propertiesListingForComapare| filter:{ Id: ComapreProp }">${{formatNumber(prop.LoanAmount)}}</span>
+            </td>
+          </tr>
+          <tr ng-hide="isLoadingComp"><!-- ng-hide="isLoadingComp"-->
+            <td>Mortgage Payment</td>
+            <td ng-repeat="ComapreProp in ComaprePropIDList track by $index">
+              <span ng-repeat="prop in propertiesListingForComapare| filter:{ Id: ComapreProp }">${{formatNumber(prop.Mortgage_Payment)}}</span>
+            </td>
+          </tr>
+            <tr>
+                <td>Address</td>
+                <td ng-repeat="ComapreProp in ComaprePropIDList">
+                    <div ng-repeat="prop in propertiesListingForComapare| filter:{ Id: ComapreProp }">
+                        <p>{{prop.SA}}</p>
+                        <p>{{prop.CT}}, {{prop.ST}}, {{prop.PC}}</p>
+                    </div>
+                </td>
+            </tr>
+
+            <tr class="expandDiv hide">
+                <td>Beds</td>
+                <td ng-repeat="ComapreProp in ComaprePropIDList">
+                    <span ng-repeat="prop in propertiesListingForComapare| filter:{ Id: ComapreProp }">{{prop.BD}}</span>
+                </td>
+            </tr>
+            <tr  class="expandDiv hide">
+                <td>Baths</td>
+                <td ng-repeat="ComapreProp in ComaprePropIDList">
+                    <span ng-repeat="prop in propertiesListingForComapare| filter:{ Id: ComapreProp }">{{prop.BDI}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>Acres</td>
+                <td ng-repeat="ComapreProp in ComaprePropIDList">
+                    <span ng-repeat="prop in propertiesListingForComapare| filter:{ Id: ComapreProp }">{{formatNumber(prop.LA)}}</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>Garages</td>
+                <td ng-repeat="ComapreProp in ComaprePropIDList">
+                    <span ng-repeat="prop in propertiesListingForComapare| filter:{ Id: ComapreProp }">{{prop.GR}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>Year Built</td>
+                <td ng-repeat="ComapreProp in ComaprePropIDList">
+                    <span ng-repeat="prop in propertiesListingForComapare| filter:{ Id: ComapreProp }">{{prop.YR}}</span>
+                </td>
+            </tr>
+          <tr ng-hide="isLoadingComp"><!-- ng-hide="isLoadingComp"-->
+            <td>Architecture</td>
+            <td ng-repeat="ComapreProp in ComaprePropIDList track by $index">
+              <span ng-repeat="prop in propertiesListingForComapare| filter:{ Id: ComapreProp }">{{prop.Architecture}}</span>
+            </td>
+          </tr>
+          <!-- <tr ng-hide="isLoadingComp"><!-- ng-hide="isLoadingComp"--> -->
+            <!-- <td>Lot Size</td>
+            <td ng-repeat="ComapreProp in ComaprePropIDList track by $index">
+              <span ng-repeat="prop in propertiesListingForComapare| filter:{ Id: ComapreProp }">{{prop.LotSize}}</span>
+            </td> -->
+          <!-- </tr> -->
+          <tr ng-hide="isLoadingComp"><!-- ng-hide="isLoadingComp"-->
+            <td>House Owner Association Fees</td>
+            <td ng-repeat="ComapreProp in ComaprePropIDList track by $index">
+              <span ng-repeat="prop in propertiesListingForComapare| filter:{ Id: ComapreProp }">${{formatNumber(prop.HOA)}}</span>
+            </td>
+          </tr>
+        </table>
+      <!--<div ng-show="isLoadingComp">
+        <p>Loading...</p>
+      </div>-->
+    </div>
+</div>

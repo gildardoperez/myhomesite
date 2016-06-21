@@ -1,0 +1,29 @@
+<!-- [ S ] Header -->
+<div class="content-box front_bg">
+    <div class="center-div">
+        <div class="login-box">
+            <div class="front_page_logo">
+                <img src="images/front-page_logo.png" alt="logo">
+            </div>
+            <div class="front_page_titile text-center">
+                <h3>Please sign in to access TLCengine.</h3>
+                <p>if you don't have credentials, please contact your admin</p>
+            </div>
+            <div id="login" class="login-form">
+                <form id="login_form" name="frmSignIn" novalidate>
+                    <div class="field_container">
+                        <input type="text" placeholder="User Name" required name="Username" aa-field-name="Username" maxlength="50" ng-model="userAuth.Username">
+                    </div>
+                    <div class="field_container">
+                        <input type="Password" placeholder="Password" required name="Password" aa-field-name="Password" maxlength="50" ng-model="userAuth.Password">
+                    </div>
+                    <div class="field_container">
+                        <a class="forgot-link" href="javascript:void(0)" ng-click="forgotPassword()">Forgot your password?</a>
+                        <button id="sign_in_button" class="btn" aa-submit-form="processSignIn()">Sign In</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- [ E ] Header -->

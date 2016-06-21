@@ -1,0 +1,70 @@
+<div class="explore container-fluid">
+  <div class="explore-banner col-md-12" ng-class='className'>
+    <div class="explore-search col-md-6">
+      <div class="col-md-12">
+         <h2 class="explore_header">Pennsylvania Real Estate</h2>
+        <div class="form-group col-md-6">
+          <label for="sel1">Property Type</label>
+          <select class="form-control" id="exploreProptype" ng-model="exploreProptype">
+              <option value="Residential" selected="true">Residential Sales</option>
+              <option value="Commercial">Commercial</option>
+              <option value="Lot-Land">Land</option>
+              <option value="Multi-Family">Multi Family</option>
+              <option value="Residential">Residential Rentals</option>
+          </select>
+        </div>
+        <div class="form-group col-md-6 location_property">
+          <label for="sel1">Location</label>
+          <!-- <input type="text" class="form-control" id="location" placeholder="{{placeHolder}}" ng-value="placeHolder"> -->
+          <input type="text" class="form-control" id="location" ng-readonly="currentLocation" ng-model="locationInfo" ng-keyup="complete()" placeholder="{{placeHolder}}">
+           <input type="checkbox" id="checkbox-id-control" checked="checked" ng-model="currentLocation" ng-click="getLocationInfo()"  ng-class="{'checked': currentLocation == true}"/> <label for="checkbox-id" data-toggle="tooltip" title="Use Current Location" data-placement="bottom" class="orange-tooltip">Use Current Location</label>
+            <a >
+            </a>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="form-group col-md-6">
+          <label for="sel1">Minimum Price</label>
+          <input type="text" class="form-control" id="price-min1" name="pricemin" ng-model="priceMin">
+        </div>
+        <span class="explore-to"> -</span>
+        <div class="form-group col-md-6">
+          <label for="sel1">Maximum Price</label>
+          <input type="text" class="form-control" id="price-max2" name="pricemax" ng-model="priceMax">
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="pull-right view_properties">        
+         <button type="button" class="view_properties_button btn btn-success" ng-click="viewProperties()"><i class="glyphicon glyphicon-search view_properties_text"></i>View Properties</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="explore-container col-md-12">
+    <div class="col-md-7 explore-left">
+      <div class="explore-content">
+        <h2>PENNSYLVANIA REAL ESTATE</h2>        
+          <p></p>
+          <p>MRIShomes helps you find Pennsylvania homes, rentals and real estate listings. With thousands of accurate, real-time property listings, you can feel confident that your dream home or rental is only a search away. MRIShomes, powered by the MLS, makes it possible to find the best places to live in Pennsylvania by providing up-to-date information on Pennsylvania neighborhoods, surrounding areas, and more. With custom filtering options, it’s never been easier to find homes in Pennsylvania that meet your budget and exceed your expectations.</p>
+          <p></p>
+          <p>Try our custom search feature to find popular Pennsylvania real estate listings in the beautiful south-central region. Explore homes for sale in Chambersburg, located just 13 miles outside of Maryland. Or, browse homes for sale in York. You can also browse Pennsylvania real estate by using our list of homes for sale by city. Whether you’re a first time home buyer or looking to move to Pennsylvania, MRIShomes is your destination to connect with the right real estate professionals to assist you every step along the way.</p>
+      </div>
+    </div>
+    <div class="col-md-5 explore-right">
+      <div class="explore-right-content">
+        <div class="col-md-12 border-bottom">
+          <h2>Popular Cities in Pennsylvania</h2>
+          <div class="col-md-6">
+            <ul class="list-for-explore">
+            <li><a href="javascript:void(0)" ng-click="getSearchResultsForHomeSale('Shippensburg','WV');">Shippensburg, PA homes for sale</a></li>
+            <li><a href="javascript:void(0)" ng-click="getSearchResultsForHomeSale('York','WV');">York, PA homes for sale</a></li>
+            <li><a href="javascript:void(0)" ng-click="getSearchResultsForHomeSale('Mechanicsburg','WV');">Mechanicsburg, PA homes for sale</a></li>
+            <li><a href="javascript:void(0)" ng-click="getSearchResultsForHomeSale('Hanover','WV');">Hanover, PA homes for sale</a></li>
+            <li><a href="javascript:void(0)" ng-click="getSearchResultsForHomeSale('Chambersburg','WV');">Chambersburg, PA homes for sale</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

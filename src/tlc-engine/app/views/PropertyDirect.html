@@ -1,0 +1,34 @@
+<div id="content">
+  <!-- HOX2: added aside -->
+  <aside id="content_overlay"></aside>
+
+  <article id="proplistpage">
+    <div ui-view >
+
+    </div>
+
+    <ul id="results" class="propListClass">
+
+    </ul>
+
+  </article>
+  <div id="handle"><div></div></div>
+</div>
+
+<p id="drawhelp">Draw an area to limit your search to an area by dragging the pen. Release the mouse to complete the shape.</p>
+<map-view properties="page.results" data-drawing="isDrawing" drawing-complete-callback="drawingCompleteCallback" clear-polygon="clearPolygon" bookmark-handler="addBookmarkHandler" boundary="boundary"></map-view>
+<!--<aside id="map">-->
+<!--&lt;!&ndash; HOX2: added aside &ndash;&gt;-->
+<!--<aside id="map_overlay"></aside>-->
+
+<!--&lt;!&ndash; HOX: remove below for production &ndash;&gt;-->
+<!--&lt;!&ndash;<br/><br/><br/><br/><br/><br/><br/>&ndash;&gt;-->
+<!--&lt;!&ndash;<p style="font-size: 200%;">100% &#215; 100% map goes here.</p>&ndash;&gt;-->
+<!--&lt;!&ndash; stop removing here &ndash;&gt;-->
+
+<!--</aside>-->
+
+
+
+<div id="l"></div>
+<div id="r"></div>

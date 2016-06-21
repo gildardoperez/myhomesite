@@ -1,0 +1,307 @@
+<div class="">
+  <div class="center-div">
+
+
+
+    <div class="content-map-page">
+      <!-- [ S ] Content -->
+      <div class="content">
+        <div class="dashboard">
+          <!-- [ S ] Header -->
+          <header>
+
+            <!-- Header Bottom Bar -->
+            <!--<div class="dashboard-header">-->
+              <!--<div class="container-10mg ">-->
+                <!--<div class="logo">-->
+                  <!--<a href="javascript:void(0);"><img src="images/logo-small@2x.png" alt="" /></a>-->
+                <!--</div>-->
+              <!--</div>-->
+            <!--</div>-->
+
+          </header>
+          <!-- [ E ] Header -->
+          <div class="row">
+            <div class="left-dashboard">
+              <div class="client-detail">
+                <div class="client-profile">
+                  <img ng-src="{{AgentImage}}" alt="user" height="80" width="80">
+                </div>
+                <div class="client-text">
+                  <div class="title-box">
+                    <h1>{{agent.FirstName}} {{agent.LastName}}</h1>
+                    <p>{{agent.OfficeName}}</p>
+                  </div>
+                    <ul>
+                        <li><a href="{{BrokerDashboardUrl}}?AgentId={{agent.AgentId}}" ng-if="agent.IsSuperAdmin" target="_blank"><i class="fa fa-user"></i> Admin Dashboard </a></li>
+                        <li><a href="javascript:void(0)" ng-click="redirectToState('agentEditProfile','Edit-Profile')"><i class="fa fa-pencil"></i> Edit Your Profile</a></li>
+                        <!--<li><a href="javascript:void(0)" ng-click="redirectToState('agentChangePassword','Change-Password')"><i class="fa fa-key"></i> Change Password</a></li>-->
+                        <!-- <li><a href="javascript:void(0)" ng-click="logout()"><i class="fa fa-power-off"></i> log Out</a></li> -->
+                    </ul>
+                </div>
+              </div>
+                <div class="small-box small-orange-box">
+                    <a href="javascript:void(0)" ng-click="redirectToState('tlc.home','Property-Search')">
+
+                        <p class="text-align-center"><i class="fa fa-search"></i> Begin a new property search</p>
+                    </a>
+                  <p> * By Searching you agree to the <a href="javascript:void(0)" ng-click="redirectToState('tlc.legal','License-Agreement')">End User License Agreement</a></p>
+                </div>
+                <div class="small-box compare-nbh">
+                  <a href="javascript:void(0);" ng-click="redirectToState('compareNeighborhood','Compare-Neighborhood')"><p class="text-align-center"><i class="fa fa-files-o"></i> Compare Neighborhoods</p></a>
+                </div>
+                <div class="small-box">
+                  <a href="javascript:void(0)" ng-click="redirectToState('tlc.newClient','NewClient')">
+                    <p><i class="fa fa-user-plus"></i> Start TLC for a new client</p>
+                  </a>
+                </div>
+
+              <div class="box-wrapper">
+                <div class="small-box manage_client">
+                  <a href="javascript:void(0)" ng-click="addClassForApplyClient()">
+                    <i class="fa fa-users"></i>
+                    <p class="text-align-center"><span>Manage Clients</span></p>
+                  </a>
+                  <div class="dropdown-menu">
+                    <div class="search-box">
+                      <input type="text" class="form-control" placeholder="Search clients" ng-model="SearchClient">
+                    </div>
+                    <div class="manageClient-scroll" pscrollbar="{minScrollbarLength:20}" rebuildtotop="SearchClient">
+                      <ul class="client-list" role="menu">
+                        <li ng-repeat="client in clients | filter:SearchClient">
+                          <a href="javascript:void(0)" ng-click="redirectToClientDetail(client.Id,$event)">{{client.FullName}}</a>
+                          <a class="external-link title-tipso" href="javascript:void(0);"title="Delete client" ng-click="deleteClientProfile(client)"><i class="fa fa-trash"></i></a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="manage-client recent-client-act">
+
+                  <div class="recent-box" >
+                    <h5>Recent Client Activity</h5>
+                  <div class="pscrollbar" pscrollbar="{minScrollbarLength:20}">
+                    <ul id="recent_client_list">
+                      <li ng-repeat="act in clientAnalytics | filter:{Display:true} | orderBy:'EventDt':true" ng-click="redirectActivity(act)" ng-class="{'clickLink':(act.Object && act.Object.Type == 'Listing')}">
+                        <p>
+                          <b>{{act.Subject.DisplayTerm}}</b><span class="orange-text"> {{act.Verb}}</span><span ng-show="act.Object"> {{act.Object.DisplayTerm}}</span>.
+                        </p>
+                        <span>{{act.EventHumanDt}}</span>
+                      </li>
+
+                    </ul>
+                  </div>
+                  </div>
+                </div>
+
+
+                </div>
+              <div class="pscrollbar" pscrollbar>
+                <!--
+                <div class="tlc-new-client">
+
+                  <div class="recent-box">
+                    <h5>Real Estate News</h5>
+                    <ul>
+                      <li>
+                        <p>
+                          David Hasselhoff's mansion on sale for $2.3 million
+                        </p>
+                        <span>33 minutes ago</span>
+                      </li>
+                      <li>
+                        <p>
+                          The 'Starbucks effect': Higher home prices
+                        </p>
+                        <span>2 minutes ago</span>
+                      </li>
+                      <li>
+                        <p>
+                          What will your monthly mortgage payment be?
+                        </p>
+                        <span>3 hours ago</span>
+                      </li>
+                      <li>
+                        <p>
+                          Buffalo's $1 homes aren't as
+                        </p>
+                        <span>4 minutes ago</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                -->
+              </div>
+            </div>
+            <div class="right-dashboard">
+              <!--<div id="actions" class="propDetailClientList">-->
+                  <!--<div class="dashboard-savedsearch">-->
+                      <!--<h3>Saved Search</h3>-->
+                      <!--<div>-->
+                          <!--<ul>-->
+                              <!--<li ng-repeat="search in savedSearches">-->
+                                  <!--<div class="saved-text">-->
+                                      <!--<a href="javascript: void(0);" ng-click="loadSelectedSearch(search.SearchParameters)">{{search.SearchName}}</a>-->
+                                      <!--<span>{{search.LastUpdatedHumanTime}}</span>-->
+                                  <!--</div>-->
+                                  <!--<a href="javascript:void(0);" ng-click="deleteSavedSearch(search)"><i class="fa fa-trash"></i></a>-->
+                              <!--</li>-->
+                          <!--</ul>-->
+                      <!--</div>-->
+                  <!--</div>-->
+              <!--</div>-->
+
+              <!--<br>-->
+
+              <div class="dashboard-saved-search">
+
+                  <div class="dashboard-savedsearch-fixed propDetailClientList">
+                      <h5><span>Recently Used Saved Searches </span></h5>
+                      <div>
+                          <input type="text" ng-model="saveSearchName" placeholder="Search saved search"/>
+                          <div class="savedSearch-scroll" pscrollbar rebuildtotop="saveSearchName">
+                              <ul>
+                                  <li ng-repeat="search in savedSearches | filter:{SearchName : saveSearchName} | orderBy:'CreatedOn':true">
+                                      <div class="saved-text">
+                                          <a href="javascript: void(0);" ng-click="loadSelectedSearch(search.SearchParameters)">{{search.SearchName}}</a>
+                                          <span>{{getSearchTimeText(search)}}</span>
+                                      </div>
+                                      <div class="action-ico">
+                                        <a class="title-tipso tipso_style" title="Turn Off Notifications" href="javascript:void(0);" ng-click="setSavedSearchNotification(search, false)" ng-show="search.RequiredNotification == true"><i class="fa fa-bell"></i></a>
+                                        <a class="title-tipso tipso_style" title="Turn On Notifications" href="javascript:void(0);" ng-click="setSavedSearchNotification(search, true)" ng-show="search.RequiredNotification == false"><i class="fa fa-bell-slash"></i></a>
+                                        <a class="title-tipso tipso_style" title="Delete" href="javascript:void(0);" ng-click="deleteSavedSearch(search)" ng-show="displayDeleteSavedSearch(search)"><i class="fa fa-trash"></i></a>
+                                      </div>
+                                  </li>
+                              </ul>
+                          </div>
+                      </div>
+                  </div>
+
+                  <!--<map-view properties="Listings" data-drawing="isDrawing" drawing-complete-callback="drawingCompleteCallback" clear-polygon="clearPolygon"></map-view>-->
+
+                <!--<div class="map-search-bar">
+                  <div class="property-search">
+                    <input type="text" placeholder="Begin a new property search >>">
+                    <a href="javascript:void(0)" ng-click="search()">Begin a new property search </a>
+                      <span class="search-icon" ng-click="search()"><i class="fa fa-search"></i></span>
+                  </div>
+                  <div class="info_area">
+                    <p> * By Searching you agree to the <a href="javascript:void(0)" ng-click="licenceAgreement()">End User License Agreement</a></p>
+                  </div>
+
+                </div>-->
+              </div>
+              <div class="new-property" ng-show="resultsCount > 0 && property">
+                <div class="new-title">
+                  <h5>NEW AND UPDATED LISTINGS ON MARKET</h5>
+                </div>
+                <div class="property-box" style="cursor: pointer" ng-click="propertyDetail()">
+                  <!--<div class="bookmark-box">
+                    <a href="#"><i class="fa fa-bookmark"></i></a>
+                  </div>-->
+                  <div class="open_house_box orange" style="margin-right:10px;" ng-if="property.OH != undefined">
+                    <a href="javascript:void(0)">open house</a>
+                  </div>
+
+                  <div class="property-img-box" >
+                    <!--style="background-image:url({{previewUrl}})"-->
+                    <img ng-src="{{previewUrl}}" >
+                  </div>
+                    <div class="property-change-arrow">
+                        <a href="javascript:void(0)" ng-click="setNextPreProperty('pre',$event)" class="flex-prev"><i class="fa fa-angle-left"></i></a>
+                        <a href="javascript:void(0)" ng-click="setNextPreProperty('next',$event)" class="flex-next"><i class="fa fa-angle-right"></i></a>
+                    </div>
+                  <div class="shadow-bg">
+                  <div class="property-info-box">
+
+                    <div class="property-title-price">
+                      <div class="row-10mg">
+                          <div class="property-title-box text-left" >
+                              <h1>{{property.SA}}</h1>
+                              <h5>{{property.CT}}, {{property.ST}},{{property.PC}}</h5>
+                          </div>
+                          <div class="property-price-box text-right">
+                              <h1><span class="price-dollar">$</span>{{getSortPrice(property.LP)}}</h1>
+                              <h5>TLC: ${{getSortPrice(property.TLC)}}</h5>
+                          </div>
+                      </div>
+                    </div>
+
+                    <div class="property-description">
+                      <ul>
+                        <li ng-if="property.PT == undefined || property.PT != 'MF'">
+                          <div class="property-item">
+                            <h3>{{property.BD}}</h3>
+                            <span>BEDROOMS</span>
+                          </div>
+                        </li>
+                        <li ng-if="property.PT == undefined || property.PT != 'MF'">
+                          <div class="property-item">
+                            <h3>{{property.BDI}}</h3>
+                            <span>BATHROOMS</span>
+                          </div>
+                        </li>
+                        <li ng-class="{'li_multiFamily':property.PT == 'MF'}" ng-if="property.PT != undefined && property.PT == 'MF'">
+                          <div class="property-item">
+                            <h3>{{property.NU}}</h3>
+                            <span>UNITS</span>
+                          </div>
+                        </li>
+                        <li ng-class="{'li_multiFamily':property.PT == 'MF'}" ng-hide="property.LA <= 0">
+                          <div class="property-item">
+                            <h3 ng-if="property.LA > 0">{{formatNumber(property.LA)}}</h3>
+                            <span>SQFT</span>
+                          </div>
+                        </li>
+                        <li ng-class="{'li_multiFamily':property.PT == 'MF'}">
+                          <div class="property-item irregular-item">
+                            <h3>{{property.MN}}</h3>
+                            <span>MLS NO</span>
+                          </div>
+                        </li>
+                        <li>
+                          <div class="property-item">
+                            <h3>{{property.YR}}</h3>
+                            <span>Year Built</span>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+
+                  </div>
+                  </div>                  
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+    <!-- [ E ] Content -->
+  </div>
+</div>
+<div class="start_tour">
+    <ul>
+        <li class="title_tipso" title="Start Tour"><a class="help_tour_button" href="javascript:void(0);" ng-click="startTour()"><img src="images/help_icon.png" /></a></li>
+    </ul>
+</div>
+<div class="flexslider_showTour">
+    <ul class="slides">
+        <li>
+            <img src='images/agent_dashboard_tour/1.jpg' />
+        </li>
+        <li>
+            <img src='images/agent_dashboard_tour/2.jpg' />
+        </li>
+        <li>
+            <img src='images/agent_dashboard_tour/3.jpg' />
+        </li>
+    </ul>
+</div>
+<div class="custom-navigation showTour_Navigation">
+    <a href="javascript:void(0)" class="tour_skip" ng-click="hide_tour()">Skip</a>
+    <div class="custom-controls-container"></div>
+    <a href="javascript:void(0)" class="tour_skip tour_end" ng-click="hide_tour()">Done</a>
+</div>

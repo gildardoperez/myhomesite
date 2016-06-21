@@ -1,0 +1,308 @@
+<div class="">
+  <div class="center-div">
+    <!-- [ S ] Header -->
+    <!--<header>-->
+
+      <!--&lt;!&ndash; Header Bottom Bar &ndash;&gt;-->
+      <!--<div class="dashboard-header">-->
+        <!--<div class="container-10mg ">-->
+          <!--<div class="logo">-->
+            <!--<a href="javascript:void(0);"><img src="images/logo-small@2x.png" alt="" /></a>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+
+    <!--</header>-->
+    <!-- [ E ] Header -->
+
+
+    <div class="content-map-page">
+      <!-- [ S ] Content -->
+      <div class="content">
+        <div class="dashboard client-dashboard">
+          <div class="row">
+            <div class="left-dashboard">
+              <div class="client-detail">
+                <div class="client-profile">
+                  <img ng-src="{{ClientImage}}" alt="user" height="80" width="80">
+                </div>
+                <div class="client-text">
+                  <div class="title-box">
+                    <h1 ng-if="client.FirstName != client.LastName">{{client.FirstName}} {{client.LastName}}</h1>
+                    <h1 ng-if="client.FirstName == client.LastName">{{client.FirstName}}</h1>
+                    <p>{{client.Email}}</p>
+                  </div>
+                    <ul>
+                        <!--<li><a href="javascript:void(0)" ng-click="redirectToState('clientNotifications','set-Notifications')"><i class="fa"></i> Set Notifications</a></li>-->
+                        <!--<li><a href="javascript:void(0)" ng-click="redirectToState('clientChangePassword','Change-Password')"><i class="fa fa-key"></i> Change Password</a></li>-->
+                        <!--<li><a href="javascript:void(0)" ng-click="logout()"><i class="fa fa-power-off"></i> log Out</a></li>-->
+                    </ul>
+                </div>
+              </div>
+                <div id="divForClientUpadateProfile" class="small-box small-orange-box update-profile">
+                    <a href="javascript:void(0)" ng-click="redirectToState('clientEditProfile','Edit-Profile')">
+                        <i class="fa fa-user-plus"></i>
+                        <p ng-show="client.SupportingInformation.ProfileCompletionPercentage <= 25"><span>START YOUR TLC</span></p>
+                        <p ng-show="client.SupportingInformation.ProfileCompletionPercentage >= 25"><span>UPDATE YOUR PROFILE</span></p>
+                    </a>
+                </div>
+                <div class="small-box Begin-property" ng-show="agent.ClientSearchEnabled">
+                    <a href="javascript:void(0)" ng-click="search()">
+                        <i class="fa fa-search"></i>
+                        <p><span>Begin a new property search</span></p>
+                    </a>
+                </div>
+              <div class="small-box compare-nbh" ng-class="{'searchDisabled':!agent.ClientSearchEnabled}">
+                <a href="javascript:void(0);" ng-click="redirectToState('clientCompareNeighborhood','Compare-Neighborhood')"><i class="fa fa-files-o" ng-show="!agent.ClientSearchEnabled"></i> <p class="text-align-center"> <i class="fa fa-files-o" ng-show="agent.ClientSearchEnabled"></i> Compare Neighborhoods</p></a>
+              </div>
+              <div class="box-wrapper">
+                  <div class="recent-box">
+                    <h5>YOUR AGENT</h5>
+                    <div class="client-detail">
+                      <div class="client-profile">
+                        <img ng-src="{{AgentImage}}" alt="user" height="80" width="80">
+                      </div>
+                      <div class="client-text">
+                        <div class="title-box">
+                          <h1>{{agent.FirstName}} {{agent.LastName}}</h1>
+                          <p>{{agent.OfficeName}}</p>
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label>Email</label>
+                          <h3>{{agent.Email}}</h3>
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label>Phone Number</label>
+                          <h3>{{agent.Phone}}</h3>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+            </div>
+            <div class="right-dashboard">
+                <tabset>
+                    <tab ng-attr-active="savedSearchTab">
+                        <tab-heading>
+                          <strong>SAVED SEARCHES</strong>
+                        </tab-heading>
+                      <div class="dashboard-saved-search" style="margin-top: 10px;height: 293px;">
+                        <div class="dashboard-savedsearch-fixed propDetailClientList" style="height: 293px;">
+                          <div>
+                            <input type="text" ng-model="saveSearchName" placeholder="Search saved search"/>
+                            <div class="savedSearch-scroll" pscrollbar rebuildtotop="saveSearchName">
+                              <ul>
+                                <li ng-repeat="search in savedSearches | filter:{SearchName : saveSearchName } | orderBy:'CreatedOn':true">
+                                  <div class="saved-text">
+                                    <a href="javascript: void(0);" ng-click="loadSelectedSearch(search.SearchParameters)">{{search.SearchName}}</a>
+                                    <span>{{getSearchTimeText(search)}}</span>
+                                  </div>
+                                  <div class="action-ico">
+                                    <a class="title-tipso tipso_style" title="Turn Off Notifications" href="javascript:void(0);" ng-click="setSavedSearchNotification(search, false)" ng-show="search.RequiredNotification == true"><i class="fa fa-bell"></i></a>
+                                    <a class="title-tipso tipso_style" title="Turn On Notifications" href="javascript:void(0);" ng-click="setSavedSearchNotification(search, true)" ng-show="search.RequiredNotification == false"><i class="fa fa-bell-slash"></i></a>
+                                    <a class="title-tipso tipso_style" title="Delete" href="javascript:void(0);" ng-click="deleteSavedSearch(search)"><i class="fa fa-trash"></i></a>
+                                  </div>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </tab>
+                    <tab ng-attr-active="yourFavoriteTab">
+                        <tab-heading>
+                          <strong>YOUR FAVORITES</strong> &nbsp;&nbsp;<a href="javascript:void(0)" ng-click="searchFavorite($event)" ng-show="favorites.Count > 0">(VIEW ALL)</a>
+                        </tab-heading>
+                      <div class="new-property" style="margin-top: 10px;height: 293px;">
+
+                      <div class="property-box" style="cursor: pointer;" ng-show="favorites.Count > 0 && favoriteProperty" ng-click="propertyDetail(favoriteProperty.Id)">
+                      <!--<div class="bookmark-box">
+                        <a href="#"><i class="fa fa-bookmark"></i></a>
+                      </div>-->
+                      <div class="open_house_box orange" style="margin-right:10px;" ng-if="favoriteProperty.OH != undefined">
+                        <a href="javascript:void(0)">open house</a>
+                      </div>
+                      <div class="property-img-box" ng-click="propertyDetail(favoriteProperty.Id)" ng-style="{'background-image':'url(' + favoritePreviewUrl + ')'}"></div>
+
+                      <div class="property-change-arrow">
+                        <a href="javascript:void(0)" ng-click="setFavoritesNextPreProperty('pre',$event)" class="flex-prev"><i class="fa fa-angle-left"></i></a>
+                        <a href="javascript:void(0)" ng-click="setFavoritesNextPreProperty('next',$event)" class="flex-next"><i class="fa fa-angle-right"></i></a>
+                      </div>
+                      <div class="property-info-box">
+
+                        <div class="property-title-price">
+                          <div class="row-10mg">
+                            <div class="property-title-box text-left" >
+                              <h1>{{favoriteProperty.SA}}</h1>
+                              <h5>{{favoriteProperty.CT}}, {{favoriteProperty.ST}},{{favoriteProperty.PC}}</h5>
+                            </div>
+                            <div class="property-price-box text-right">
+                              <h1><span class="price-dollar">$</span>{{getSortPrice(favoriteProperty.LP)}}</h1>
+                              <h5>TLC: ${{getSortPrice(favoriteProperty.TLC)}}</h5>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="property-description">
+                          <ul>
+                            <li ng-if="favoriteProperty.PT == undefined || favoriteProperty.PT != 'MF'">
+                              <div class="property-item">
+                                <h3>{{favoriteProperty.BD}}</h3>
+                                <span>BEDROOMS</span>
+                              </div>
+                            </li>
+                            <li ng-if="favoriteProperty.PT == undefined || favoriteProperty.PT != 'MF'">
+                              <div class="property-item">
+                                <h3>{{favoriteProperty.BDI}}</h3>
+                                <span>BATHROOMS</span>
+                              </div>
+                            </li>
+                            <li ng-class="{'li_multiFamily':favoriteProperty.PT == 'MF'}" ng-if="favoriteProperty.PT != undefined && favoriteProperty.PT == 'MF'">
+                              <div class="property-item">
+                                <h3>{{favoriteProperty.NU}}</h3>
+                                <span>UNITS</span>
+                              </div>
+                            </li>
+                            <li ng-class="{'li_multiFamily':favoriteProperty.PT == 'MF'}">
+                              <div class="property-item">
+                                <h3 ng-if="favoriteProperty.LA > 0">{{formatNumber(favoriteProperty.LA)}}</h3>
+                                <h3 ng-if="favoriteProperty.LA <= 0">NA</h3>
+                                <span>SQFT</span>
+                              </div>
+                            </li>
+                            <li ng-class="{'li_multiFamily':favoriteProperty.PT == 'MF'}">
+                              <div class="property-item irregular-item">
+                                <h3>{{favoriteProperty.MN}}</h3>
+                                <span>MLS NO</span>
+                              </div>
+                            </li>
+                            <li>
+                              <div class="property-item">
+                                <h3>{{favoriteProperty.YR}}</h3>
+                                <span>Year Built</span>
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
+
+                      </div>                      
+                    </div>
+                        <div class="favouritemsg" ng-click="search()" ng-show="favorites.Count == 0">
+                          <a href="javascript:void(0)" >
+                              <i class="fa fa-home"></i>
+                              <p>Start favoriting properties today and get instant notification on similar homes.</p>
+                          </a>
+                      </div>
+                      </div>
+                    </tab>
+                  </tabset>
+
+              <div class="new-property" >
+                <div class="new-title">
+                  <h5 ng-click="searchBookmark()">Properties Bookmarked by your Agent <a href="javascript:void(0)" ng-show="bookmarks.Count > 0">(View All)</a></h5>
+                </div>
+                <div class="property-box" style="cursor: pointer;"  ng-show="bookmarks.Count > 0 && bookmarkProperty" ng-click="propertyDetail(bookmarkProperty.Id)">
+                  <!--<div class="bookmark-box">
+                    <a href="#"><i class="fa fa-bookmark"></i></a>
+                  </div>-->
+                  <div class="open_house_box orange" style="margin-right:10px;" ng-if="bookmarkProperty.OH != undefined">
+                    <a href="javascript:void(0)">open house</a>
+                  </div>
+
+                  <div class="property-img-box" ng-style="{'background-image':'url(' + bookmarkPreviewUrl + ')'}" ng-click="propertyDetail(bookmarkProperty.Id)">
+                  </div>
+                    <div class="property-change-arrow">
+                        <a href="javascript:void(0)" ng-click="setBookmarksNextPreProperty('pre',$event)" class="flex-prev"><i class="fa fa-angle-left"></i></a>
+                        <a href="javascript:void(0)" ng-click="setBookmarksNextPreProperty('next',$event)" class="flex-next"><i class="fa fa-angle-right"></i></a>
+                    </div>
+                  <div class="property-info-box">
+
+                    <div class="property-title-price">
+                      <div class="row-10mg">
+                          <div class="property-title-box text-left" >
+                              <h1>{{bookmarkProperty.SA}}</h1>
+                              <h5>{{bookmarkProperty.CT}}, {{bookmarkProperty.ST}},{{bookmarkProperty.PC}}</h5>
+                          </div>
+                          <div class="property-price-box text-right">
+                              <h1><span class="price-dollar">$</span>{{getSortPrice(bookmarkProperty.LP)}}</h1>
+                              <h5>TLC: ${{getSortPrice(bookmarkProperty.TLC)}}</h5>
+                          </div>
+                      </div>
+                    </div>
+
+                    <div class="property-description">
+                      <ul>
+                        <li ng-if="bookmarkProperty.PT == undefined || bookmarkProperty.PT != 'MF'">
+                          <div class="property-item">
+                            <h3>{{bookmarkProperty.BD}}</h3>
+                            <span>BEDROOMS</span>
+                          </div>
+                        </li>
+                        <li ng-if="bookmarkProperty.PT == undefined || bookmarkProperty.PT != 'MF'">
+                          <div class="property-item">
+                            <h3>{{bookmarkProperty.BDI}}</h3>
+                            <span>BATHROOMS</span>
+                          </div>
+                        </li>
+                        <li ng-class="{'li_multiFamily':bookmarkProperty.PT == 'MF'}" ng-if="bookmarkProperty.PT != undefined && bookmarkProperty.PT == 'MF'">
+                          <div class="property-item">
+                            <h3>{{bookmarkProperty.NU}}</h3>
+                            <span>UNITS</span>
+                          </div>
+                        </li>
+                        <li ng-class="{'li_multiFamily':bookmarkProperty.PT == 'MF'}">
+                          <div class="property-item">
+                            <h3 ng-if="bookmarkProperty.LA > 0">{{formatNumber(bookmarkProperty.LA)}}</h3>
+                            <h3 ng-if="bookmarkProperty.LA <= 0">NA</h3>
+                            <span>SQFT</span>
+                          </div>
+                        </li>
+                        <li ng-class="{'li_multiFamily':bookmarkProperty.PT == 'MF'}">
+                          <div class="property-item irregular-item">
+                            <h3>{{bookmarkProperty.MN}}</h3>
+                            <span>MLS NO</span>
+                          </div>
+                        </li>
+                        <li>
+                          <div class="property-item">
+                            <h3>{{bookmarkProperty.YR}}</h3>
+                            <span>Year Built</span>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>                 
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <!-- [ E ] Content -->
+  </div>
+</div>
+<div class="start_tour">
+  <ul>
+    <li class="title_tipso" title="Start Tour"><a class="help_tour_button" href="javascript:void(0);" ng-click="startTour()"><img src="images/help_icon.png" /></a></li>
+  </ul>
+</div>
+<div class="flexslider_showTour">
+  <ul class="slides">
+    <li>
+      <img src='images/client_dashboard_tour/1.jpg' />
+    </li>
+    <li>
+      <img src='images/client_dashboard_tour/2.jpg' />
+    </li>
+    <li>
+      <img src='images/client_dashboard_tour/3.jpg' />
+    </li>
+  </ul>
+</div>
+<div class="custom-navigation showTour_Navigation">
+  <a href="javascript:void(0)" class="tour_skip" ng-click="hide_tour()">Skip</a>
+  <div class="custom-controls-container"></div>
+  <a href="javascript:void(0)" class="tour_skip tour_end" ng-click="hide_tour()">Done</a>
+</div>

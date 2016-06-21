@@ -1,0 +1,8 @@
+syntax: glob
+src/tlc-engine/node_modules/
+src/tlc-engine/bower_components/
+src/tlc-engine/.idea/
+src/tlc-engine/.tmp/
+src/tlc-engine/dist/
+src/tlc-engine/app/bower_components/
+.idea/

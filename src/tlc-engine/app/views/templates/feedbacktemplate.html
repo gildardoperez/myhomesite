@@ -1,0 +1,50 @@
+<div class="feedback_wrapper">
+  <div class="title">
+    <h2>Feedback</h2>
+  </div>
+  <form name="feedback" novalidate >
+  <div class="feedback_detail">
+    <div class="col-md-6 form-group">
+      <label>Ticket Title <em>*</em></label>
+      <input type="text" class="form-control" required name="TicketTitle" ng-model="ticketTitle" aa-field-name="Ticket Title">
+    </div>
+    <div class="col-md-6 form-group">
+      <label>Your Email Address (Helps us followup) <em>*</em></label>
+      <input type="text" class="form-control" name="EmailAddress" required ng-model="emailAddress" aa-field-name="Email Address">
+    </div>
+    <div class="col-md-12 form-group">
+      <label>Description of problem <em>*</em></label>
+      <textarea type="text" class="form-control" name="Description" required ng-model="Feedback_description" aa-field-name="Description"></textarea>
+    </div>
+    <div class="col-md-6 form-group">
+      <label>Screenshot</label>
+      <input type="file" id="Profileimages" name="Profileimages" class="choose-file"
+             ng-file-select ng-file-change="uploadImage($files, 'ProfileImageName')" ng-model="Profileimage"
+             ng-multiple="false" ng-accept="'image/*'" ng-model-rejected="rejFiles">
+      <span>Only jpg/png/gif/bmp file types are supported</span>
+      <!--<a href="#">Add another file</a>-->
+    </div>
+    <div class="col-md-6 form-group">
+      <label>Attachments</label>
+      <input type="file" id="Profileimages" name="Profileimages" class="choose-file"
+             ng-file-select ng-file-change="uploadImage($files, 'ProfileImageName')" ng-model="Profileimage"
+             ng-multiple="false" ng-accept="'image/*'" ng-model-rejected="rejFiles">
+      <span>Only jpg/png/gif/bmp file types are supported</span>
+      <!--<a href="#">Add another file</a>-->
+    </div>
+    <div class="col-md-6 form-group">
+      <label>Type of issue</label>
+      <select>
+        <option></option>
+        <option>Data</option>
+        <option>Functional</option>
+        <option>User Experience/UI</option>
+      </select>
+    </div>
+    <div class="col-md-12 button">
+      <input class="btn btn-success" type="button" value="Submit"  aa-submit-form="savefeedback()"/>
+    </div>
+  </div>
+  </form>
+</div>
+

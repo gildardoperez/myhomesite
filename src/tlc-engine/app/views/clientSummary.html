@@ -1,0 +1,138 @@
+<div id="content" class="client_summary_content">
+  <!-- HOX2: added aside -->
+  <aside id="content_overlay"></aside>
+
+  <article>
+    <div ui-view >
+
+    </div>
+
+    <div class="property-sort-infobox client-infobox client_summary_infobox">
+        <div id="client-summary">
+            <div class="property-title">
+                <div class="boxs-title property-lg-box">
+                    <div class="title-box">
+                        <h1>{{client.FirstName}} {{client.LastName}}</h1>
+                        <button class="btn view-btn" ng-click="editProfile()" ng-show="!client.Protected">VIEW FULL PROFILE</button>
+                        <button class="btn view-btn search_btn" ng-click="go_home()"><i class="fa fa-search"></i> BEGIN A NEW PROPERTY SEARCH</button>
+                        <button class="btn view-btn delete_btn title-tipso" title="Remove this client" ng-click="deleteClientProfile()"><i class="fa fa-trash"></i></button>
+                        <h3 ng-show="client.Protected">Client Profile is locked.</h3>
+                    </div>
+                    <div class="address-box">
+                        <div class="box">
+                            <h3>{{client.Profile.BasicData.HomePhone | tel}}</h3>
+                            <p>HOME PHONE</p>
+                        </div>
+                        <div class="box">
+                            <h3>{{client.Profile.BasicData.CellPhone | tel}}</h3>
+                            <p>CELL PHONE</p>
+                        </div>
+                        <div class="box">
+                            <h3><a href="mailto:{{client.Email}}">{{client.Email}}</a></h3>
+                            <p>EMAIL ADDRESS</p>
+                        </div>
+                    </div>
+                    <div class="bookmark-title">
+                        <a id="bookmarkedMode" href="javascript:void(0)" ng-click="Search.Mode = 'bookmarked'">Bookmarked properties ({{resultsCount}})</a>
+                        <a id="analyticsMode" href="javascript:void(0)" ng-click="Search.Mode = 'analytics'" ng-show="clientAnalytics.length > 0">Client Activity ({{clientAnalytics.length}})</a>
+                        <!--<a id="clientSettings" href="javascript:void(0)" ng-click="Search.Mode = 'settings'">Client Settings</a>-->
+                        <a id="savedSearch" href="javascript:void(0)" ng-click="Search.Mode = 'savedSearch'" ng-show="clientSavedSearches.length > 0">Saved Searches</a>
+                    </div>
+                </div>
+            </div>
+
+          <div ng-show="Search.Mode == 'bookmarked'" class="scrollProperty pscrollbar" pscrollbar>
+            <ul id="results" class="client_summery">
+                <li class="loader initial" ng-class="{'hidden': resultsCount > 0}" ng-hide="Listings.length > 0" >
+                    <i class="fa fa-refresh fa-spin" ng-show="propertyLoading"></i>
+                    <!--<i class="fa fa-frown-o"></i>-->
+                    <p class="loading" ng-show="propertyLoading">Loading <span>more</span> results...</p>
+                    <p class="" ng-class="{'none':resultsCount != 0}" ng-show="propertyLoading == false && resultsCount == 0">There are no <span>more</span> results.</p>
+                </li>
+                <property-card data-property='prop' data-id="{{$index}}" ng-repeat="prop in Listings" bookmark-property-event-handler="deletebookmarksClient"></property-card>
+                <!--<li class="loader initial" ng-class="{'hidden': propertyLoading != true}" ng-show="propertyLoading && resultsCount > 0">
+                    <i class="fa fa-refresh fa-spin"></i>
+                    <i class="fa fa-frown-o"></i>
+                    <p class="loading">Loading <span>more</span> results...</p>
+                </li>-->
+            </ul>
+            </div>
+          <div ng-if="Search.Mode == 'analytics'" class="recent-box">
+            <div class="pscrollbar" pscrollbar>
+              <ul id="recent_client_list">
+                <li ng-repeat="act in clientAnalytics | orderBy:'EventDt':true">
+                  <p>
+                    <b>{{act.Subject.DisplayTerm}}</b> <span class="orange-text">{{act.Verb}}</span> <span ng-show="act.Object">{{act.Object.DisplayTerm}}</span>.
+                  </p>
+                  <span>{{act.EventHumanDt}}</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div ng-if="Search.Mode == 'settings'" class="pscrollbar" pscrollbar="">
+            <button class="btn view-btn reset-password" ng-click="resendPasswordToClient()">Reset And Email Password</button>
+            <!--<div id="info-details">
+              <div class="row-15mg">
+                <div>
+                  <div class="col-sm-6 col-1">
+                    <h3>
+                      <button class="btn view-btn" ng-click="resendPasswordToClient()">Send</button>
+                    </h3>
+                    <label class="label-title">Reset And Email Password</label>
+                  </div>
+                </div>
+              </div>
+            </div>-->
+            </div>
+          <div ng-if="Search.Mode == 'savedSearch'">
+            <div class="dashboard-saved-search">
+              <div class="dashboard-savedsearch-fixed propDetailClientList">
+                <div>
+                  <input type="text" ng-model="saveSearchName" placeholder="Search saved search"/>
+                  <div class="scroll-wrapper" pscrollbar=""  rebuildtotop="saveSearchName">
+                    <ul>
+                      <li ng-repeat="search in clientSavedSearches | filter:{SearchName : saveSearchName} | orderBy:'CreatedOn':true">
+                        <div class="saved-text">
+                          <a href="javascript: void(0);" ng-click="loadSelectedSearch(search.SearchParameters)">{{search.SearchName}}</a>
+                          <span>{{getSearchTimeText(search)}}</span>
+                        </div>
+                        <div class="action-ico">
+                          <a class="title-tipso tipso_style" title="Turn Off Notifications" href="javascript:void(0);" ng-click="setSavedSearchNotificationClient(search, false)" ng-show="search.RequiredNotification == true"><i class="fa fa-bell"></i></a>
+                          <a class="title-tipso tipso_style" title="Turn On Notifications" href="javascript:void(0);" ng-click="setSavedSearchNotificationClient(search, true)" ng-show="search.RequiredNotification == false"><i class="fa fa-bell-slash"></i></a>
+                          <a class="title-tipso tipso_style" title="Delete" href="javascript:void(0);" ng-click="deleteSavedSearchClient(search)" ng-show="displayDeleteSavedSearch(search)"><i class="fa fa-trash"></i></a>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+    </div>
+    </div>
+  </article>
+  <div id="handle">
+    <div>
+
+    </div>
+  </div>
+</div>
+
+<p id="drawhelp">Draw an area to limit your search to an area by dragging the pen. Release the mouse to complete the shape.</p>
+<map-view properties="Listings" data-drawing="isDrawing" drawing-complete-callback="drawingCompleteCallback" clear-polygon="clearPolygon"></map-view>
+<!--<aside id="map">-->
+<!--&lt;!&ndash; HOX2: added aside &ndash;&gt;-->
+<!--<aside id="map_overlay"></aside>-->
+
+<!--&lt;!&ndash; HOX: remove below for production &ndash;&gt;-->
+<!--&lt;!&ndash;<br/><br/><br/><br/><br/><br/><br/>&ndash;&gt;-->
+<!--&lt;!&ndash;<p style="font-size: 200%;">100% &#215; 100% map goes here.</p>&ndash;&gt;-->
+<!--&lt;!&ndash; stop removing here &ndash;&gt;-->
+
+<!--</aside>-->
+
+<a href="javascript:void(0);" id="back" class="glyph-icon flaticon-back44 visible" ng-click="back()"></a>
+
+<div id="l"></div>
+<div id="r"></div>

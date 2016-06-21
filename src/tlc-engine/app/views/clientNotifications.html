@@ -1,0 +1,94 @@
+﻿<div id="content" class="edit_client_profile">
+  <!-- HOX2: added aside -->
+  <aside id="content_overlay"></aside>
+  <article pscrollbar>
+    <div class="content-map-page">
+      <!-- [ S ] Content -->
+      <div id="editprofile-page" class="">
+        <div class="logo_editprofile">
+          <a href="javascript:void(0)" ng-click="goToHome()"><img src="images/logo-small@2x.png" alt="" /></a>
+        </div>
+        <div class="content">
+            <h1>Notifications</h1>
+            <div class="editprofile_form" style="padding: 0px 0px;">
+            <div class="checkbox">
+              <h3>
+              <label class="checkbox-custom" for="allnotification">
+                <input type="checkbox" name="allnotification" id="allnotification" ng-model="notification.allnotifications" ng-change="changeAllNotifications()" >
+                <i class="fa fa-fw fa-square-o " ng-class="(notification.allnotifications)?'checked':''"></i> Get All Notifications
+              </label>
+              </h3>
+            </div>
+            </div>
+            <div class="editprofile_form" style="padding: 0px 0px;">
+            <h2>Get notifications about</h2>
+            <div>
+              <div class="checkbox">
+                <label class="checkbox-custom" for="clinetwelcome">
+                  <input type="checkbox" name="savedsearches" id="savedsearches" ng-model="notification.savedsearches" >
+                  <i class="fa fa-fw fa-square-o " ng-class="(notification.savedsearches)?'checked':''"></i> All saved-searches notifications
+                </label>
+              </div>
+              <div class="checkbox">
+                <label class="checkbox-custom" for="clinetwelcome">
+                  <input type="checkbox" name="clinetwelcome" id="clinetwelcome" ng-model="notification.clinetwelcome" >
+                  <i class="fa fa-fw fa-square-o " ng-class="(notification.clinetwelcome)?'checked':''"></i> Copy of Client's welcome email
+                </label>
+              </div>
+              <div class="checkbox">
+                <label class="checkbox-custom" for="propertiesfavoritedclient">
+                  <input type="checkbox" name="propertiesfavoritedclient" id="propertiesfavoritedclient" ng-model="notification.propertiesfavoritedclient" >
+                  <i class="fa fa-fw fa-square-o " ng-class="(notification.propertiesfavoritedclient)?'checked':''"></i> Properties Favorited by client
+                </label>
+              </div>
+              <div class="checkbox">
+                <label class="checkbox-custom" for="clientsearch">
+                  <input type="checkbox" name="clientsearch" id="clientsearch" ng-model="notification.clientsearch" >
+                  <i class="fa fa-fw fa-square-o " ng-class="(notification.clientsearch)?'checked':''"></i> Client performs search
+                </label>
+              </div>
+              <div class="checkbox">
+                <label class="checkbox-custom" for="clientloggedin">
+                  <input type="checkbox" name="clientloggedin" id="clientloggedin" ng-model="notification.clientloggedin" >
+                  <i class="fa fa-fw fa-square-o " ng-class="(notification.clientloggedin)?'checked':''"></i> Client logged-in
+                </label>
+              </div>
+              <div class="checkbox">
+                <label class="checkbox-custom" for="unsuccessfullogin">
+                  <input type="checkbox" name="unsuccessfullogin" id="unsuccessfullogin" ng-model="notification.unsuccessfullogin" >
+                  <i class="fa fa-fw fa-square-o " ng-class="(notification.unsuccessfullogin)?'checked':''"></i> Un-successful attempt to login by client
+                </label>
+              </div>
+              <div class="checkbox">
+                <label class="checkbox-custom" for="clientcomments">
+                  <input type="checkbox" name="clientcomments" id="clientcomments" ng-model="notification.clientcomments" >
+                  <i class="fa fa-fw fa-square-o " ng-class="(notification.clientcomments)?'checked':''"></i> Comments made by client
+                </label>
+              </div>
+              <div class="checkbox">
+                <label class="checkbox-custom" for="webminarstraining">
+                  <input type="checkbox" name="webminarstraining" id="webminarstraining" ng-model="notification.webminarstraining" >
+                  <i class="fa fa-fw fa-square-o " ng-class="(notification.webminarstraining)?'checked':''"></i> TLC Webminars and training events
+                </label>
+              </div>
+              <div class="checkbox">
+                <label class="checkbox-custom" for="newsletters">
+                  <input type="checkbox" name="newsletters" id="newsletters" ng-model="notification.newsletters" >
+                  <i class="fa fa-fw fa-square-o " ng-class="(notification.newsletters)?'checked':''"></i> Newsletters
+                </label>
+              </div>
+            </div>
+            <div class="button">
+              <input class="btn btn-success" type="button" value="Unsubscribe" ng-click="unsubscribeNotifications()" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- [ E ] Content -->
+    </div>
+  </article>
+  <div id="handle">
+    <div></div>
+  </div>
+</div>
+<a href="javascript:void(0);" id="back" class="glyph-icon flaticon-back44 visible"  ng-click="back()"></a>

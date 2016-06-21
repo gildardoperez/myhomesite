@@ -1,0 +1,152 @@
+﻿<div class="compare_property">
+    <div>
+      <a href="javascript:void(0)" ng-click="printCompProp()" class="removeBtnPropCompare">Print</a>
+      <h2>Property Comparison</h2>
+    </div>
+    <div class="propCompareMainDiv">
+      <div class="school-table" id="scroll-style"> 
+              <div class="schooltable-content">
+        <table style="width: 100%;float: left;">
+            <tr>
+                <td></td>
+                <td ng-repeat="ComapreProp in ComaprePropIDList">
+                    <img ng-repeat="prop in propertiesListingForComapare| filter:{ Id: ComapreProp }" src="{{prop.Photos.length>0 ? prop.Photos[0] :'images/No-property.png'}}" class="propCompareImage" />
+                </td>
+            </tr>
+
+            <tr class="list_price">
+                <td>MLS No.</td>
+                <td ng-repeat="ComapreProp in ComaprePropIDList">
+                    <span ng-repeat="prop in propertiesListingForComapare| filter:{ Id: ComapreProp }">{{prop.MN}}</span>
+                </td>
+            </tr>
+          <tr class="tlc_price">
+            <td>TLC</td>
+            <td ng-repeat="ComapreProp in ComaprePropIDList track by $index">
+              <span ng-repeat="prop in propertiesListingForComapare| filter:{ Id: ComapreProp }">${{formatNumber(prop.TLC)}}</span>
+            </td>
+          </tr>
+            <tr class="list_price">
+                <td>List Price</td>
+                <td ng-repeat="ComapreProp in ComaprePropIDList track by $index">
+                    <span ng-repeat="prop in propertiesListingForComapare| filter:{ Id: ComapreProp }">${{formatNumber(prop.LP)}}</span>
+                </td>
+            </tr>
+          <tr ng-hide="isLoadingComp">
+            <td>Down Payment (20%)</td>
+            <td ng-repeat="ComapreProp in ComaprePropIDList track by $index">
+              <span ng-repeat="prop in propertiesListingForComapare| filter:{ Id: ComapreProp }">${{formatNumber(prop.Down_Payment)}}</span>
+            </td>
+          </tr>
+          <tr ng-hide="isLoadingComp"><!-- ng-hide="isLoadingComp"-->
+            <td>Loan Amount</td>
+            <td ng-repeat="ComapreProp in ComaprePropIDList track by $index">
+              <span ng-repeat="prop in propertiesListingForComapare| filter:{ Id: ComapreProp }">${{formatNumber(prop.LoanAmount)}}</span>
+            </td>
+          </tr>
+          <tr ng-hide="isLoadingComp"><!-- ng-hide="isLoadingComp"-->
+            <td>Mortgage Payment</td>
+            <td ng-repeat="ComapreProp in ComaprePropIDList track by $index">
+              <span ng-repeat="prop in propertiesListingForComapare| filter:{ Id: ComapreProp }">${{formatNumber(prop.Mortgage_Payment)}}</span>
+            </td>
+          </tr>
+            <tr>
+                <td>Address</td>
+                <td ng-repeat="ComapreProp in ComaprePropIDList">
+                    <div ng-repeat="prop in propertiesListingForComapare| filter:{ Id: ComapreProp }">
+                        <p>{{prop.SA}}</p>
+                        <p>{{prop.CT}}, {{prop.ST}}, {{prop.PC}}</p>
+                    </div>
+                </td>
+            </tr>
+          <tr>
+            <td colspan="{{ComaprePropIDList.length+1}}">
+
+              <a href="javascript:void(0)" ng-click="openMoreInfo()"> <i class="fa fa-angle-down downMoreInfo "></i>
+                <i class="fa fa-angle-up upMoreInfo hide"></i>Expandable</a>
+            </td>
+          </tr>
+            <tr class="expandDiv hide">
+                <td>Beds</td>
+                <td ng-repeat="ComapreProp in ComaprePropIDList">
+                    <span ng-repeat="prop in propertiesListingForComapare| filter:{ Id: ComapreProp }">{{prop.BD}}</span>
+                </td>
+            </tr>
+            <tr  class="expandDiv hide">
+                <td>Baths</td>
+                <td ng-repeat="ComapreProp in ComaprePropIDList">
+                    <span ng-repeat="prop in propertiesListingForComapare| filter:{ Id: ComapreProp }">{{prop.BDI}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>SQFT</td>
+                <td ng-repeat="ComapreProp in ComaprePropIDList">
+                    <span ng-repeat="prop in propertiesListingForComapare| filter:{ Id: ComapreProp }">{{formatNumber(prop.LA)}}</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>Garages</td>
+                <td ng-repeat="ComapreProp in ComaprePropIDList">
+                    <span ng-repeat="prop in propertiesListingForComapare| filter:{ Id: ComapreProp }">{{prop.GR}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>Year Built</td>
+                <td ng-repeat="ComapreProp in ComaprePropIDList">
+                    <span ng-repeat="prop in propertiesListingForComapare| filter:{ Id: ComapreProp }">{{prop.YR}}</span>
+                </td>
+            </tr>
+
+            <tr ng-show="isLoadingComp" class="loading">
+                <td colspan="{{ComaprePropIDList.length+1}}">Loading...</td>
+            </tr>
+            <tr ng-hide="isLoadingComp"><!-- ng-hide="isLoadingComp"-->
+                <td>Architecture</td>
+                <td ng-repeat="ComapreProp in ComaprePropIDList track by $index">
+                  <span ng-repeat="prop in propertiesListingForComapare| filter:{ Id: ComapreProp }">{{prop.Architecture}}</span>
+                </td>
+            </tr>
+            <!-- <tr ng-hide="isLoadingComp"><!-- ng-hide="isLoadingComp"--> -->
+            <!--     <td>Lot Size</td>
+                <td ng-repeat="ComapreProp in ComaprePropIDList track by $index">
+                  <span ng-repeat="prop in propertiesListingForComapare| filter:{ Id: ComapreProp }">{{prop.LotSize}}</span>
+                </td>
+            </tr> -->
+            <tr ng-hide="isLoadingComp"><!-- ng-hide="isLoadingComp"-->
+                <td>House Owner Association Fees</td>
+                <td ng-repeat="ComapreProp in ComaprePropIDList track by $index">
+                  <span ng-repeat="prop in propertiesListingForComapare| filter:{ Id: ComapreProp }">${{formatNumber(prop.HOA)}}</span>
+                </td>
+            </tr>
+          <tr ng-hide="isLoadingComp"><!-- ng-hide="isLoadingComp"-->
+            <td></td>
+            <td ng-repeat="ComapreProp in ComaprePropIDList track by $index">
+                <span ng-repeat="prop in propertiesListingForComapare| filter:{ Id: ComapreProp }"><a href="javascript:void(0)" ng-click="removeCompProp(ComapreProp)" class="removeBtnPropCompare">Remove</a></span>
+            </td>
+          </tr>
+
+        </table>
+      </div>
+      </div>
+      <!--<div ng-show="isLoadingComp">
+        <p>Loading...</p>
+      </div>-->
+    </div>
+</div>
+
+
+<div ng-show="openConfirmMessage" class="confirmProp_RemovePopup">
+  <div id="overlayForpropRemoveConfirm"></div>
+  <div class="textForConfPropRmv">
+    <div class="textForConfPropRmv_inner">
+  <p>
+    Require minimum 2 properties to compare. Do you still want to remove this ?
+  </p>
+  <div class="textForConfbtn">
+    <a href="javascript:void(0)" ng-click="removePropYes()">Yes</a>
+    <a href="javascript:void(0)" ng-click="removePropNo()">No</a>
+  </div>
+    </div>
+  </div>
+</div>

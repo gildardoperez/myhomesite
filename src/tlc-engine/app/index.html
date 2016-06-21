@@ -1,0 +1,729 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html class="no-js" ng-app="tlcengineApp">
+<head>
+    <!--[if lte IE 9]>
+    <script src="OtherJs/xdomain.js" slave="http://devapiv2.tlcengine.com/proxy.html"></script>
+    <![endif]-->
+
+    <meta charset="utf-8">
+    <title ng-bind="title">TLCengine</title>
+    <meta http-equiv="x-ua-compatible" content="IE=edge" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--<link rel="shortcut icon" type="image/png" href="/images/favicon-icon.png" />-->
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:400,700,300" rel="stylesheet" type="text/css">
+    <!-- build:css(.) styles/vendor.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css" />
+    <link rel="stylesheet" href="bower_components/nouislider/jquery.nouislider.css" />
+    <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
+    <link rel="stylesheet" href="bower_components/ngDialog/css/ngDialog.css" />
+    <link rel="stylesheet" href="bower_components/ngDialog/css/ngDialog-theme-default.css" />
+    <link rel="stylesheet" href="bower_components/perfect-scrollbar/css/perfect-scrollbar.css" />
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="styles/tlc.css">
+    <link rel="stylesheet" href="styles/bootstrap.css">
+
+    <link href="styles/kendo/examples-offline.css" rel="stylesheet">
+    <link href="styles/kendo/kendo.common.min.css" rel="stylesheet">
+    <link href="styles/kendo/kendo.default.min.css" rel="stylesheet">
+    <link href="styles/kendo/kendo.dataviz.min.css" rel="stylesheet">
+    <link href="styles/kendo/kendo.dataviz.default.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="styles/flaticon.css" />
+    <link rel="stylesheet" href="styles/main.css" />
+    <link rel="stylesheet" href="styles/ng-tags-input.css" />
+    <link rel="stylesheet" href="styles/introjs.css" />
+    <link rel="stylesheet" href="styles/multiselect.css" />
+    <!-- endbuild -->
+
+
+
+</head>
+
+
+<body >
+
+
+    <!--Header Panel-->
+    <nav class="navbar navbar-default" role="navigation">
+      <div class="container-fluid container-width">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <div class="logo">
+            <a href="/" onclick="return trackGoogleAnalytics('Clicked on MRIShomes.com logo', 'Home Page', null, 'Clicked logo')">
+              <div class="mrisLogo"></div>
+              <!-- <img id="mrislogo" style="width: 200px;"  src="/images/mris-logo-1.png" alt="MRIS Logo"/> -->
+            </a>
+          </div>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse nav-scroll" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-left">
+            <li><a ui-sref="searchHome" id="salesLink" onclick="return trackGoogleAnalytics('Clicked Sales link in header', 'Site Header', null, 'Clicked Sales link')">Sales</a></li>
+            <li><a ui-sref="searchHome" id="rentalsLink" onclick="return trackGoogleAnalytics('Clicked Rentals link in header', 'Site Header', null, 'Clicked Rentals link')">Rentals</a></li>
+            <li><a ui-sref="AgentsSearch" onclick="return trackGoogleAnalytics('Clicked Agents link in header', 'Site Header', null, 'Clicked Agents link')">Agents</a></li>
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+          <li class="green-back"><a id="mozaic-saved-properties" onclick="return trackGoogleAnalytics('Clicked Mozaic Saved Properties link', 'Site Header', null, 'Clicked Moz Saved Prop link')">Mozaic Saved Properties</a></li>
+              <!--<li class="green-back"><a href="http://applications.tst.mris.com/mozaic/user">Mozaic Saved Properties</a></li>-->
+          <li class="blue-back">
+              <a class="dropdown-toggle" id="captureUserName" onclick="return trackGoogleAnalytics('Clicked Login or Register in header', 'Site Header', null, 'Clicked Login or Register')">Login or Register</a>
+              <ul id="login-dp" class="dropdown-menu">
+                <li>
+                  <div class="row">
+                    <div class="col-md-12" id="userMenu">
+                      <!--<div id="login-via-text">Login via</div>-->
+                        <div id="login-menu-height-control" class="social-buttons login-menu-height-control">
+                            <ul style="display: block;" id="clientUser">
+                            <li class="border-bottom"><a ui-sref="clientDashboard" id="client-dashboard-menu-item" class="capture_user_name">Dashboard</a></li>
+                            <li class="border-bottom"><a ui-sref="tlcClient.search({IsFavorite:1})" id="client-favorite-menu-item" class="capture_user_name">Favorites</a></li>
+                            <li class="border-bottom"><a ui-sref="clientDashboard" id="saved-searches-account" class="capture_user_name">Saved Searches</a></li>
+                            <li class="border-bottom"><a ui-sref="clientEditProfile" id="profile-account" class="capture_user_name">Profile</a></li>
+                            <li class="border-bottom"><a ui-sref="AgentsSearch" id="connect-with-an-agent-account" class="capture_user_name">Connect with an Agent</a></li>
+                                <!-- data-toggle="modal" data-target="#connectAgent"-->
+                            <li><a href="#" id="captureSignOutLink" class="capture_end_session" onClick="logoutuser()">Sign Out</a></li>
+                            </ul>
+
+                            <ul style="display: none;" id="agentUser">
+                              <li class="border-bottom"><a ui-sref="agentDashboard" id="agent-dashboard-menu-item" class="capture_user_name">Dashboard</a></li>
+                              <li class="border-bottom"><a ui-sref="agentDashboard" id="agent-saved-searches-account" class="capture_user_name">Saved Searches</a></li>
+                              <li class="border-bottom"><a ui-sref="agentEditProfile" class="capture_user_name">Profile</a></li>
+                              <li class="border-bottom"><a ui-sref="compareNeighborhood" class="capture_user_name">Compare Neighborhoods</a></li>
+                              <li class="border-bottom"><a ui-sref="tlc.newClient" class="capture_user_name">Add New Client</a></li>
+                              <li><a href="#" id="agentcaptureSignOutLink" class="capture_end_session" onClick="logoutuser()">Sign Out</a></li>
+                            </ul>
+                        </div>
+                        <input type="hidden" id="isagentUser" name="isagentUser"/>
+                        <input type="hidden" id="agentName" name="agentName"/>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+
+    <!-- <div class="header-splitter"></div> -->
+
+    <!--[if lt IE 7]>
+    <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    <!-- Add your site or application content here -->
+    <div ui-view class="white-background"></div>
+
+    <!--<div id="info-message" aa-notify=aa-notify ng-click="close(notification)"></div>--><!--style="position: absolute; top: 82px; left: 25%;"-->
+    <div id="info-message" aa-notify></div>
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        //ga('create', 'UA-XXXXX-X');
+        ga('create', 'UA-3562305-39');
+        //ga('send', 'pageview');
+    </script>
+
+    <!-- Modal -->
+    <div ng-controller="AddMozaicBookmark" class = "modal fade" id = "AddMozaicBookmarkModal" tabindex = "-1" role = "dialog" aria-labelledby = "myModalLabel" aria-hidden = "true">
+
+        <div class = "modal-dialog">
+            <div class = "modal-content">
+
+                <div class = "modal-header">
+                    <button type = "button" class = "close" data-dismiss = "modal" aria-hidden = "true">
+                        X
+                    </button>
+
+                    <h4 class = "modal-title" id = "myModalLabel">
+                        Favorite a Property
+                    </h4>
+                </div>
+                <form role="form">
+
+                    <div class = "modal-body">
+                        <h4 class="header-strip">Add to participant(s) list</h4>
+                        <div class="popup-content clearfix">
+                          <div class="checkbox">
+                             <label ng-disabled="mozaicfavorite_list.length==1" ><input ng-disabled="mozaicfavorite_list.length==1"  ng-click="globalSelect()" name="mozaicList" ng-model="mozaicList" ng-disabled="alladded" ng-checked="mozaicList" type="checkbox" style="z-index: 99999;">Select all participants</label>
+                          </div>
+                          <div class="panelContent">
+
+                            <!--<div class="scrollbar"><div class="track"><div class="thumb"><div class="end"></div></div></div></div>-->
+
+                            <div class="viewport clearfix">
+
+                              <div class="overview" id="ParticipantItems">
+                                <div class="clearfix"></div>
+                                <div class="checkbox participat_container col-md-4" ng-repeat="favorite_list in mozaicfavorite_list">
+                                   <div class="col-md-12">
+                                   <div class="checkbox_container">
+                                     <div class="image_container">
+                                       <img class="customer-photo" alt="favorite_list.projectName" src="/images/client-dashboard.png" />
+                                     </div>                                     
+                                     <div class="name_container">
+                                       <p class="text-center">
+                                       <input ng-click="removeSelectedList()" name="addList[]" type="checkbox" style="z-index: 99999;" class="checkboxList" value="{{favorite_list.projectId}}" ng-if="favorite_list.favoriteStatus != 'fav_duplicate'">
+                                       {{favorite_list.projectName}}</p>
+                                       <span ng-if="favorite_list.favoriteStatus == 'fav_duplicate'">(Favorited already)</span>
+                                    </div>
+                                  </div>
+                                  </div>
+                                  </div>
+                              </div>
+
+                              <!-- <div class="thumb clearfix">
+                                  <img src="images/test.jpg" alt="Cinque Terre">
+                                  <h3>My List</h3>ng-if="favorite_list.favoriteStatus == 'fav_duplicate'"
+                                  <label><input type="checkbox" value=""> Add to list</label>
+                              </div> -->
+
+                          </div>
+
+                        </div>
+                      </div>
+                        <h4 class="header-strip">Email notifications</h4>
+                        <div class="popup-content clearfix">
+
+                            <div class="pull-left col-xs-6">
+                                <p>Email me property updates about:</p>
+                                <div class="checkbox">
+                                    <label><input ng-model="mozaicAddFavoritePriceChange" ng-checked="mozaicAddFavoritePriceChange" type="checkbox">Price Change</label>
+                                </div>
+                                <div class="checkbox">
+                                    <label><input ng-model="mozaicAddFavoriteStatusChange" ng-checked="mozaicAddFavoriteStatusChange" type="checkbox">Status Change &nbsp; &nbsp; &nbsp; &nbsp;</label>
+                                </div>
+                                <div class="checkbox">
+                                    <label><input ng-model="mozaicAddFavoriteOpenHouse" ng-checked="mozaicAddFavoriteOpenHouse" type="checkbox">Open House</label>
+                                </div>
+                            </div>
+                            <div class="pull-right col-xs-6">
+                                <p>When do you want to be notified?</p>
+                              <select ng-model='mozaicAddFavoriteEnableNotification' ng-options='option.value as option.name for option in favOptions' class="select-notified"></select>
+                            </div>
+                        </div>
+
+                      <h4 class="header-strip">Rate Me</h4>
+                      <div class="popup-content">
+                        <hmrating hmupto="5" hmid="r1" hmcursor="pointer" hmcolor="orange" rate="rate"></hmrating>
+                      </div>
+
+                      <h4 class="header-strip">Comments</h4>
+                        <div class="popup-content">
+                            <p>Email me property updates about:</p>
+                            <textarea ng-model="mozaicAddFavoriteComments" class="pop-textarea" maxlength="500"></textarea>
+                        </div>
+                    </div>
+
+                    <div class = "modal-footer">
+                        <button type = "button" ng-click="submitBookmark()" class = "btn btn-primary btn-background" ng-disabled="successResponse">
+                            Submit
+                        </button>
+                        <button type = "button" class = "btn btn-primary btn-background" data-dismiss = "modal">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+
+    </div><!-- /.modal -->
+
+    <!-- JanRain Capture widget screens -->
+    <div style="display:none;" id="signIn">
+        <div class="capture_header">
+            <h1>Sign Up / Sign In</h1>
+        </div>
+        <div class="capture_signin">
+            <h2>With your existing account from...</h2>
+            {* loginWidget *} <br />
+        </div>
+        <div class="capture_backgroundColor">
+            <div class="capture_signin">
+                <h2>With a traditional account...</h2>
+                {* #userInformationForm *}
+                {* traditionalSignIn_emailAddress *}
+                {* traditionalSignIn_password *}
+                <div class="capture_form_item">
+                    <a href="#" data-capturescreen="forgotPassword">Forgot your password?</a>
+                </div>
+                <div class="capture_rightText">
+                    {* traditionalSignIn_signInButton *}{* traditionalSignIn_createButton *}
+                </div>
+                {* /userInformationForm *}
+            </div>
+        </div>
+    </div>
+    <div style="display:none;" id="returnSocial">
+      <div class="capture_header">
+        <h1>Sign In</h1>
+      </div>
+      <div class="capture_signin">
+        <h2>Welcome back, {* welcomeName *}!</h2>
+        {* loginWidget *}
+        <div class="capture_centerText switchLink"><a href="#" data-cancelcapturereturnexperience="true">Use another account</a></div>
+      </div>
+    </div>
+    <div style="display:none;" id="returnTraditional">
+      <div class="capture_header">
+        <h1>Sign In</h1>
+      </div>
+      <h2 class="capture_centerText"><span id="traditionalWelcomeName">Welcome back!</span></h2>
+      <div class="capture_backgroundColor">
+        {* #userInformationForm *}
+        {* traditionalSignIn_emailAddress *}
+        {* traditionalSignIn_password *}
+        <div class="capture_form_item capture_rightText">
+          {* traditionalSignIn_signInButton *}
+        </div>
+        {* /userInformationForm *}
+        <div class="capture_centerText switchLink"><a href="#" data-cancelcapturereturnexperience="true">Use another account</a></div>
+      </div>
+    </div>
+    <div style="display:none;" id="socialRegistration">
+      <div class="capture_header">
+        <h1>Almost Done!</h1>
+      </div>
+      <h2>Please confirm the information below before signing in.</h2>
+      {* #socialRegistrationForm *}
+      {* socialRegistration_firstName *}
+      {* socialRegistration_lastName *}
+      {* socialRegistration_emailAddress *}
+      {* socialRegistration_displayName *}
+      By clicking "Sign in", you confirm that you accept our <a href="#/pages/terms-of-use" target="_blank">terms of service</a> and have read and understand <a href="#/pages/privacy-policy" target="_blank">privacy policy</a>.
+      <div class="capture_footer">
+        <div class="capture_left">
+          {* backButton *}
+        </div>
+        <div class="capture_right">
+          {* socialRegistration_signInButton *}
+        </div>
+      </div>
+      {* /socialRegistrationForm *}
+    </div>
+    <div style="display:none;" id="registrationNewVerification">
+      <div class="capture_header">
+        <h1>Thank you for registering!</h1>
+      </div>
+      <p>We have sent a confirmation email to {* emailAddressData *}. Please check your email and click on the link to activate your account.</p>
+      <div class="capture_footer">
+        <a href="#" onclick="window.location.reload()" class="capture_btn capture_primary">Close</a>
+      </div>
+    </div>
+    <div style="display:none;" id="traditionalRegistration">
+      <div class="capture_header">
+        <h1>Almost Done!</h1>
+      </div>
+      <p>Please confirm the information below before signing in. Already have an account? <a href="#" data-capturescreen="signIn">Sign In.</a></p>
+      {* #registrationForm *}
+      {* traditionalRegistration_firstName *}
+      {* traditionalRegistration_lastName *}
+      {* traditionalRegistration_emailAddress *}
+      {* traditionalRegistration_password *}
+      {* traditionalRegistration_passwordConfirm *}
+      {* traditionalRegistration_displayName *}
+      By clicking "Create Account", you confirm that you accept our <a href="#/pages/terms-of-use" target="_blank">terms of service</a> and have read and understand <a href="#/pages/privacy-policy" target="_blank">privacy policy</a>.
+      <div class="capture_footer">
+        <div class="capture_left">
+          {* backButton *}
+        </div>
+        <div class="capture_right">
+          {* createAccountButton *}
+        </div>
+      </div>
+      {* /registrationForm *}
+    </div>
+    <div style="display:none;" id="forgotPassword">
+      <div class="capture_header">
+        <h1>Create a new password</h1>
+      </div>
+      <h2>We'll send you a link to create a new password.</h2>
+      {* #forgotPasswordForm *}
+      {* traditionalSignIn_emailAddress *}
+      <div class="capture_footer">
+        <div class="capture_left">
+          {* backButton *}
+        </div>
+        <div class="capture_right">
+          {* forgotPassword_sendButton *}
+        </div>
+      </div>
+      {* /forgotPasswordForm *}
+    </div>
+    <div style="display:none;" id="forgotPasswordSuccess">
+      <div class="capture_header">
+        <h1>Create a new password</h1>
+      </div>
+      <p>We've sent an email with instructions to create a new password. Your existing password has not been changed.</p>
+      <div class="capture_footer">
+        <a href="#" onclick="janrain.capture.ui.modal.close()" class="capture_btn capture_primary">Close</a>
+      </div>
+    </div>
+    <div style="display:none;" id="mergeAccounts">
+      {* mergeAccounts *}
+    </div>
+    <div style="display:none;" id="traditionalAuthenticateMerge">
+      <div class="capture_header">
+        <h1>Sign in to complete account merge</h1>
+      </div>
+      <div class="capture_signin">
+        {* #tradAuthenticateMergeForm *}
+        {* traditionalSignIn_emailAddress *}
+        {* mergePassword *}
+        <div class="capture_footer">
+          <div class="capture_left">
+            {* backButton *}
+          </div>
+          <div class="capture_right">
+            {* traditionalSignIn_signInButton *}
+          </div>
+        </div>
+        {* /tradAuthenticateMergeForm *}
+      </div>
+    </div>
+
+    <!-- Modal For Send Invitation -->
+    <div ng-controller="SendInvitation" class="modal fade" id="connectWithAgentLogin" tabindex="-1" role="dialog" aria-labelledby="connectAgentLabel" data-focus-on="input:first">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="connectAgentLabel">Invitation to work with this Agent</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="invitationForm" name="invitationForm">
+                        <div>
+                            Are you sure want to send this invitation?
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" ng-click="makeInviteAgentRequest()">Yes</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- <div class="splitter-button"><i class="glyphicon glyphicon-chevron-up splitter-arrow"></i></div> -->
+    <!--Footer Panel-->
+    <footer class="footer-bottom">
+        <div class="container-fluid">
+            <div id="footer" class="row">
+                <div class="footer-part1 row-min">
+                    <div class="footer-col-1">
+                        <ul class="navfooter">
+                            <li><a ui-sref="PrivacyPolicy" href="#/pages/privacy-policy">Privacy Policy</a></li>
+                            <li><a ui-sref="TermsOfUse" href="#/pages/terms-of-use">Terms of Use</a></li>
+                            <li><a ui-sref="Copyrights" href="#/pages/copyrights">Copyright</a></li>
+                            <li><a href="http://www.mlscloud.com/" target="_blank">CloudMLS</a></li>
+                        </ul>
+                    </div>
+                      <div class="border-right"></div>
+                    <div class="footer-col-2">
+                      <div class="mris-logo-img"></div>
+                        <!-- <img src="/images/mris-logo-1.png" alt="MRIS Logo" class="img-responsive img-per" /> -->
+                        <a href="http://www.tlcengine.com/" onclick="return trackGoogleAnalytics('TLCengine logo', 'Site Footer', null, 'TLC logo')" target="_blank">
+                          <div class="tlc-logo-img"></div>
+                          <!-- <img src="images/logo-new.png" class="img-responsive img-per" /> -->
+                        </a>
+                    </div>
+
+                      <div class="border-right"></div>
+
+                    <div class="footer-col-3">
+                        <a href="http://www.mris.com/" onclick="return trackGoogleAnalytics('MRIS logo', 'Site Footer', null, 'MRIS logo')" target="_blank">
+                          <div class="mris-footer-img"></div>
+                          <!-- <img src="images/footer-log.png" class="img-responsive img-per" /> -->
+                        </a>
+                    </div>
+
+                      <div class="border-right"></div>
+                </div>
+
+                <div class="footer-part2 row-min">
+                    <div class="footer-col-4">
+                        <p class="text-center font-size">Copyright © 2016 Metropolitan Regional Information Systems, Inc.</p>
+                    </div>
+
+                      <div class="border-right"></div>
+
+                    <div class="footer-col-5 equal-img">
+                      <span class=""></span>
+                       <!-- <img src="../images/equal-home.png" class="img-responsive" title="Equal Home"/> -->
+                    </div>
+
+                    <div class="border-right"></div>
+
+                    <div class="footer-col-6">
+                        <button id="agent-login-ui-sref" class="btn btn-success footerlogin-button" ui-sref="agentLogin" href="#/agents/login">Agent Login</button>
+                    </div>
+                </div>
+            </div>
+    </footer>
+
+    <!--<div class="mozaic-footer-widget" id="mozaic-footer-widget">-->
+        <!--<div class="menu">-->
+            <!--<div class="dropdown" href="#">Mozaic Widget-->
+                <!--<ul class="footer_menu">-->
+                    <!--<li><a href= "/#/clients/search/orderby:TLC;orderbydirection:ASC;" target="_blank">Search for Properties</a></li>-->
+                    <!--<li><a href= "/#/search/agentOfficeSearch" target="_blank">Search for Agents</a></li>-->
+                <!--</ul>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+
+    <!-- build:js(.) scripts/oldieshim.js -->
+    <!--[if lt IE 9]>
+    <script src="bower_components/es5-shim/es5-shim.js"></script>
+    <script src="bower_components/json3/lib/json3.js"></script>
+    <![endif]-->
+    <!-- endbuild -->
+
+    <!-- build:js(.) scripts/vendor.js -->
+    <script src="scripts/vendor/modernizr-2.8.0.min.js"></script>
+    <!-- bower:js -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-agility/dist/angular-agility.min.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-loading-bar/build/loading-bar.js"></script>
+    <script src="bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
+    <script src="bower_components/nouislider/jquery.nouislider.min.js"></script>
+    <script src="bower_components/angular-nouislider/src/nouislider.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-ui-utils/ui-utils.js"></script>
+    <script src="bower_components/jquery-ui/jquery-ui.js"></script>
+    <script src="bower_components/zeroclipboard/dist/ZeroClipboard.js"></script>
+    <script src="bower_components/ng-clip/src/ngClip.js"></script>
+    <script src="bower_components/ngDialog/js/ngDialog.js"></script>
+    <script src="bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
+    <script src="bower_components/perfect-scrollbar/js/perfect-scrollbar.jquery.js"></script>
+    <script src="bower_components/perfect-scrollbar/js/perfect-scrollbar.js"></script>
+    <script src="bower_components/ui-router/release/angular-ui-router.js"></script>
+    <script src="bower_components/underscore/underscore.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+
+    <!--<script src="bower_components/angulartics/src/angulartics-debug.js"></script>-->
+
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <!--Fix for angulartics -->
+    <script src="scripts/angulartics/src/angulartics.js"></script>
+    <script src="scripts/angulartics/src/angulartics-ga.js"></script>
+    <!--<script src="scripts/angulartics/src/angulartics-debug.js"></script>-->
+
+    <script src="scripts/ng-tags-input/ng-tags-input.js"></script>
+    <script src="scripts/settings.js"></script>
+    <script src="scripts/tipso.js"></script>
+    <script src="scripts/intro.js"></script>
+    <!-- <script src="scripts/toastr.min.js"></script>-->
+    <script src="scripts/jquery.ddslick.js"></script>
+    <script src="scripts/vendor/jquery.currency.js"></script>
+    <script src="scripts/bootstrap.js"></script>
+    <!--<script src="scripts/vendor/template.js"></script>-->
+
+    <script src="scripts/vendor/PinClusterer/pin_clusterer.js"></script>
+    <script src="scripts/plugins.js"></script>
+    <script src="scripts/tlc.js"></script>
+    <script src="scripts/jquery.flexslider.js"></script>
+    <script src="scripts/highcharts/highcharts.js"></script>
+    <!--<script src="scripts/highcharts/highcharts-exporting.js"></script>
+    <script src="scripts/highcharts/highcharts-3d.js"></script>-->
+    <script src="scripts/highcharts/highcharts-ng.js"></script>
+    <script src="scripts/profile-progress-circle.js"></script>
+    <script src="scripts/angular-google-places-autocomplete/ngAutocomplete.js"></script>
+    <script src="scripts/angular-google-places-autocomplete/autocomplete.js"></script>
+    <script src="scripts/ng-file-upload/ng-file-upload-shim.js"></script>
+    <script src="scripts/ng-file-upload/ng-file-upload.js"></script>
+    <script src="scripts/jquery.ui.touch-punch.min.js"></script>
+    <!--<script src="scripts/powerange.js"></script>-->
+
+    <script src="scripts/cluster-map/markerclusterer_compiled.js"></script>
+    <script src="scripts/common.js"></script>
+    <!--<script src="scripts/controllers/smart-table.js"></script>-->
+    <script src="scripts/directives/angular-dropdowns.js"></script>
+    <script src="scripts/directives/multiselect.js"></script>
+
+
+    <script src="scripts/app.js"></script>
+    <script type="text/javascript" src="scripts/toggles.min.js"></script>
+    <script src="scripts/star/star.js"></script>
+    <script src="scripts/filters.js"></script>
+    <script src="scripts/controllers/addMozaicBookamrk.js"></script>
+    <script src="scripts/controllers/home.js"></script>
+    <script src="scripts/janrain/janrain-init.js"></script>
+    <script src="scripts/controllers/master.js"></script>
+    <script src="scripts/controllers/propertyList.js"></script>
+    <script src="scripts/controllers/propertyDetail.js"></script>
+    <script src="scripts/controllers/clientSummary.js"></script>
+    <script src="scripts/controllers/clientProfile.js"></script>
+    <script src="scripts/controllers/newClient.js"></script>
+    <script src="scripts/controllers/agentLogin.js"></script>
+    <script src="scripts/controllers/agentSearchController.js"></script>
+    <script src="scripts/controllers/contactSync.js"></script>
+    <script src="scripts/controllers/exploreCommunities.js"></script>
+    <!--<link rel="import" href="views/addMozaicBookmark.html">-->
+    <script src="scripts/controllers/agentForgotPassword.js"></script>
+    <script src="scripts/controllers/agentDashboard.js"></script>
+    <script src="scripts/controllers/agentEditProfile.js"></script>
+    <script src="scripts/directives/tlcdropdown.js"></script>
+    <script src="scripts/directives/propertycard.js"></script>
+    <script src="scripts/directives/tlcrange.js"></script>
+    <script src="scripts/directives/tlcSlider.js"></script>
+    <script src="scripts/services/propertiesservice.js"></script>
+    <!--<script src="scripts/directives/scrollbar.js"></script>-->
+    <script src="scripts/directives/pScrollbar.js"></script>
+    <script src="scripts/directives/mapview.js"></script>
+    <script src="scripts/services/appAuth.js"></script>
+    <script src="scripts/services/utilservice.js"></script>
+    <script src="scripts/services/applicationfactory.js"></script>
+    <script src="scripts/services/clusterData.js"></script>
+    <script src="scripts/services/httpInterceptor.js"></script>
+    <script src="scripts/services/httpServices.js"></script>
+    <script src="scripts/controllers/legal.js"></script>
+    <script src="scripts/controllers/emailtemplate.js"></script>
+    <script src="scripts/controllers/forgetpasswordtemplate.js"></script>
+    <script src="scripts/directives/printPage.js"></script>
+    <script src="scripts/directives/angularEnter.js"></script>
+    <script src="scripts/directives/angularRating.js"></script>
+    <script src="scripts/controllers/clientLogin.js"></script>
+    <script src="scripts/controllers/clientForgotPassword.js"></script>
+    <script src="scripts/controllers/clientDashboard.js"></script>
+    <script src="scripts/controllers/changePassword.js"></script>
+    <script src="scripts/controllers/samlLogin.js"></script>
+    <script src="scripts/controllers/samlAssertion.js"></script>
+    <script src="scripts/controllers/bookmarkPropertyEmail.js"></script>
+    <script src="scripts/controllers/propertyDirect.js"></script>
+    <script src="scripts/controllers/confirmApplyProfileToSearchCtrl.js"></script>
+    <script src="scripts/controllers/confirmDeleteClientProfileCtrl.js"></script>
+    <script src="scripts/controllers/compareNeighborhood.js"></script>
+    <script src="scripts/controllers/clientNotifications.js"></script>
+    <script src="scripts/controllers/sendInvitation.js"></script>
+    <script src="scripts/Elastic-tiles.jQuery.js"></script>
+    <script src="scripts/keen-tracker.js" type="text/javascript"></script>
+    <script src="scripts/ocLazyLoad.min.js" type="text/javascript"></script>    
+    <!--<script src="scripts/directives/autocomplete.js"></script>-->
+
+
+
+
+    <!-- endbuild -->
+    <!-- <script src="//cdn.kendostatic.com/2013.1.319/js/kendo.all.min.js" type="text/javascript"></script>
+    <script src="scripts/kendo.all.min.js" type="text/javascript"></script> -->
+    <script src="https://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0&s=1" type="text/javascript"></script>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1.41.min.js"></script>
+    <script src="//maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places" type="text/javascript"></script>
+    <script src="//code.listtrac.com/monitor.ashx?acct=tlcmls_100570" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        setInterval( "slideSwitch()", 5000 );
+    </script>
+    <!-- begin usabilla live embed code -->
+    <script type="text/javascript">/*{literal}<![CDATA[*/window.lightningjs||function(c){function g(b,d){d&&(d+=(/\?/.test(d)?"&":"?")+"lv=1");c[b]||function(){var i=window,h=document,j=b,g=h.location.protocol,l="load",k=0;(function(){function b(){a.P(l);a.w=1;c[j]("_load")}c[j]=function(){function m(){m.id=e;return c[j].apply(m,arguments)}var b,e=++k;b=this&&this!=i?this.id||0:0;(a.s=a.s||[]).push([e,b,arguments]);m.then=function(b,c,h){var d=a.fh[e]=a.fh[e]||[],j=a.eh[e]=a.eh[e]||[],f=a.ph[e]=a.ph[e]||[];b&&d.push(b);c&&j.push(c);h&&f.push(h);return m};return m};var a=c[j]._={};a.fh={};a.eh={};a.ph={};a.l=d?d.replace(/^\/\//,(g=="https:"?g:"http:")+"//"):d;a.p={0:+new Date};a.P=function(b){a.p[b]=new Date-a.p[0]};a.w&&b();i.addEventListener?i.addEventListener(l,b,!1):i.attachEvent("on"+l,b);var q=function(){function b(){return["<head></head><",c,' onload="var d=',n,";d.getElementsByTagName('head')[0].",d,"(d.",g,"('script')).",i,"='",a.l,"'\"></",c,">"].join("")}var c="body",e=h[c];if(!e)return setTimeout(q,100);a.P(1);var d="appendChild",g="createElement",i="src",k=h[g]("div"),l=k[d](h[g]("div")),f=h[g]("iframe"),n="document",p;k.style.display="none";e.insertBefore(k,e.firstChild).id=o+"-"+j;f.frameBorder="0";f.id=o+"-frame-"+j;/MSIE[ ]+6/.test(navigator.userAgent)&&(f[i]="javascript:false");f.allowTransparency="true";l[d](f);try{f.contentWindow[n].open()}catch(s){a.domain=h.domain,p="javascript:var d="+n+".open();d.domain='"+h.domain+"';",f[i]=p+"void(0);"}try{var r=f.contentWindow[n];r.write(b());r.close()}catch(t){f[i]=p+'d.write("'+b().replace(/"/g,String.fromCharCode(92)+'"')+'");d.close();'}a.P(2)};a.l&&setTimeout(q,0)})()}();c[b].lv="1";return c[b]}var o="lightningjs",k=window[o]=g(o);k.require=g;k.modules=c}({});
+    window.usabilla_live = lightningjs.require("usabilla_live", "//w.usabilla.com/079ca92839e5.js");
+    /*]]>{/literal}*/</script>
+    <!-- end usabilla live embed code -->
+
+    <script type="application/javascript">
+        //Initialte janrain
+        angular.element(document).ready(function () {
+            setTimeout( function () {
+                var injector = angular.element(document).injector();
+                var aMsgHandlerService = injector.get('utilService');
+                var $rootScope = injector.get('$rootScope');
+                aMsgHandlerService.initJanRain();
+                //$rootScope.$digest();
+                console.log('Build !');
+            }, 4000);
+        });
+
+        document.getElementById("captureUserName").addEventListener("click", function(){
+          var dropDownAttr = this.hasAttribute("data-toggle");
+          if(dropDownAttr == false) {
+              var agentLoginText = document.getElementById("captureUserName").innerHTML;
+              if(agentLoginText.indexOf("Welcome") < 0) {
+                    janrain.capture.ui.start();
+                    $('#captureUserName').parent().parent().parent(".navbar-collapse.collapse").removeClass("in");
+              }
+          } else {
+            $('.dropdown-toggle').dropdown();
+            if($('#login-dp').css("display") == 'none') {
+              $('#login-dp').css("display","block");
+            } else if($('#login-dp').css("display") == 'block') {
+              $('#login-dp').css("display","none");
+            }
+          }
+
+          if($('#isagentUser').val() == 'true' || $('#isagentUser').val() == true) {
+            $('#captureUserName').css({"background":"#ee7c19 !important"});
+            $('#clientUser').css("display","none");
+            $('#agentUser').css("display","block");
+            $('#userMenu').css("height","183px");
+          } else {
+            $('#captureUserName').css({"background":"transparent"});
+            $('#clientUser').css("display","block");
+            $('#agentUser').css("display","none");
+            $('#userMenu').css("height","");
+          }
+        });
+
+        document.getElementById("mozaic-saved-properties").addEventListener("click", function(){
+            console.log(document.getElementById("captureUserName").innerHTML);
+            if(document.getElementById("captureUserName").innerHTML == "Login or Register") {
+                janrain.capture.ui.start();
+                $('#captureUserName').parent().parent().parent(".navbar-collapse.collapse").removeClass("in");
+                 $("body").scrollTop(0);
+            } else {
+//                var mrisUrl = "http://applications.tst.mris.com/mozaic/user/favorites";
+                var mrisUrl = "http://applications.tst.mris.com/mozaic/Mris/user";
+                window.open(mrisUrl, "_self");
+            }
+        });
+
+
+        $(document).ready(function () {
+          $("ul.dropdown-menu li").click(function (event) {
+            if($('#login-dp').css("display") == 'block') {
+              $('#login-dp').css("display","none");
+            }
+          });
+
+          $(document).click(function (event) {
+            if($('#login-dp').css("display") == 'block') {
+              $('#login-dp').css("display","none");
+            }
+          });       
+        });
+
+        $(function () { $('#myModal').modal('hide')});
+
+//        $(function () { $('#myModal').on('hide.bs.modal', function () {
+//        })});
+
+
+    </script>
+</body>
+</html>

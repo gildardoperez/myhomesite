@@ -1,0 +1,208 @@
+<div id="content" class="newclient_page">
+  <!-- HOX2: added aside -->
+  <aside id="content_overlay"></aside>
+
+  <article pscrollbar>
+<div class="content-map-page">
+  <!-- [ S ] Content -->
+    <div id="client-page" class="">
+        <div class="content">
+            <div class="client_form_md">
+                <div class="page_title text-center">
+                    <h1>New client</h1>
+                </div>
+            </div>
+          <!--on-navigate-away-strategy="confirmUiRouterAndDom"-->
+            <form name="frmNewClient" novalidate >
+            <div class="property-sort-infobo">
+                <div class="client_form">
+                    <div class="row-10mg client_form_md">
+
+                            <div class="form-group col-md-5">
+                                <label for="FirstName">First Name</label>
+                                <input type="text" class="form-control" id="FirstName" ng-model="client.FirstName" required name="FirstName" aa-field-name="First Name" maxlength="50">
+                            </div>
+                            <div class="form-group col-md-7">
+                                <label for="LastName">Last name</label>
+                                <input type="text" class="form-control" id="LastName" ng-model="client.LastName" required name="LastName" aa-field-name="Last Name" maxlength="50">
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label for="Email">Email address</label>
+                                <input type="email" class="form-control" id="Email" ng-model="client.Email" required name="Email" aa-field-name="Email" maxlength="50" ng-blur="emailVerify()">
+                            </div>
+
+                        <accordion close-others="false">
+                          <accordion-group is-open="status.open">
+                            <accordion-heading>
+                              Optional <i class="pull-right fa"></i>
+                            </accordion-heading>
+                            <div class="form-group col-md-5 listing-info-hidden-class">
+                              <label for="HomePhone">Home Phone Number</label>
+                              <input type="text" class="form-control" id="HomePhone"  ng-model="client.Profile.BasicData.HomePhone" maxlength="15" ui-mask="(999) 999-9999">
+                            </div>
+                            <div class="form-group col-md-7 listing-info-hidden-class">
+                              <label for="CellPhone">Cell Phone Number</label>
+                              <input type="text" class="form-control" id="CellPhone"  ng-model="client.Profile.BasicData.CellPhone" maxlength="15" ui-mask="(999) 999-9999">
+                            </div>
+                            <div class="form-group col-md-5 listing-info-hidden-class">
+                              <label for="CreditScore">Do you know your credit score ?</label>
+                              <div class="select-option-box cridet_numdber">
+                                <select name="CreditScore" id="CreditScore" class="selectpicker" ng-model="client.Profile.BasicData.CreditScore" aa-field-name="Credit score">
+                                  <option value="">-- Credit Score --</option>
+                                  <option value="760-850">760-850</option>
+                                  <option value="700-759">700-759</option>
+                                  <option value="680-699">680-699</option>
+                                  <option value="660-679">660-679</option>
+                                  <option value="640-659">640-659</option>
+                                  <option value="620-639">620-639</option>
+                                </select>
+                              </div>
+                            </div>
+                            <div class="form-group col-md-7 listing-info-hidden-class">
+                              <label for="TLCMin">Total Lifestyle Cost</label>
+                              <div class="row-5mg">
+                                <div class="col-md-5">
+                                  <div class="input-append " >
+                                    <input type="text" formatcurrency="currency" numbers-max-min class="form-control" id="TLCMin" placeholder="Minimum" ng-model="client.Profile.BasicData.TLCMin" min="0" max="{{client.Profile.BasicData.TLCMax || 999999999}}" name="TLCMin" aa-field-name="Total Lifestyle Cost Minimum" ng-blur="changeTLCMinMax('TLCMin')">
+                                  </div>
+                                </div>
+                                <div class="col-md-2"><span class="fa fa-minus center-minus"></span></div>
+                                <div class="col-md-5">
+                                  <div class="input-append " >
+                                    <input type="text" formatcurrency="currency" numbers-max-min class="form-control" id="TLCMax" placeholder="Maximum" ng-model="client.Profile.BasicData.TLCMax" min="{{client.Profile.BasicData.TLCMin || 0}}" max="999999999" name="TLCMax" aa-field-name="Total Lifestyle Cost Maximum" ng-blur="changeTLCMinMax('TLCMax')">
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="form-group col-md-12 listing-info-hidden-class">
+                              <label class="radio-title">I am...</label>
+                              <ul class="radio-selection-box">
+                                <li>
+                                  <div class="radio checkbox">
+                                    <label class="radio-custom">
+                                      <input type="radio" name="radioforNewClient" value="single" ng-model="client.Profile.BasicData.MStatus">
+                                      <i class="fa fa-circle-o" ng-class="(client.Profile.BasicData.MStatus=='single')?'checked':''"></i> Single
+                                    </label>
+                                  </div>
+                                </li>
+                                <li>
+                                  <div class="radio checkbox">
+                                    <label class="radio-custom">
+                                      <input type="radio" name="radioforNewClient" value="couple-no-kids" ng-model="client.Profile.BasicData.MStatus">
+                                      <i class="fa fa-circle-o" ng-class="(client.Profile.BasicData.MStatus=='couple-no-kids')?'checked':''"></i> Couple With No Kids
+                                    </label>
+                                  </div>
+                                </li>
+                                <li>
+                                  <div class="radio checkbox">
+                                    <label class="radio-custom">
+                                      <input type="radio" name="radioforNewClient" value="couple-kids-lt5" ng-model="client.Profile.BasicData.MStatus">
+                                      <i class="fa fa-circle-o" ng-class="(client.Profile.BasicData.MStatus=='couple-kids-lt5')?'checked':''"></i> Couple With Kids age &lt; 5 years
+                                    </label>
+                                  </div>
+                                </li>
+                                <li>
+                                  <div class="radio checkbox">
+                                    <label class="radio-custom">
+                                      <input type="radio" name="radioforNewClient" value="couple-kids-gt5" ng-model="client.Profile.BasicData.MStatus">
+                                      <i class="fa fa-circle-o" ng-class="(client.Profile.BasicData.MStatus=='couple-kids-gt5')?'checked':''"></i> Couple With Kids age &gt; 5 years
+                                    </label>
+                                  </div>
+                                </li>
+                                <li>
+                                  <div class="radio checkbox">
+                                    <label class="radio-custom">
+                                      <input type="radio" name="radioforNewClient" value="single-parent" ng-model="client.Profile.BasicData.MStatus">
+                                      <i class="fa fa-circle-o" ng-class="(client.Profile.BasicData.MStatus=='single-parent')?'checked':''"></i> Single Parent
+                                    </label>
+                                  </div>
+                                </li>
+                                <li>
+                                  <div class="radio checkbox" >
+                                    <label class="radio-custom">
+                                      <input type="radio" name="radioforNewClient" value="empty-nester" ng-model="client.Profile.BasicData.MStatus">
+                                      <i class="fa fa-circle-o" ng-class="(client.Profile.BasicData.MStatus=='empty-nester')?'checked':''"></i> Empty Nester
+                                    </label>
+                                  </div>
+                                </li>
+                              </ul>
+                            </div>
+                            <div class="form-group col-md-12 listing-info-hidden-class">
+                              <div class="checkbox border_bt">
+                                <label class="checkbox-custom" style="white-space:normal;">
+                                  <input type="checkbox" name="checkbox" ng-true-value="true" ng-false-value="" checked="checked" ng-model="client.Profile.BasicData.IsVeteran">
+                                  <i class="fa fa-fw fa-square-o" ng-class="(client.Profile.BasicData.IsVeteran == true)?'checked':''"></i> I am a Veteran
+                                </label>
+                              </div>
+                            </div>
+                            <div class="form-group col-md-12 listing-info-hidden-class">
+                              <div class="row-5mg">
+                                <div class="col-md-4">
+                                  <label for="NumberOfAdults">No Of Adults</label>
+                                  <!--<div class="input-append" data-trigger="spinner">-->
+                                  <div class="input-append spinner">
+                                    <input type="text" formatcurrency="number" numbers-max-min class="form-control" id="NumberOfAdults" placeholder="1" ng-model="client.Profile.BasicData.NumberOfAdults" min="0" max="99" name="NumberOfAdults" aa-field-name="No Of Adults">
+                                    <!--<div class="add-on">
+                                        <a href="javascript:void(0);" class="spin-up" data-spin="up"><i class="fa fa-caret-up"></i></a>
+                                        <a href="javascript:void(0);" class="spin-down" data-spin="down"><i class="fa fa-caret-down"></i></a>
+                                    </div>-->
+                                  </div>
+                                </div>
+                                <div class="col-md-4">
+                                  <label for="OlderChildren">Kids(5-15yrs)</label>
+                                  <div class="input-append">
+                                    <input type="text" formatcurrency="number" numbers-max-min class="form-control" id="OlderChildren" placeholder="1" ng-model="client.Profile.BasicData.OlderChildren" min="0" max="99" name="OlderChildren" aa-field-name="Kids(5-15yrs)">
+                                    <!--<div class="add-on">
+                                        <a href="javascript:void(0);" class="spin-up" data-spin="up"><i class="fa fa-caret-up"></i></a>
+                                        <a href="javascript:void(0);" class="spin-down" data-spin="down"><i class="fa fa-caret-down"></i></a>
+                                    </div>-->
+                                  </div>
+                                </div>
+                                <div class="col-md-4">
+                                  <label for="YoungChildren">Kids(0-5yrs)</label>
+                                  <div class="input-append">
+                                    <input type="text" formatcurrency="number" numbers-max-min class="form-control" id="YoungChildren" placeholder="0" ng-model="client.Profile.BasicData.YoungChildren" min="0" max="99" name="YoungChildren" aa-field-name="Kids(0-5yrs)">
+                                    <!--<div class="add-on">
+                                        <a href="javascript:void(0);" class="spin-up" data-spin="up"><i class="fa fa-caret-up"></i></a>
+                                        <a href="javascript:void(0);" class="spin-down" data-spin="down"><i class="fa fa-caret-down"></i></a>
+                                    </div>-->
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </accordion-group>
+                        </accordion>
+                  </div>
+                  <div class="button">
+                      <input class="btn btn-success" type="button" value="Submit" aa-submit-form="saveClient()" />
+                  </div>
+              </div>
+          </div>
+          </form>
+      </div>
+  </div>
+<!-- [ E ] Content -->
+  </div>
+  </article>
+  <div id="handle">
+    <div></div>
+  </div>
+</div>
+
+<!--<p id="drawhelp">Draw an area to limit your search to an area by dragging the pen. Release the mouse to complete the shape.</p>
+  <map-view properties="Listings" data-drawing="isDrawing" drawing-complete-callback="drawingCompleteCallback" clear-polygon="clearPolygon"></map-view>-->
+  <!--<aside id="map">-->
+  <!--&lt;!&ndash; HOX2: added aside &ndash;&gt;-->
+  <!--<aside id="map_overlay"></aside>-->
+
+  <!--&lt;!&ndash; HOX: remove below for production &ndash;&gt;-->
+  <!--&lt;!&ndash;<br/><br/><br/><br/><br/><br/><br/>&ndash;&gt;-->
+  <!--&lt;!&ndash;<p style="font-size: 200%;">100% &#215; 100% map goes here.</p>&ndash;&gt;-->
+  <!--&lt;!&ndash; stop removing here &ndash;&gt;-->
+
+  <!--</aside>-->
+
+  <a href="javascript:void(0);" id="back" class="glyph-icon flaticon-back44 visible"  ng-click="back()"></a>
+
+  <div id="l"></div>
+  <div id="r"></div>

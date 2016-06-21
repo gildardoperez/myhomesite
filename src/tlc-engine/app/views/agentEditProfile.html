@@ -1,0 +1,240 @@
+﻿<div id="content" class="edit_client_profile">
+  <!-- HOX2: added aside -->
+  <aside id="content_overlay"></aside>
+  <article pscrollbar>
+    <div class="content-map-page">
+      <!-- [ S ] Content -->
+      <div id="editprofile-page" class="">
+        <div class="logo_editprofile">
+          <a href="javascript:void(0)" ng-click="back()"><img src="images/logo-small@2x.png" alt="" /></a>
+        </div>
+        <div class="content">
+          <div class="client_form_md">
+             <div class="page_title text-center">
+                 <h1>Profile</h1>
+             </div>
+          </div>
+      <!--<tabset>
+        <tab active="activeTab.isProfile" ng-click="changeTab('Profile')">
+          <tab-heading>
+            <h3>Profile</h3>
+          </tab-heading>-->
+              <form name="frmAgentProfile" novalidate>
+                <div class="property-sort-infobo">
+                  <div class="editprofile_form">
+                    <div class="row-10mg editprofile_form_md">
+                      <div class="left-side">
+                        <div class="form-group col-md-6">
+                          <label for="FirstName">First Name</label>
+                          <h3>{{agent.FirstName}}</h3>
+                          <!--<input type="text" class="form-control" id="FirstName" placeholder="First Name" ng-model="agent.FirstName" required name="FirstName" aa-field-name="First Name" maxlength="50">-->
+                        </div>
+
+                        <div class="form-group col-md-6">
+                          <label for="Profileimages">Profile image</label>
+                          <!--[if (gt IE 9)|!(IE)]><!-->
+                          <label for="Profileimages" class="browse">
+                            <input type="file" id="Profileimages" name="Profileimages" class="choose-file"
+                                   ngf-select ngf-change="uploadImage($files, 'ProfileImageName')" ng-model="Profileimage"
+                                   ngf-multiple="false" ngf-accept="'image/*'" ng-model-rejected="rejFiles"/>
+                            <span>Browse</span>
+                          </label>
+                          <span>(Recommend size: 80x80)</span>
+                                            <span class="progress" ng-show="Process.ProfileImageName.Progress > 0 && Process.ProfileImageName.Progress != 100">
+                                                <div style="width:{{Process.ProfileImageName.Progress }}%" ng-bind="Process.ProfileImageName.Progress  + '%'"></div>
+                                            </span>
+                          <div class="col-md-12" ng-show="Process.ProfileImageName.Progress > 0">
+                            <div class="profile-area">
+                              <img ngf-src="Profileimage[0]" height="80" width="80">
+                            </div>
+                          </div>
+                          <!--<![endif]-->
+                          <div class="col-md-12" ng-show="agent.Profile.ProfileImageName && Process.ProfileImageName.Progress == 0">
+                            <div class="profile-area">
+                              <img ng-src="{{agent.Profile.ProfileImageName}}" height="80" width="80">
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                          <label for="Phone">Phone Number</label>
+                          <input type="text" class="form-control" id="Phone" ng-model="agent.Phone" name="Phone" aa-field-name="Home Phone Number" maxlength="15" ui-mask="(999) 999-9999">
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label for="Email">Email</label>
+                          <h3>{{agent.Email}}</h3>
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label for="Mylisting">Show My Listing</label>
+                          <div class="select-option-box My-listing">
+                            <select name="Mylisting" id="Mylisting" class="selectpicker" ng-model="agent.MyListingType">
+                              <option value="none">None</option>
+                              <option value="agent">Posted by me</option>
+                              <option value="office">Posted by office</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="form-group col-md-6 url_box" ng-show="agent.IFrameUrl">
+                          <label for="IframeURL">TLC Widget URL
+                            <a href="#" class="title-tipso" title="Please send instructions needed by my website provider to add the TLCengine property search to my website."><i class="fa fa-info-circle fa-6"></i></a></label>
+                          <div class="cntrBtns">
+                            <input type="text" class="form-control" id="IframeURL" ng-model="agent.IFrameUrl" name="Phone" readonly >
+                            <button class="cpy-btn title-tipso" title="Copy" clip-copy="agent.IFrameUrl" clip-click="copyIFrameUrl()" ><i class="fa fa-copy"></i></button>
+                            <a class="lnk-btn title-tipso" title="Go to Link" ng-href="{{agent.IFrameUrl}}" target="_blank"><i class="fa fa-external-link"></i></a>
+                          </div>
+                          <!--<a style="border-bottom:0px solid !important;" href="{{agent.IFrameUrl}}" target="_blank">{{agent.IFrameUrl}}</a>-->
+                          <!--<input type="text" class="form-control urlinput" placeholder="Iframe URL" ng-model="agent.Profile.IframeURL" id="IframeURL" name="IframeURL" aa-field-name="Iframe URL" maxlength="50" >
+                          <img class="go-icon" src="/images/go-icon.png" />-->
+                          <div class="button">
+                            <input class="btn btn-success send-intruction" type="button" value="Send me Instructions" ng-click="sendiFrameVendorInstruction()" />
+                          </div>
+                        </div>
+                        <div class="form-group col-md-6 url_box" ng-show="agent.Profile.AgentTLCURL">
+                          <label for="AgentTLCURL">
+                            TLC IDX Website URL
+                            <!--<a href="#"><i class="fa fa-info-circle fa-6"></i></a>-->
+                          </label>
+                          <a href="{{agent.Profile.AgentTLCURL}}" target="_blank">{{agent.Profile.AgentTLCURL}}</a>
+                          <!--<input type="text" class="form-control urlinput" placeholder="Agent URL" ng-model="agent.Profile.AgentTLCURL" id="AgentTLCURL" name="AgentTLCURL" aa-field-name="Agent URL" maxlength="50" >
+                          <img class="go-icon" src="/images/go-icon.png" />-->
+                        </div>
+                      </div>
+                      <div class="right-side">
+                        <div class="form-group col-md-6">
+                          <label for="LastName">Last name</label>
+                          <h3>{{agent.LastName}}</h3>
+                          <!--<input type="text" class="form-control" id="LastName" placeholder="Last Name" ng-model="agent.LastName" required name="LastName" aa-field-name="Last Name" maxlength="50">-->
+                        </div>
+
+                        <div class="form-group col-md-6">
+                          <label for="Bannerimages">Logo image</label>
+                          <!--[if (gt IE 9)|!(IE)]><!-->
+                          <label for="Bannerimages" class="browse">
+                            <input type="file" id="Bannerimages" name="Bannerimages" class="choose-file"
+                                   ngf-select ngf-change="uploadImage($files, 'BannerImageName')" ng-model="Bannerimage"
+                                   ngf-multiple="false" ngf-accept="'image/*'" ng-model-rejected="rejFiles"/>
+                            <span>Browse</span>
+                          </label>
+                          <span>(Recommend size: 800x80)</span>
+                                            <span class="progress" ng-show="Process.BannerImageName.Progress > 0 && Process.BannerImageName.Progress != 100">
+                                                <div style="width:{{Process.BannerImageName.Progress }}%" ng-bind="Process.BannerImageName.Progress  + '%'"></div>
+                                            </span>
+                          <div class="col-md-12" ng-show="Process.BannerImageName.Progress  > 0">
+                            <div class="banner-area">
+                              <img ngf-src="Bannerimage[0]" height="80" width="100%">
+                            </div>
+                          </div>
+                          <!--<![endif]-->
+                          <div class="col-md-12" ng-show="agent.Profile.BannerImageName && Process.BannerImageName.Progress == 0">
+                            <div class="banner-area">
+                              <img ng-src="{{agent.Profile.BannerImageName}}"  height="80" width="100%">
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                          <label for="AgentVanityURLName">My Website</label>
+                          <input type="text" class="form-control" placeholder="Vanity URL" ng-model="agent.Profile.AgentVanityURLName" id="AgentVanityURLName" name=AgentVanityURLName"" aa-field-name="My Website" maxlength="50" ng-pattern="/^((http|https):\/\/)?(?:www\.)?[a-z0-9-\.]+\.[a-z]{2,4}\/?([^\s<>\#%\,\{\}\\|\\\^\[\]`]+)?$/">
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label for="LinkedInPageUrl">Linked-in page URL</label>
+                          <input type="text" class="form-control" placeholder="Linked-in page URL" ng-model="agent.Profile.LinkedInPageURL" id="LinkedInPageUrl" name="LinkedInPageUrl" aa-field-name="Linked-in page URL" maxlength="50" ng-pattern="/((http|https):\/\/)?(?:www\.)?linkedin.com(\w+:{0,1}\w*@)?(\S+)(:([0-9])+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?$/">
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label for="FacebookPageUrl">Facebook page URL</label>
+                          <input type="text" class="form-control" placeholder="Facebook page URL" ng-model="agent.Profile.FacebookPageURL" id="FacebookPageUrl" name="FacebookPageUrl" aa-field-name="Facebook page URL" maxlength="50" ng-pattern="/^((http|https)?:\/\/)?((w{3}\.)?)facebook.com\/.*/i">
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label for="TwitterPageUrl">Twitter Handle</label>
+                          <input type="text" class="form-control" placeholder="Twitter page URL" ng-model="agent.Profile.TwitterPageURL" id="TwitterPageUrl" name="TwitterPageUrl" aa-field-name="Twitter Handle" maxlength="50" ng-pattern="/(^@?(\w){1,15}$)|(^(http(s)?:\/\/)?((w{3}\.)?)twitter\.com\/(#!\/)?[a-z0-9_@!#~]+$)/i">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="button">
+                      <input class="btn btn-success" type="button" value="Back" ng-click="back()" />
+                      <input class="btn btn-success" type="button" value="Save" aa-submit-form="saveAgent()" />
+                    </div>
+                  </div>
+                </div>
+              </form>
+        <!--</tab>
+        <tab active="activeTab.isNotifications" ng-click="changeTab('Notifications')">
+          <tab-heading>
+            <h3>Notifications</h3>
+          </tab-heading>
+          <div class="editprofile_form" style="padding: 0px 0px;">
+
+
+              <div class="switch heading">
+                Get All Notifications
+                <input type="checkbox" name="allnotification" id="allnotification" ng-model="notification.allnotifications" ng-change="changeAllNotifications()" class="cmn-toggle cmn-toggle-round" >
+
+                <label for="allnotification"></label>
+              </div>
+
+            </div>
+            <div class="editprofile_form" style="padding: 0px 0px;">
+            <h2>Get notifications about</h2>
+            <div>
+              <div class="switch">
+                All saved-searches notifications
+                <input type="checkbox" name="savedsearches" id="savedsearches" ng-model="notification.savedsearches" class="cmn-toggle cmn-toggle-round" >
+                <label for="clinetwelcome"></label>
+              </div>
+              <div class="switch">
+                Copy of Client's welcome email
+                <input type="checkbox" name="clinetwelcome" id="clinetwelcome" ng-model="notification.clinetwelcome" class="cmn-toggle cmn-toggle-round" >
+                <label class="checkbox-custom" for="clinetwelcome"></label>
+              </div>
+              <div class="switch">
+                Properties Favorited by client
+                <input type="checkbox" name="propertiesfavoritedclient" id="propertiesfavoritedclient" ng-model="notification.propertiesfavoritedclient" class="cmn-toggle cmn-toggle-round" >
+                <label class="checkbox-custom" for="propertiesfavoritedclient"></label>
+              </div>
+              <div class="switch">
+                Client performs search
+                <input type="checkbox" name="clientsearch" id="clientsearch" ng-model="notification.clientsearch" class="cmn-toggle cmn-toggle-round" >
+                <label class="checkbox-custom" for="clientsearch"></label>
+              </div>
+              <div class="switch">
+                Client logged-in
+                <input type="checkbox" name="clientloggedin" id="clientloggedin" ng-model="notification.clientloggedin" class="cmn-toggle cmn-toggle-round" >
+                <label class="checkbox-custom" for="clientloggedin"></label>
+              </div>
+              <div class="switch">
+                Un-successful attempt to login by client
+                <input type="checkbox" name="unsuccessfullogin" id="unsuccessfullogin" ng-model="notification.unsuccessfullogin" class="cmn-toggle cmn-toggle-round" >
+                <label class="checkbox-custom" for="unsuccessfullogin"></label>
+              </div>
+              <div class="switch">
+                Comments made by client
+                <input type="checkbox" name="clientcomments" id="clientcomments" ng-model="notification.clientcomments" class="cmn-toggle cmn-toggle-round" >
+                <label class="checkbox-custom" for="clientcomments"></label>
+              </div>
+              <div class="switch">
+                TLC Webminars and training events
+                <input type="checkbox" name="webminarstraining" id="webminarstraining" ng-model="notification.webminarstraining" class="cmn-toggle cmn-toggle-round" >
+                <label class="checkbox-custom" for="webminarstraining"></label>
+              </div>
+              <div class="switch">
+                Newsletters
+                <input type="checkbox" name="newsletters" id="newsletters" ng-model="notification.newsletters" class="cmn-toggle cmn-toggle-round" >
+                <label class="checkbox-custom" for="newsletters"></label>
+              </div>
+            </div>
+            <div class="button">
+              <input class="btn btn-success" type="button" value="Unsubscribe" ng-click="unsubscribeNotifications()" />
+            </div>
+          </div>
+        </tab>
+      </tabset>-->
+        </div>
+      </div>
+      <!-- [ E ] Content -->
+    </div>
+  </article>
+  <div id="handle">
+    <div></div>
+  </div>
+</div>
+<a href="javascript:void(0);" id="back" class="glyph-icon flaticon-back44 visible"  ng-click="back()"></a>
